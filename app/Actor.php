@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actor extends Model
 {
-    //
+    protected $table = 'Actor';
+    protected $primaryKey  = 'cedula';
+    
+    protected $fillable = ['cedula', 'nombre', 'correo', 'telefono', 'tipo_canal', 'contratante', 'tipo_contrato', 'sueldo', 'subalterno_cedula'];
+
 }

@@ -13,7 +13,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     use Authenticatable, CanResetPassword;
 
     protected $table = 'users';
-    protected $primaryjey = 'email';
+    protected $primaryKey = 'email';
     
     protected $fillable = ['Actor_cedula', 'email', 'password'];
 

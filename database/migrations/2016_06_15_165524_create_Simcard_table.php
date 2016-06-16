@@ -19,11 +19,9 @@ class CreateSimcardTable extends Migration
             $table->date('fecha_adjudicacion')->nullable();
             $table->date('fecha_asignacion')->nullable();
             $table->date('fecha_activacion')->nullable();
-            $table->date('fecha_entrega')->nullable();
-            $table->integer('Cliente_ID')->unsigned()->nullable();
-            $table->string('Actor_cedula')->nullable();
-            $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
-            $table->foreign('Cliente_ID')->references('ID')->on('Cliente');
+            $table->date('fecha_vencimiento');
+            $table->integer('Paquete_ID')->unsigned()->nullable();
+            $table->foreign('Paquete_ID')->references('ID')->on('Paquete');
         });
     }
 

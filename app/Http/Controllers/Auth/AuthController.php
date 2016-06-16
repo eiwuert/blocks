@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Actor;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
+    
+    protected $redirectPath = '/';
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -40,11 +43,19 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
+        $validator = Validator::make($data, [
+            'Actor_cedula' => 'required|integer',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|min:6',
         ]);
+        
+        $validator->after(function($validator) {
+            if (Actor::find($validator->getData()["Actor_cedula"]) == null) {
+                $validator->errors()->add('actor', 'Cedula no registrada');
+            }
+        });
+        
+        return $validator;
     }
 
     /**
@@ -56,7 +67,7 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'Actor_cedula' => $data['Actor_cedula'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
