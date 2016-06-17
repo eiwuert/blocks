@@ -21,11 +21,11 @@ class CreateActorTable extends Migration
             $table->enum('contratante',array("Movicom", "Cellphone"));
             $table->string('tipo_contrato');
             $table->double('sueldo',12,2);
-            $table->string('subalterno_cedula')->nullable();
+            $table->string('jefe_cedula')->nullable();
             $table->timestamps();
         });
         Schema::table('Actor', function (Blueprint $table) {
-            $table->foreign('subalterno_cedula')->references('cedula')->on('Actor')->onDelete('cascade');
+            $table->foreign('jefe_cedula')->references('cedula')->on('Actor')->onDelete('cascade');
         });
     }
 

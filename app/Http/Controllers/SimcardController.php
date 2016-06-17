@@ -8,6 +8,7 @@ use App\Actor;
 use App\Paquete;
 use Datetime;
 use DB;
+use Log;
 use App\Simcard;
 use Auth;
 use App\Http\Requests;
@@ -64,7 +65,21 @@ class SimcardController extends Controller
         $data['Total_postpago'] = Simcard::where("categoria",'=','Postago')->count();
         
         // OBTENER LOS POSIBLES RESPONSABLES
-        
+        $actores_sin_revisar = Actor::where("jefe_cedula", '=', Auth::user()->Actor_cedula)->get()->toArray();
+        $actores = array();
+        while(count($actores_sin_revisar) > 0){
+            $actor = array_pop($actores_sin_revisar);
+            if(!empty($actor)){
+                Log::warning($actor);
+                $cedula = $actor["cedula"];
+                array_push($actores,$actor);
+                $empleados = Actor::where("jefe_cedula", '=', $cedula)->get()->toArray();
+                foreach ($empleados as $empleado) {
+                    array_push($actores_sin_revisar, $empleado);
+                }
+            }
+        }
+        $data['responsables'] = $actores;
         return View('simcard', $data);
     }
 
@@ -91,15 +106,31 @@ class SimcardController extends Controller
     }
 
     
+    public function eliminar_simcard(Request $request)
+    {
+        $ICC = $request['dato'];
+        $simcard = Simcard::find($ICC);  
+        if($simcard != null){
+            $simcard->delete();
+            return "EXITOSO";
+        }else{
+            return "FALLIDO";
+        }
+    }
     public function buscar_simcard(Request $request)
     {
         $pista = $request['dato'];
         $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
         if($simcard != ""){
             //OBTENER EL RESPONSABLE DE LA SIMCARD
-            $Cedula_responsable = Paquete::find($simcard->Paquete_ID)->first()->Actor_cedula;
-            $responsable = Actor::find($Cedula_responsable)->first()->nombre;
-            $simcard["responsable_simcard"] = $responsable;
+            $paquete = Paquete::find($simcard->Paquete_ID);
+            if($paquete != null){
+                $Cedula_responsable = $paquete->Actor_cedula;
+                $responsable = Actor::find($Cedula_responsable)->first()->nombre;
+                $simcard["responsable_simcard"] = $responsable;
+            }else{
+                $simcard["responsable_simcard"] = "SIN ASIGNAR";
+            }
             $hoy = new DateTime();
             $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
             if($simcard->fecha_activacion != null){

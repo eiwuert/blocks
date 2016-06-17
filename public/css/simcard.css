@@ -3,25 +3,68 @@
 .buscar_simcard{
     width:350px;
 }    
+.buscar_simcard>div.responsables_simcard{
+    width:350px;
+}
 }
 
 @media screen and (max-width: 360px) {
 .buscar_simcard{
     width:320px;
 }    
+.buscar_simcard>div.responsables_simcard{
+    width:320px;
 }
-.buscar_simcard>h1{
+}
+
+.buscar_simcard>div.responsables_simcard{
+    display: none;
+    text-align: center;
+}
+
+
+.buscar_simcard>div.responsables_simcard>h1{
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color:white;
+}
+.buscar_simcard>div.responsables_simcard>button{
+    width:45%;    
+    height:50px;
+    border: 2px solid white;
+    color:white;
+    background-color: transparent;
+}
+
+.buscar_simcard>div.responsables_simcard>button:hover{
+    color:black;
+    background-color: white;
+}
+
+.buscar_simcard>div.responsables_simcard{
+    background-color: rgba(15,15,15,0.7);
+    margin-top: 10px;
+    border-radius: 20px;
+    position: absolute;
+    z-index: 10;
+    display: none;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.buscar_simcard>div.formulario_busqueda>h1{
     font-size: 28px;
     text-align: center;
 }
 
-.buscar_simcard>div{
+.buscar_simcard>div.formulario_busqueda>div{
     display: flex;
     flex-wrap:no-wrap;
     width:100%;
     justify-content:center;
 }
-.buscar_simcard>div>input{
+.buscar_simcard>div.formulario_busqueda>div>input{
     margin:5px;
     border-radius: 10px;
     padding-top: 10px;
@@ -31,12 +74,12 @@
     border:none;
 }
 
-.buscar_simcard>div>p{
+.buscar_simcard>div.formulario_busqueda>div>p{
     margin-left: 5px;        
     text-align: justify;
     margin-right: 5px;
 }
-.buscar_simcard>div>button.busqueda{
+.buscar_simcard>div.formulario_busqueda>div>button.busqueda{
     margin:5px;
     border-radius: 10px;
     padding-top: 10px;
@@ -46,26 +89,26 @@
     border:none;
     background-color: #446587;
 }
-.buscar_simcard>div>button.busqueda:hover{
+.buscar_simcard>div.formulario_busqueda>div>button.busqueda:hover{
     background-color: #2A3F54;
 }
 
-.buscar_simcard>form{
+.buscar_simcard>div.formulario_busqueda>form{
     display: flex;
     flex-wrap:wrap;
     align-content: flex-start;
     justify-content: space-between;
 }
 
-.buscar_simcard>form>div>div{
+.buscar_simcard>div.formulario_busqueda>form>div>div{
     width:25%;    
     display:none;
 }
 
-.buscar_simcard>div>button{
+.buscar_simcard>div.formulario_busqueda>div>button{
     width:30%;
 }
-.buscar_simcard>form>div.container{
+.buscar_simcard>div.formulario_busqueda>form>div.container{
     display:flex;
     justify-content:center;
     background-color:rgba(20,20,20,0.4);
@@ -77,10 +120,10 @@
     width:100%;
     text-align:center;
 }
-.buscar_simcard>form>div>p{
+.buscar_simcard>div.formulario_busqueda>form>div>p{
     color:black !important;
 }
-.buscar_simcard>form>div>input, .buscar_simcard>form>div>p{
+.buscar_simcard>div.formulario_busqueda>form>div>input, .buscar_simcard>form>div>p{
     background-color: transparent;   
     border:none;
     text-align: center;
@@ -91,16 +134,16 @@
     margin:0;
 }
 
-.buscar_simcard>form>div>input::-webkit-input-placeholder{
+.buscar_simcard>div.formulario_busqueda>form>div>input::-webkit-input-placeholder{
    color: #000;
 }
 
-.buscar_simcard>form>div>input:hover::-webkit-input-placeholder,
-.buscar_simcard>form>div>input:focus::-webkit-input-placeholder{
+.buscar_simcard>div.formulario_busqueda>form>div>input:hover::-webkit-input-placeholder,
+.buscar_simcard>div.formulario_busqueda>form>div>input:focus::-webkit-input-placeholder{
    color: #FFF;
 }
 
-.buscar_simcard span{
+.buscar_simcard>div.formulario_busqueda span{
     color:black;
     height:100%;
     text-align:center;

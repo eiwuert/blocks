@@ -1,6 +1,6 @@
 function buscar_simcard(){
     var pista = $("#Simcard_pista").val();
-    $.get('/simcard/buscar_simcard', {dato:pista}, function(data){
+    $.get('/buscar_simcard', {dato:pista}, function(data){
             if(data != ''){
                 $(".buscar_simcard").find(".text_container").show();
                 $('#Simcard_ICC').text(data.ICC);
@@ -18,7 +18,8 @@ function buscar_simcard(){
                 $('#Simcard_ICC').text("ICC");
                 $('#Simcard_responsable').text("Responsable");
                 $('#Simcard_categoria').text("Categoría");
-                $(".buscar_simcard").find(".container").attr('class', 'container');;
+                $(".buscar_simcard").find(".container").attr('class', 'container');
+                alert("no econtrada");
             }
         }
     );
@@ -32,12 +33,39 @@ function actualizar_simcard(){
     inputs.each(function() {
         datos_simcard[this.id] = $(this).val();
     });
-    $.get('/simcard/actualizar_simcard', {dato:datos_simcard}, function(resultado){
+    $.get('/actualizar_simcard', {dato:datos_simcard}, function(resultado){
             if(resultado == "EXITOSO" ){
-                console.log(data);
+                alert("actualizada satisfactoriamente");
             }else{
-                console.log("mal");
+                alert("Error de actualización");
             }
         }
     ); 
+}
+
+function eliminar_simcard(){
+    var ICC = $('#Simcard_ICC').text();
+    $.get('/eliminar_simcard', {dato:ICC}, function(resultado){
+            if(resultado == "EXITOSO" ){
+                $(".buscar_simcard").find(".text_container").hide();
+                $('.buscar_simcard form :input').val("");
+                $('#Simcard_ICC').text("ICC");
+                $('#Simcard_responsable').text("Responsable");
+                $('#Simcard_categoria').text("Categoría");
+                $(".buscar_simcard").find(".container").attr('class', 'container');
+                alert("eliminada satisfactoriamente");
+            }else{
+                alert("Error en la eliminación");
+            }
+        }
+    ); 
+}
+
+function seleccionar_responsable_simcard(){
+    var element = $('.buscar_simcard div.responsables_simcard');
+    if(element.is(":visible")){
+        element.fadeOut();
+    }else{
+        element.fadeIn();
+    }
 }
