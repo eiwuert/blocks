@@ -11,4 +11,8 @@ class Actor extends Model
     
     protected $fillable = ['cedula', 'nombre', 'correo', 'telefono', 'tipo_canal', 'contratante', 'tipo_contrato', 'sueldo', 'subalterno_cedula'];
 
+    public function paquetes()
+    {
+        return $this->hasMany('App\Paquete');
+    }
 }

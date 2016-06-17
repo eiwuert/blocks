@@ -24,4 +24,6 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index');
     Route::get('/simcard', 'SimcardController@index');
+    Route::get('/simcard/buscar_simcard', 'SimcardController@buscar_simcard');
+    Route::get('/simcard/actualizar_simcard', 'SimcardController@actualizar_simcard');
 });

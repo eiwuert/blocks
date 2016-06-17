@@ -20,7 +20,10 @@
 
     <!-- Custom Theme Style -->
     <link href="/css/custom.min.css" rel="stylesheet">
+    <link href="/css/general.css" rel="stylesheet">
     
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
     @yield('Custom_css')
     
     
@@ -29,8 +32,6 @@
 
     @yield('Content')
   
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="/js/bootstrap.min.js"></script>
     <!-- FastClick -->

@@ -4,6 +4,9 @@
 <!-- iCheck -->
 <link href="/css/green.css" rel="stylesheet">
 
+<!-- Custom_css -->
+<link href="/css/simcard.css" rel="stylesheet">
+
 <!-- jVectorMap -->
 <link href="/css/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 @endsection
@@ -122,7 +125,44 @@
           </div>
           <!-- /top tiles -->
           <!-- Seccion buscar simcard -->
-            
+            <div class="buscar_simcard">
+              <h1>Administración simcards</h1>
+              <div>
+                <p>Busque una simcard, actualicela modificando los valores blancos en los bloques y oprimiendo "Actualizar", asignela oprimiendo "Asignar" o eliminela oprimiendo "Eliminar".</p>
+              </div>
+              <div>
+                  <input type="number" placeholder="ICC / número linea" id="Simcard_pista">
+                  <button class="btn btn-primary busqueda" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
+              </div>
+              <form>
+                  <div class="container">
+                    <div class="text_container"><span>Responsable</span></div><p id="Simcard_responsable">Responsable</p>
+                  </div>
+                  <div class="container">
+                      <div class="text_container"><span>ICC</span></div><p id ="Simcard_ICC">ICC</p>
+                  </div>
+                  <div class="container">
+                      <div class="text_container"><span>Línea</span></div><input type="text" placeholder="Número" id ="Simcard_numero_linea">
+                  </div>
+                  <div class="container">
+                      <div class="text_container"><span>Categoría</span></div><p id ="Simcard_categoria">Categoría</p>
+                  </div>
+                  <div class="container">
+                      <div class="text_container"><span>Adjudicada</span></div><input type="text" placeholder="Adjudicada" id ="Simcard_fecha_adjudicacion">
+                  </div>
+                  <div class="container">
+                      <div class="text_container"><span>Activada</span></div><input type="text" placeholder="Activada" id ="Simcard_fecha_activacion">
+                  </div>
+                  <div class="container">
+                      <div class="text_container"><span>Vence</span></div><input type="text" placeholder="Vence" id ="Simcard_fecha_vencimiento">
+                  </div>
+              </form>
+              <div>
+                  <button class="btn btn-primary" onClick="actualizar_simcard()">Actualizar</button>
+                  <button class="btn btn-danger">Eliminar</button>
+                  <button class="btn btn-success">Asignar</button>
+              </div>
+            </div>
           <!-- Seccion buscar simcard -->
         </div>
         <!-- /page content -->
@@ -135,6 +175,8 @@
     <script src="/js/moment.min.js"></script>
     <script src="/js/daterangepicker.js"></script>
 
-    
+    @section('Custom_js')
+      <script src="/js/simcard.js"></script>
+    @endsection
   </body>
 @endsection

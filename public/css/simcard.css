@@ -1,0 +1,107 @@
+
+@media screen and (min-width: 360px) {
+.buscar_simcard{
+    width:350px;
+}    
+}
+
+@media screen and (max-width: 360px) {
+.buscar_simcard{
+    width:320px;
+}    
+}
+.buscar_simcard>h1{
+    font-size: 28px;
+    text-align: center;
+}
+
+.buscar_simcard>div{
+    display: flex;
+    flex-wrap:no-wrap;
+    width:100%;
+    justify-content:center;
+}
+.buscar_simcard>div>input{
+    margin:5px;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width:65%;
+    text-align: center;
+    border:none;
+}
+
+.buscar_simcard>div>p{
+    margin-left: 5px;        
+    text-align: justify;
+    margin-right: 5px;
+}
+.buscar_simcard>div>button.busqueda{
+    margin:5px;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width:30%;
+    text-align: center;
+    border:none;
+    background-color: #446587;
+}
+.buscar_simcard>div>button.busqueda:hover{
+    background-color: #2A3F54;
+}
+
+.buscar_simcard>form{
+    display: flex;
+    flex-wrap:wrap;
+    align-content: flex-start;
+    justify-content: space-between;
+}
+
+.buscar_simcard>form>div>div{
+    width:25%;    
+    display:none;
+}
+
+.buscar_simcard>div>button{
+    width:30%;
+}
+.buscar_simcard>form>div.container{
+    display:flex;
+    justify-content:center;
+    background-color:rgba(20,20,20,0.4);
+    flex-grow:2;
+    margin:5px;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width:100%;
+    text-align:center;
+}
+.buscar_simcard>form>div>p{
+    color:black !important;
+}
+.buscar_simcard>form>div>input, .buscar_simcard>form>div>p{
+    background-color: transparent;   
+    border:none;
+    text-align: center;
+    color:#FFF;
+    width:70%;
+    font-size:14px;
+    height:100%;
+    margin:0;
+}
+
+.buscar_simcard>form>div>input::-webkit-input-placeholder{
+   color: #000;
+}
+
+.buscar_simcard>form>div>input:hover::-webkit-input-placeholder,
+.buscar_simcard>form>div>input:focus::-webkit-input-placeholder{
+   color: #FFF;
+}
+
+.buscar_simcard span{
+    color:black;
+    height:100%;
+    text-align:center;
+}
