@@ -10,3 +10,27 @@
 .verde{
     background-color: #7FCA9F !important;
 }
+
+.modal_info{
+    background-color: #85C1F5 !important;
+    color:white !important;    
+}
+
+.modal_exito{
+    background-color: #7FCA9F !important;
+    color:white !important;
+}
+.modal_error{
+    background-color: #ff656c !important;
+    color:white !important;
+}
+.modal_error>button,
+.modal_exito>button,
+.modal_info>button{
+    color:white !important;
+}
+
+.flex_filas{
+    display:flex;
+    
+}

@@ -27,4 +27,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/buscar_simcard', 'SimcardController@buscar_simcard');
     Route::get('/actualizar_simcard', 'SimcardController@actualizar_simcard');
     Route::get('/eliminar_simcard', 'SimcardController@eliminar_simcard');
+    Route::get('/asignar_responsable_paquete', 'SimcardController@asignar_responsable_paquete');
+    Route::get('/buscar_paquete', 'SimcardController@buscar_paquete');
+    Route::get('/empaquetar_simcard', 'SimcardController@empaquetar_simcard');
+    Route::get('/crear_paquete', 'SimcardController@crear_paquete');
+    Route::get('/eliminar_paquete', 'SimcardController@eliminar_paquete');
 });

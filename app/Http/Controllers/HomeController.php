@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Actor;
+use DB;
+use App\Simcard;
 use Auth;
 use App\Http\Controllers\Controller;
 
@@ -18,10 +20,52 @@ class HomeController extends Controller
      */
     public function index()
     {
+        
+        
         $Actor_cedula = Auth::user()->Actor_cedula;
         $Actor = Actor::find($Actor_cedula);
         $Actor_nombre = $Actor->nombre;
-        return View('home', array('Actor_nombre' => $Actor_nombre, 'Cantidad_notificaciones' => 0));
+        $data = array();
+        $data['Actor_nombre'] = $Actor_nombre;
+        $data['Cantidad_notificaciones'] = 0;
+        
+        // CONTAR LAS SIMCARDS PREPAGO
+        $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
+            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+        })->where("categoria",'=','Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+        
+        $data['Total_prepago_activas'] = Simcard::whereHas('paquete', function ($query) {
+            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+        })->where("categoria",'=','Prepago')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
+        
+        $data['Total_prepago_vencidas'] = Simcard::whereHas('paquete', function ($query) {
+            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+        })->where("categoria",'=','Prepago')->where(function ($query) {
+                $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
+                      ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
+            })->count();
+        
+        // CONTAR LAS SIMCARDS LIBRE
+        $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
+            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+        })->where("categoria",'=','Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+        
+        $data['Total_libres_activas'] = Simcard::whereHas('paquete', function ($query) {
+            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+        })->where("categoria",'=','Libre')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
+        
+        $data['Total_libres_vencidas'] = Simcard::whereHas('paquete', function ($query) {
+            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+        })->where("categoria",'=','Libre')->where(function ($query) {
+                $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
+                      ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
+            })->count();
+        
+        // CONTAR LAS SIMCARDS POSTPAGO
+        $data['Total_postpago'] = Simcard::where("categoria",'=','Postago')->count();
+        $data['Actor_nombre'] = $Actor_nombre;
+        $data['Cantidad_notificaciones'] = 0;
+        return View('home', $data);
     }
 
     /**

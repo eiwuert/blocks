@@ -24,6 +24,10 @@
     
     <!-- jQuery -->
     <script src="/js/jquery.min.js"></script>
+    
+    <!-- Modal library css -->
+    <link rel="stylesheet" href="/css/remodal.css">
+    <link rel="stylesheet" href="/css/remodal-default-theme.css">
     @yield('Custom_css')
     
     
@@ -31,7 +35,14 @@
   </head>
 
     @yield('Content')
-  
+    
+    <div class="remodal" data-remodal-id="modal">
+      <button data-remodal-action="close" class="remodal-close"></button>
+      <h1 id="titulo_modal">@yield('Titulo modal')</h1>
+      @yield('contenido_modal')
+
+      @yield('botones_modal')
+    </div>
     <!-- Bootstrap -->
     <script src="/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -46,5 +57,7 @@
     <script src="/js/skycons.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/js/custom.min.js"></script>
+    <!-- Modal library Script -->
+    <script src="/js/remodal.js"></script>
     @yield('Custom_js')
 </html>

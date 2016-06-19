@@ -28,42 +28,6 @@ class SimcardController extends Controller
         $Actor_nombre = $Actor->nombre;
         $data['Actor_nombre'] = $Actor_nombre;
         $data['Cantidad_notificaciones'] = 0;
-        
-        // CONTAR LAS SIMCARDS PREPAGO
-        $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
-        
-        $data['Total_prepago_activas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Prepago')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
-        
-        $data['Total_prepago_vencidas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Prepago')->where(function ($query) {
-                $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
-                      ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
-            })->count();
-        
-        // CONTAR LAS SIMCARDS LIBRE
-        $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
-        
-        $data['Total_libres_activas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Libre')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
-        
-        $data['Total_libres_vencidas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Libre')->where(function ($query) {
-                $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
-                      ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
-            })->count();
-        
-        // CONTAR LAS SIMCARDS POSTPAGO
-        $data['Total_postpago'] = Simcard::where("categoria",'=','Postago')->count();
-        
         // OBTENER LOS POSIBLES RESPONSABLES
         $actores_sin_revisar = Actor::where("jefe_cedula", '=', Auth::user()->Actor_cedula)->get()->toArray();
         $actores = array();
@@ -83,28 +47,21 @@ class SimcardController extends Controller
         return View('simcard', $data);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    
+    public function asignar_responsable_paquete(Request $request){
+        $datos_simcard = $request['dato'];
+        $paquete = Paquete::find($datos_simcard["paquete"]);
+        if($paquete != ""){
+            $paquete->Actor_cedula = $datos_simcard["responsable_paquete"];
+            if($paquete->save() == true){
+                return "EXITOSO";
+            }else{
+                return "FALLIDO";
+            }
+        }else{
+            return "FALLIDO";
+        }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     
     public function eliminar_simcard(Request $request)
     {
@@ -122,15 +79,18 @@ class SimcardController extends Controller
         $pista = $request['dato'];
         $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
         if($simcard != ""){
-            //OBTENER EL RESPONSABLE DE LA SIMCARD
+            //OBTENER EL RESPONSABLE Y PAQUETE DE LA SIMCARD
             $paquete = Paquete::find($simcard->Paquete_ID);
             if($paquete != null){
                 $Cedula_responsable = $paquete->Actor_cedula;
-                $responsable = Actor::find($Cedula_responsable)->first()->nombre;
+                $responsable = Actor::find($Cedula_responsable)->nombre;
                 $simcard["responsable_simcard"] = $responsable;
+                $simcard["paquete"] = $paquete->ID;
             }else{
                 $simcard["responsable_simcard"] = "SIN ASIGNAR";
+                $simcard["paquete"] = "SIN PAQUETE";
             }
+            //OBTENER EL RESPONSABLE DE LA SIMCARD
             $hoy = new DateTime();
             $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
             if($simcard->fecha_activacion != null){
@@ -170,37 +130,83 @@ class SimcardController extends Controller
             return "FALLIDO";
         }
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    
+    public function buscar_paquete(Request $request){
+        $pista = $request['dato'];
+        $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
+        if($simcard != ""){
+            $pista = $simcard->Paquete_ID;
+        }
+        $simcards = array();
+        if($pista != ""){
+            $simcards = Simcard::where("Paquete_ID",'=',$pista)->get();
+            $hoy = new DateTime();
+            foreach ($simcards as &$simcard) {
+                $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
+                if($simcard->fecha_activacion != null){
+                    $fecha_activacion = new DateTime($simcard->fecha_activacion);    
+                    $interval = $hoy->diff($fecha_vencimiento);
+                    $meses = $interval->format("%y")*12+$interval->format("%m");
+                    if($meses > 6){
+                        $simcard["color"] = "rojo";
+                    }else{
+                        $simcard["color"] = "verde";
+                    }
+                }else{
+                    $interval = $hoy->diff($fecha_vencimiento);
+                    $dias = $interval->format("%d");
+                    if($dias < 0){
+                        $simcard["color"] = "rojo";
+                    }else{
+                        $simcard["color"] = "azul";
+                    }
+                }
+            }
+        }
+        return $simcards;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function empaquetar_simcard(Request $request){
+        $dato = $request['dato'];
+        $pista = $dato["pista"];
+        $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
+        if($simcard != ""){
+            $simcard->Paquete_ID = $dato["numero_paquete"];
+            $simcard->save();
+            return "EXITOSO";
+        }else{
+            return "FALLIDO";
+        }
+        
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    
+    public function crear_paquete(Request $request){
+        $paquete = new Paquete();
+        $datos_simcard = $request['dato'];
+        $paquete->Actor_cedula = $datos_simcard["responsable"];
+        if($paquete->save()){
+            $pista = $datos_simcard["pista"];
+            $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
+            $simcard->Paquete_ID = $paquete->ID;
+            if($simcard->save()){
+                return "EXITOSO";
+            }else{
+                return "NO SE PUDO EMPAQUETAR LA SIMCARD";
+            }
+        }else{
+            return "NO SE PUDO CREAR EL PAQUETE";
+        }
+    }
+    
+    public function eliminar_paquete(Request $request){
+        $numero_paquete = $request['dato'];
+        $simcards = Simcard::where("Paquete_ID",'=',$numero_paquete)->get();
+        foreach($simcards as $simcard){
+            $simcard->Paquete_ID = null;
+            $simcard->save();
+        }
+        $paquete = Paquete::find($numero_paquete);
+        $paquete->delete();
+        return "EXITOSO";
     }
 }

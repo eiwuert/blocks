@@ -97,81 +97,110 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <p>Recuerda que <span class="red">Rojo</span> es Vencida, <span class="blue">Azul</span> es Disponible y <span class="green">Verde</span> es Activada.</p>
-          <!-- top tiles -->
-          <div class="row tile_count">
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Total Prepago</span>
-              <div>
-                  <span class="count blue">{{$Total_prepago}}</span>
-                  <span class="count green">{{$Total_prepago_activas}}</span>
-                  <span class="count red">{{$Total_prepago_vencidas}}</span>
+          <!-- Información general -->
+          <p>Recuerda que <span class="red">Rojo</span> es Vencida, <span class="blue">Azul</span> es Disponible y <span class="green">Verde</span> es Activada.</p>
+          <!-- Información general -->
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <!-- Seccion administrar simcard -->
+              <div class="buscar_simcard ">
+                <div class="formulario_busqueda">
+                  <h1>Administración simcards</h1>
+                  <div>
+                    <p>Busque una simcard, actualicela modificando los valores blancos en los bloques y oprimiendo "Actualizar", asignela oprimiendo "Asignar" o eliminela oprimiendo "Eliminar".</p>
+                  </div>
+                  <div class="contenedor_pista">
+                      <input type="number" placeholder="ICC / número linea" id="Simcard_pista">
+                      <button class="btn btn-primary busqueda" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
+                  </div>
+                  <form>
+                      <div class="container">
+                        <div class="text_container"><span>Responsable</span></div><p id="Simcard_responsable">Responsable</p>
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>ICC</span></div><p id ="Simcard_ICC">ICC</p>
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>Línea</span></div><input type="text" placeholder="Número" id ="Simcard_numero_linea">
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>Categoría</span></div><p id ="Simcard_categoria">Categoría</p>
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>Paquete</span></div><p id ="Simcard_paquete">Paquete</p>
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>Adjudicada</span></div><input type="text" placeholder="Adjudicada" id ="Simcard_fecha_adjudicacion">
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>Activada</span></div><input type="text" placeholder="Activada" id ="Simcard_fecha_activacion">
+                      </div>
+                      <div class="container">
+                          <div class="text_container"><span>Vence</span></div><input type="text" placeholder="Vence" id ="Simcard_fecha_vencimiento">
+                      </div>
+                    </form> 
+                  <div class="contenedor_acciones">
+                      <button class="btn btn-primary" onClick="actualizar_simcard()">Actualizar</button>
+                      <button class="btn btn-danger" onClick="eliminar_simcard()">Eliminar</button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Total Libres</span>
-              <div>
-                  <span class="count blue">{{$Total_libres}}</span>
-                  <span class="count green">{{$Total_libres_activas}}</span>
-                  <span class="count red">{{$Total_libres_vencidas}}</span>
+            <!-- Seccion administrar simcard -->
+            <!-- Seccion administrar paquetes -->
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="x_panel tile">
+                <div class="x_title">
+                  <h2>Administración paquetes</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                
+                <div class="x_content buscar_simcard">
+                  <div class="formulario_busqueda">
+                    <div>
+                      <h4>Busque el contenido de un paquete, seleccione una simcard para ver su información, asigne todo el paquete a un responsable oprimiendo "Asignar", eliminelo oprimiendo "Eliminar" o cree un nuevo paquete oprimiendo "Crear".</h4>
+                    </div>
+                    <div>
+                        <input type="number" placeholder="ICC / número linea" id="Paquete_pista">
+                        <button class="btn btn-primary busqueda" onClick = "buscar_paquete()" type="number" id="Simcard_buscar">Buscar</button>
+                        <button class="btn btn-primary busqueda" onClick = "empaquetar_simcard()" type="number">Empaquetar</button>
+                        <button class="btn btn-primary busqueda" onClick = "boton_crear_paquete()" type="number">Crear</button>
+                    </div>
+                    <h2 id ="titulo_paquete" style="display:none">Paquete #<span id ="numero_paquete"></span></h2>
+                    <div class="contenedor_simcards_paquete" id="simcards_paquete">
+                      
+                    </div> 
+                    <div class="contenedor_acciones" id="acciones_buscar_paquete" style="display:none">
+                        <button class="btn btn-success" id="boton_seleccionar_responsable_simcard" onClick="seleccionar_responsable_paquete()">Asignar</button>
+                        <button class="btn btn-danger" onClick="eliminar_paquete()">Eliminar</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Total Postpago</span>
-              <div>
-                  <span class="count">{{$Total_postpago}}</span>
-              </div>
-            </div>
+            <!-- Seccion administrar paquetes -->
           </div>
-          <!-- /top tiles -->
-          <!-- Seccion buscar simcard -->
-            <div class="buscar_simcard">
-              <div class="responsables_simcard">
-                <h1>Posibles Responsables</h1>
-                @foreach ($responsables as $responsable)
-                    <button class="btn">{{$responsable["nombre"]}}</button>
-                @endforeach
-              </div>
-              <div class="formulario_busqueda">
-                <h1>Administración simcards</h1>
-                <div>
-                  <p>Busque una simcard, actualicela modificando los valores blancos en los bloques y oprimiendo "Actualizar", asignela oprimiendo "Asignar" o eliminela oprimiendo "Eliminar".</p>
-                </div>
-                <div>
-                    <input type="number" placeholder="ICC / número linea" id="Simcard_pista">
-                    <button class="btn btn-primary busqueda" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
-                </div>
-                <form>
-                    <div class="container">
-                      <div class="text_container"><span>Responsable</span></div><p id="Simcard_responsable">Responsable</p>
-                    </div>
-                    <div class="container">
-                        <div class="text_container"><span>ICC</span></div><p id ="Simcard_ICC">ICC</p>
-                    </div>
-                    <div class="container">
-                        <div class="text_container"><span>Línea</span></div><input type="text" placeholder="Número" id ="Simcard_numero_linea">
-                    </div>
-                    <div class="container">
-                        <div class="text_container"><span>Categoría</span></div><p id ="Simcard_categoria">Categoría</p>
-                    </div>
-                    <div class="container">
-                        <div class="text_container"><span>Adjudicada</span></div><input type="text" placeholder="Adjudicada" id ="Simcard_fecha_adjudicacion">
-                    </div>
-                    <div class="container">
-                        <div class="text_container"><span>Activada</span></div><input type="text" placeholder="Activada" id ="Simcard_fecha_activacion">
-                    </div>
-                    <div class="container">
-                        <div class="text_container"><span>Vence</span></div><input type="text" placeholder="Vence" id ="Simcard_fecha_vencimiento">
-                    </div>
-                  </form> 
-                <div>
-                    <button class="btn btn-primary" onClick="actualizar_simcard()">Actualizar</button>
-                    <button class="btn btn-danger" onClick="eliminar_simcard()">Eliminar</button>
-                    <button class="btn btn-success" onClick="seleccionar_responsable_simcard()">Asignar</button>
-                </div>
-              </div>
-            </div>
-          <!-- Seccion buscar simcard -->
+          <!-- Modal -->
+          @section('contenido_modal')
+          <p id ="contenido_modal"></p>
+          <div id="responsables_simcards" style="display:none">
+            @foreach ($responsables as $responsable)
+                <button class="btn boton_responsable" id='{{$responsable["cedula"]}}' onClick="asignar_responsable_paquete(this.id)">{{$responsable["nombre"]}}</button>
+            @endforeach
+          </div>
+          <div id="responsables_simcards_crear_paquete" style="display:none">
+            @foreach ($responsables as $responsable)
+                <button class="btn boton_responsable" id='{{$responsable["cedula"]}}' onClick="crear_paquete(this.id)">{{$responsable["nombre"]}}</button>
+            @endforeach
+          </div>
+          @endsection
+          <!-- Modal -->
         </div>
         <!-- /page content -->
       </div>
