@@ -318,9 +318,8 @@ function empaquetar_simcard(){
         datos_simcard["numero_paquete"] = paquete;
         $.get('/empaquetar_simcard', {dato:datos_simcard}, function(data){
             if(data == "EXITOSO"){
+                buscar_paquete(pista);
                 $("#Paquete_pista").val("");
-                buscar_paquete(paquete);
-                buscar_simcard(pista);
             }else{
                 var modal = $('[data-remodal-id=modal]');
                 var remodal = modal.remodal();

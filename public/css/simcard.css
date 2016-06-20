@@ -101,6 +101,9 @@
 .x_content>div.formulario_busqueda>div>button{
     width:30%;
 }
+#buscar_simcard>div.formulario_busqueda>form>div.container{
+    width: 45%;
+}
 .x_content>div.formulario_busqueda>form>div.container{
     display:flex;
     justify-content:center;

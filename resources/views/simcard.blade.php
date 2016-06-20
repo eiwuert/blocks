@@ -102,12 +102,12 @@
           <!-- Información general -->
           <div class="row">
             <!-- Seccion administrar simcard -->
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel tile">
                 <div class="x_title">
                   <h2>Administración simcards</h2>
                   <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
@@ -115,7 +115,7 @@
                   <div class="clearfix"></div>
                 </div>
                 
-                <div class="x_content" id="buscar_simcard">  
+                <div class="x_content" id="buscar_simcard" style="display:none">  
                   <div class="formulario_busqueda">
                     <div>
                       <h4>Busque una simcard, actualicela modificando los valores blancos en los bloques y oprimiendo "Actualizar", asignela oprimiendo "Asignar" o eliminela oprimiendo "Eliminar".</h4>
@@ -165,13 +165,16 @@
               </div>
             </div>
             <!-- Seccion administrar simcard -->
+            
+          </div>
+          <div class="row">
             <!-- Seccion administrar paquetes -->
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="x_panel tile">
                 <div class="x_title">
                   <h2>Administración paquetes</h2>
                   <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
@@ -179,7 +182,7 @@
                   <div class="clearfix"></div>
                 </div>
                 
-                <div class="x_content" id="buscar_paquete">
+                <div class="x_content" id="buscar_paquete"  style="display:none">
                   <div class="formulario_busqueda">
                     <div>
                       <h4>Busque el contenido de un paquete, seleccione una simcard para ver su información, asigne todo el paquete a un responsable oprimiendo "Asignar", eliminelo oprimiendo "Eliminar" o cree un nuevo paquete oprimiendo "Crear".</h4>
@@ -203,15 +206,14 @@
               </div>
             </div>
             <!-- Seccion administrar paquetes -->
-          </div>
-          <div class="row">
+            
             <!-- Seccion administrar planes -->
-            <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="x_panel tile">
                 <div class="x_title">
                   <h2>Administración planes</h2>
                   <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
@@ -219,7 +221,7 @@
                   <div class="clearfix"></div>
                 </div>
                 
-                <div class="x_content" id="buscar_plan">
+                <div class="x_content" id="buscar_plan" style="display:none">
                   <div class="formulario_busqueda">
                     <div>
                       <h4>Busque la información de un plan.</h4>
