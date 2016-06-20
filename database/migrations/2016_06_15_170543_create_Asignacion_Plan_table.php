@@ -13,11 +13,11 @@ class CreateAsignacionPlanTable extends Migration
     public function up()
     {
         Schema::create('Asignacion_Plan', function (Blueprint $table) {
-            $table->string('Plan_codigo')->unique();
-            $table->string('Simcard_ICC')->unique();
+            $table->increments('ID');
+            $table->string('Plan_codigo');
+            $table->string('Simcard_ICC');
             $table->foreign('Plan_codigo')->references('codigo')->on('Plan')->onDelete('cascade');
             $table->foreign('Simcard_ICC')->references('ICC')->on('Simcard')->onDelete('cascade');
-            
         });
     }
 

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Actor;
+use App\Plan;
 use App\Paquete;
 use Datetime;
+use App\Asignacion_Plan;
 use DB;
 use Log;
 use App\Simcard;
@@ -29,12 +31,11 @@ class SimcardController extends Controller
         $data['Actor_nombre'] = $Actor_nombre;
         $data['Cantidad_notificaciones'] = 0;
         // OBTENER LOS POSIBLES RESPONSABLES
-        $actores_sin_revisar = Actor::where("jefe_cedula", '=', Auth::user()->Actor_cedula)->get()->toArray();
+        $actores_sin_revisar = [$Actor];
         $actores = array();
         while(count($actores_sin_revisar) > 0){
             $actor = array_pop($actores_sin_revisar);
             if(!empty($actor)){
-                Log::warning($actor);
                 $cedula = $actor["cedula"];
                 array_push($actores,$actor);
                 $empleados = Actor::where("jefe_cedula", '=', $cedula)->get()->toArray();
@@ -44,6 +45,10 @@ class SimcardController extends Controller
             }
         }
         $data['responsables'] = $actores;
+        
+        // OBTENER LOS POSIBLES PLANES
+        $planes = Plan::all();
+        $data['planes'] = $planes;
         return View('simcard', $data);
     }
 
@@ -53,6 +58,12 @@ class SimcardController extends Controller
         $paquete = Paquete::find($datos_simcard["paquete"]);
         if($paquete != ""){
             $paquete->Actor_cedula = $datos_simcard["responsable_paquete"];
+            $simcards = Simcard::where("Paquete_ID",'=',$paquete->ID)->get();
+            $hoy = new DateTime();
+            foreach($simcards as $simcard){
+                $simcard->fecha_asignacion = $hoy;
+                $simcard->save();
+            }
             if($paquete->save() == true){
                 return "EXITOSO";
             }else{
@@ -95,8 +106,8 @@ class SimcardController extends Controller
             $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
             if($simcard->fecha_activacion != null){
                 $fecha_activacion = new DateTime($simcard->fecha_activacion);    
-                $interval = $hoy->diff($fecha_vencimiento);
-                $meses = $interval->format("%y")*12+$interval->format("%m");
+                $interval = $hoy->diff($fecha_activacion);
+                $meses = ($interval->format("%y")*12)+($interval->format("%m"));
                 if($meses > 6){
                     $simcard["color"] = "rojo";
                 }else{
@@ -111,6 +122,14 @@ class SimcardController extends Controller
                     $simcard["color"] = "azul";
                 }
             }
+            
+            //OBTENER PLAN DE LA SIMCARD
+            $Asignacion_Plan = Asignacion_Plan::where("Simcard_ICC", '=',$simcard->ICC)->first();
+            if($Asignacion_Plan != ""){
+                $simcard["plan"] = $Asignacion_Plan->Plan_codigo;
+            }else{
+                $simcard["plan"] = "SIN PLAN";
+            }
         }
         return $simcard;
     }
@@ -121,9 +140,41 @@ class SimcardController extends Controller
         $simcard = Simcard::find($datos_simcard["ICC"]);
         if($simcard != ""){
             $simcard->numero_linea = $datos_simcard["Simcard_numero_linea"];
-            $simcard->fecha_adjudicacion = $datos_simcard["Simcard_fecha_adjudicacion"];
-            $simcard->fecha_activacion = $datos_simcard["Simcard_fecha_activacion"];
-            $simcard->fecha_vencimiento = $datos_simcard["Simcard_fecha_vencimiento"];
+            if( $datos_simcard["Simcard_fecha_adjudicacion"] == null || $datos_simcard["Simcard_fecha_adjudicacion"] == "SIN ADJUDICAR"){
+                $simcard->fecha_adjudicacion = null;
+            }else{
+                $simcard->fecha_adjudicacion = $datos_simcard["Simcard_fecha_adjudicacion"];
+            }
+            if( $datos_simcard["Simcard_fecha_activacion"] == null || $datos_simcard["Simcard_fecha_activacion"] == "SIN ACTIVAR"){
+                $simcard->fecha_activacion = null;
+            }else{
+                $simcard->fecha_activacion = $datos_simcard["Simcard_fecha_activacion"];
+            }
+            if( $datos_simcard["Simcard_fecha_vencimiento"] == null){
+                return "NO PUEDE DEJAR LA FECHA DE VENCIMIENTO VACIA";
+            }else{
+                $simcard->fecha_vencimiento = $datos_simcard["Simcard_fecha_vencimiento"];
+            }
+            if($datos_simcard["plan"] != "SIN PLAN"){
+                $asignacion_plan = Asignacion_Plan::where("Simcard_ICC",'=',$simcard->ICC)->first();
+                if($asignacion_plan != null){
+                    $asignacion_plan->Plan_codigo = $datos_simcard["plan"];
+                }else{
+                    $asignacion_plan = new Asignacion_Plan();
+                    $asignacion_plan->Plan_codigo = $datos_simcard["plan"];
+                    $asignacion_plan->Simcard_ICC = $simcard->ICC;
+                    if($asignacion_plan->save()){
+                        return "EXITOSO";
+                    }else{
+                        return "FALLIDO";
+                    }
+                }
+            }else{
+                $asignacion_plan = Asignacion_Plan::where("Simcard_ICC",'=',$simcard->ICC)->first();
+                if($asignacion_plan != null){
+                    $asignacion_plan->delete();
+                }
+            }
             $simcard->save();
             return "EXITOSO";
         }else{
@@ -145,8 +196,8 @@ class SimcardController extends Controller
                 $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
                 if($simcard->fecha_activacion != null){
                     $fecha_activacion = new DateTime($simcard->fecha_activacion);    
-                    $interval = $hoy->diff($fecha_vencimiento);
-                    $meses = $interval->format("%y")*12+$interval->format("%m");
+                    $interval = $hoy->diff($fecha_activacion);
+                    $meses = ($interval->format("%y")*12)+($interval->format("%m"));
                     if($meses > 6){
                         $simcard["color"] = "rojo";
                     }else{
@@ -177,7 +228,6 @@ class SimcardController extends Controller
         }else{
             return "FALLIDO";
         }
-        
     }
     
     public function crear_paquete(Request $request){

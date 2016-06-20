@@ -32,4 +32,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/empaquetar_simcard', 'SimcardController@empaquetar_simcard');
     Route::get('/crear_paquete', 'SimcardController@crear_paquete');
     Route::get('/eliminar_paquete', 'SimcardController@eliminar_paquete');
+    Route::get('/buscar_plan', 'PlanController@buscar_plan');
 });
