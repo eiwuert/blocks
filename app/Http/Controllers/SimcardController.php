@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use Illuminate\Http\Request; 
+ 
 use App\Actor;
 use App\Plan;
 use App\Paquete;
-use Datetime;
 use App\Asignacion_Plan;
 use DB;
 use Log;
@@ -23,10 +22,11 @@ class SimcardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $simcard = $request["simcard"];
         $data = array();
-        $Actor = Actor::find(Auth::user()->Actor_cedula);
+        $Actor = Auth::user()->actor;
         $Actor_nombre = $Actor->nombre;
         $data['Actor_nombre'] = $Actor_nombre;
         $data['Cantidad_notificaciones'] = 0;
@@ -49,7 +49,10 @@ class SimcardController extends Controller
         // OBTENER LOS POSIBLES PLANES
         $planes = Plan::all();
         $data['planes'] = $planes;
+        $data["simcard"] = $simcard;        
         return View('simcard', $data);
+        
+        
     }
 
     
@@ -101,27 +104,8 @@ class SimcardController extends Controller
                 $simcard["responsable_simcard"] = "SIN ASIGNAR";
                 $simcard["paquete"] = "SIN PAQUETE";
             }
-            //OBTENER EL RESPONSABLE DE LA SIMCARD
-            $hoy = new DateTime();
-            $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
-            if($simcard->fecha_activacion != null){
-                $fecha_activacion = new DateTime($simcard->fecha_activacion);    
-                $interval = $hoy->diff($fecha_activacion);
-                $meses = ($interval->format("%y")*12)+($interval->format("%m"));
-                if($meses > 6){
-                    $simcard["color"] = "rojo";
-                }else{
-                    $simcard["color"] = "verde";
-                }
-            }else{
-                $interval = $hoy->diff($fecha_vencimiento);
-                $dias = $interval->format("%d");
-                if($dias < 0){
-                    $simcard["color"] = "rojo";
-                }else{
-                    $simcard["color"] = "azul";
-                }
-            }
+            //OBTENER EL ESTADO DE LA SIMCARD
+            $simcard["color"] = Simcard::color_estado($simcard);
             
             //OBTENER PLAN DE LA SIMCARD
             $Asignacion_Plan = Asignacion_Plan::where("Simcard_ICC", '=',$simcard->ICC)->first();
@@ -163,11 +147,11 @@ class SimcardController extends Controller
                     $asignacion_plan = new Asignacion_Plan();
                     $asignacion_plan->Plan_codigo = $datos_simcard["plan"];
                     $asignacion_plan->Simcard_ICC = $simcard->ICC;
-                    if($asignacion_plan->save()){
-                        return "EXITOSO";
-                    }else{
-                        return "FALLIDO";
-                    }
+                }
+                if($asignacion_plan->save()){
+                    return "EXITOSO";
+                }else{
+                    return "FALLIDO";
                 }
             }else{
                 $asignacion_plan = Asignacion_Plan::where("Simcard_ICC",'=',$simcard->ICC)->first();
@@ -191,27 +175,8 @@ class SimcardController extends Controller
         $simcards = array();
         if($pista != ""){
             $simcards = Simcard::where("Paquete_ID",'=',$pista)->get();
-            $hoy = new DateTime();
             foreach ($simcards as &$simcard) {
-                $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
-                if($simcard->fecha_activacion != null){
-                    $fecha_activacion = new DateTime($simcard->fecha_activacion);    
-                    $interval = $hoy->diff($fecha_activacion);
-                    $meses = ($interval->format("%y")*12)+($interval->format("%m"));
-                    if($meses > 6){
-                        $simcard["color"] = "rojo";
-                    }else{
-                        $simcard["color"] = "verde";
-                    }
-                }else{
-                    $interval = $hoy->diff($fecha_vencimiento);
-                    $dias = $interval->format("%d");
-                    if($dias < 0){
-                        $simcard["color"] = "rojo";
-                    }else{
-                        $simcard["color"] = "azul";
-                    }
-                }
+                $simcard["color"] = Simcard::color_estado($simcard);
             }
         }
         return $simcards;

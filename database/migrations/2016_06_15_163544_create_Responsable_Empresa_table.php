@@ -17,9 +17,8 @@ class CreateResponsableEmpresaTable extends Migration
             $table->string('nombre');
             $table->string('telefono');
             $table->string('correo');
-            $table->string('Cliente_Empresa_NIT');
-            $table->foreign('Cliente_Empresa_NIT')->references('NIT')->on('Cliente_Empresa')->onDelete('cascade');
-            $table->timestamps();
+            $table->string('Cliente_identificacion');
+            $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente')->onDelete('cascade');
         });
     }
 

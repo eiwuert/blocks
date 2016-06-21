@@ -10,7 +10,7 @@ class Asignacion_Plan extends Model
     protected $primaryKey  = 'ID';
     protected $fillable = ['ID','Plan_codigo','Simcard_ICC'];
     public $timestamps = false;
-    public function simcarad(){
+    public function simcard(){
         return $this->belongsTo('App\Simcard','Simcard_ICC','ICC');
     }
     public function plan(){

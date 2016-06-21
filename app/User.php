@@ -18,4 +18,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $fillable = ['Actor_cedula', 'email', 'password'];
 
     protected $hidden = ['password', 'remember_token'];
+    
+    public function actor()
+    {
+        return $this->belongsTo('App\Actor','Actor_cedula','cedula');
+    }
 }

@@ -25,9 +25,9 @@ class CreateEquipoTable extends Migration
             $table->float('precio_9_cuotas');
             $table->float('precio_12_cuotas');
             $table->string('Simcard_ICC')->nullable();
-            $table->integer('Cliente_ID')->unsigned()->nullable();
+            $table->string('Cliente_identificacion')->nullable();
             $table->foreign('Simcard_ICC')->references('ICC')->on('Simcard');
-            $table->foreign('Cliente_ID')->references('ID')->on('Cliente');
+            $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');
         });
     }
 

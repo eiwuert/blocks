@@ -17,9 +17,9 @@ class CreateUbicacionTable extends Migration
             $table->string('ciudad');
             $table->string('direccion')->nullable();
             $table->string('Actor_cedula')->nullable();
-            $table->integer('Cliente_ID')->unsigned()->nullable();
+            $table->string('Cliente_identificacion')->nullable();
             $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
-            $table->foreign('Cliente_ID')->references('ID')->on('Cliente');
+            $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');
         });
     }
 

@@ -16,12 +16,14 @@ class CreateSimcardTable extends Migration
             $table->string('ICC')->unique();
             $table->string('numero_linea');
             $table->string('categoria');
+            $table->string("Cliente_identificacion")->nullable();
             $table->date('fecha_adjudicacion')->nullable();
             $table->date('fecha_asignacion')->nullable();
             $table->date('fecha_activacion')->nullable();
             $table->date('fecha_vencimiento');
             $table->integer('Paquete_ID')->unsigned()->nullable();
             $table->foreign('Paquete_ID')->references('ID')->on('Paquete');
+            $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');
         });
     }
 

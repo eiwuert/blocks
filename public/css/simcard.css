@@ -1,161 +1,12 @@
-.boton_seleccionado{
-    box-shadow: 5px 5px 8px #888888;
-    opacity: 0.7;
-    transform: scale(1.1, 1.1);
-    transition: all 0.3s ease-in-out;
-    
-}
-.x_content>div.responsables_simcard{
-    display: none;
-    text-align: center;
-}
 
-
-.x_content>div.responsables_simcard>h1{
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    color:white;
-}
-.x_content>div.responsables_simcard>button{
-    width:45%;    
-    height:50px;
-    border: 2px solid white;
-    color:white;
-    background-color: transparent;
-}
-
-.x_content>div.responsables_simcard>button:hover{
-    color:black;
-    background-color: white;
-}
-
-.x_content>div.responsables_simcard{
-    background-color: rgba(15,15,15,0.7);
-    margin-top: 10px;
-    border-radius: 20px;
-    position: absolute;
-    z-index: 10;
-    display: none;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.x_content>div.formulario_busqueda>h1{
-    font-size: 28px;
-    text-align: center;
-}
-
-.x_content>div.formulario_busqueda>div.contenedor_pista{
-    flex-wrap:nowrap;
-}
-
-.x_content>div.formulario_busqueda>div{
+#simcards_paquete{
     display: flex;
-    flex-wrap:wrap;
-    width:100%;
-    justify-content:center;
-}
-.x_content>div.formulario_busqueda>div>input{
-    margin:5px;
-    border-radius: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width:60%;
-    text-align: center;
-    border:none;
-    border:solid 1px #E6E9ED;
+    margin-bottom:10px;
 }
 
-.x_content>div.formulario_busqueda>div>p{
-    margin-left: 5px;        
-    text-align: justify;
-    margin-right: 5px;
-}
-.x_content>div.formulario_busqueda>div>button.busqueda{
-    margin:5px;
-    border-radius: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width:30%;
-    text-align: center;
-    border:none;
-    background-color: #446587;
-}
-.x_content>div.formulario_busqueda>div>button.busqueda:hover{
-    background-color: #2A3F54;
-}
 
-.x_content>div.formulario_busqueda>form{
-    display: flex;
-    flex-wrap:wrap;
-    align-content: flex-start;
-    justify-content: space-between;
-}
-
-.x_content>div.formulario_busqueda>form>div>div{
-    width:25%;    
-    display:none;
-}
-
-.x_content>div.formulario_busqueda>div>button{
-    width:30%;
-}
-#buscar_simcard>div.formulario_busqueda>form>div.container{
+#buscar_simcard>div.formulario_busqueda>.form>div.container{
     width: 45%;
-}
-.x_content>div.formulario_busqueda>form>div.container{
-    display:flex;
-    justify-content:center;
-    background-color:rgba(20,20,20,0.4);
-    flex-grow:2;
-    margin:5px;
-    border-radius: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width:100%;
-    text-align:center;
-}
-.x_content>div.formulario_busqueda>form>div>p{
-    color:black !important;
-    width: 70% ;
-    margin:0;
-    font-size: 14px;
-}
-.x_content>div.formulario_busqueda>form>div>input, .x_content>form>div>p{
-    background-color: transparent;   
-    border:none;
-    text-align: center;
-    color:#FFF;
-    width:70%;
-    font-size:14px;
-    height:100%;
-    margin:0;
-    cursor: pointer;
-}
-
-.x_content>div.formulario_busqueda>form>div>input::-webkit-input-placeholder{
-   color: #000;
-}
-
-.x_content>div.formulario_busqueda>form>div>input:hover::-webkit-input-placeholder,
-.x_content>div.formulario_busqueda>form>div>input:focus::-webkit-input-placeholder{
-   color: #FFF;
-}
-
-.x_content>div.formulario_busqueda span{
-    color:black;
-    height:100%;
-    text-align:center;
-}
-
-.contenedor_simcards_paquete{
-    display: flex;
-}
-
-.contenedor_acciones{
-    border-top:solid 2px #E6E9ED;
-    padding-top: 10px;
 }
 
 #titulo_paquete{
@@ -168,16 +19,15 @@
 }
 
 #Paquete_pista{
-    width: 100%;
+    width: 65%;
 }
+
 #Simcard_plan{
-    background-color: transparent;
-    color: white;
     border:none;
-    margin:0;
-    width: 70%;
+    width:70%;
+    padding:0;
 }
-.boton_responsable{
-    background-color: transparent;
-    border: solid 2px white;
+
+#acciones_buscar_paquete>button{
+    width:30%;
 }

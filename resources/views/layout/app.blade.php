@@ -33,16 +33,125 @@
     
     
   </head>
+    <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="/" class="site_title"><i class="fa fa-cubes"></i> <span>Blocks!</span></a>
+            </div>
 
-    @yield('Content')
+            <div class="clearfix"></div>
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-tablet"></i> Inventarios <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li id="link_simcards"><a href="/simcard">Simcards</a></li>
+                      <li><a href="index2.html">Equipos</a></li>
+                      <li><a href="index3.html">Servicios</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-users"></i> Gestión <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li id="link_clientes"><a href="/cliente">Clientes</a></li>
+                      <li><a href="index2.html">Personal</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- /sidebar menu -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    {{$Actor_nombre}}
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="auth/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    @if($Cantidad_notificaciones > 0)
+                    <span class="badge bg-green">{{$Cantidad_notificaciones}}</span>
+                    @endif
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          @yield('Content')
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
     
     <div class="remodal" data-remodal-id="modal">
       <button data-remodal-action="close" class="remodal-close"></button>
       <h1 id="titulo_modal">@yield('Titulo modal')</h1>
       @yield('contenido_modal')
-
+      <div id="botones_modal">
       @yield('botones_modal')
+      </div>
     </div>
+    
+    <!-- jVectorMap -->
+    <script src="/js/jquery-jvectormap-2.0.3.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/daterangepicker.js"></script>
+
     <!-- Bootstrap -->
     <script src="/js/bootstrap.min.js"></script>
     <!-- FastClick -->
@@ -55,9 +164,11 @@
     <script src="/js/icheck.min.js"></script>
     <!-- Skycons -->
     <script src="/js/skycons.js"></script>
-    <!-- Custom Theme Scripts -->
-    <script src="/js/custom.min.js"></script>
     <!-- Modal library Script -->
     <script src="/js/remodal.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/general.js"></script>
     @yield('Custom_js')
+  </body>
 </html>

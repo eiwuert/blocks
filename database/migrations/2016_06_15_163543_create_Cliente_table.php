@@ -13,15 +13,11 @@ class CreateClienteTable extends Migration
     public function up()
     {
         Schema::create('Cliente', function (Blueprint $table) {
-            $table->increments('ID');
+            $table->string('identificacion')->unique();
             $table->string('tipo');
-            $table->string('Cliente_Empresa_NIT')->nullable();
-            $table->string('Cliente_Natural_cedula')->nullable();
             $table->string('nombre');
             $table->string('telefono');
             $table->string('correo');
-            $table->foreign('Cliente_Empresa_NIT')->references('NIT')->on('Cliente_Empresa')->onDelete('cascade');
-            $table->foreign('Cliente_Natural_cedula')->references('cedula')->on('Cliente_Natural')->onDelete('cascade');
         });
     }
 

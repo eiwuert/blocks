@@ -18,8 +18,8 @@ class CreateServicioTable extends Migration
             $table->string('tipo_fija')->nullable();
             $table->string('tipo_internet')->nullable();
             $table->string('tipo_tv')->nullable();
-            $table->integer('Cliente_ID')->unsigned();
-            $table->foreign('Cliente_ID')->references('ID')->on('Cliente')->onDelete('cascade');
+            $table->string('Cliente_identificacion');
+            $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente')->onDelete('cascade');
         });
     }
 

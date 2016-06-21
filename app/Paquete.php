@@ -8,6 +8,7 @@ class Paquete extends Model
 {
     protected $table = 'Paquete';
     protected $primaryKey = 'ID';
+    public $timestamps = false;
     
     protected $fillable = ['ID','Actor_cedula', 'fecha_entrega'];
 
