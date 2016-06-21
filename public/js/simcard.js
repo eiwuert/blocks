@@ -24,6 +24,14 @@ function buscar_simcard(ICC){
         var modal = $('[data-remodal-id=modal]');
         var remodal = modal.remodal();
         if(data != ''){
+            // DATOS Y REDIRECCION A CLIENTE
+            if(data.cliente != null){
+                $("#Simcard_cliente").text(data.cliente.nombre);
+                $("#Simcard_cliente").attr("href", "/cliente?cliente=" + data.cliente.identificacion);
+            }else{
+                $("#Simcard_cliente").text("Cliente");
+                $("#Simcard_cliente").attr("href", "#");
+            }
             $("#buscar_simcard").find(".text_container").show();
             $('#Simcard_ICC').text(data.ICC);
             $('#Simcard_responsable').text(data.responsable_simcard);
@@ -76,6 +84,8 @@ function buscar_simcard(ICC){
             }
         }else{
             //BORRAR DATOS DE SECCION SIMCARD
+            $("#Simcard_cliente").text("Cliente");
+            $("#Simcard_cliente").attr("href", "#");
             $("#buscar_simcard").find(".text_container").hide();
             $('#buscar_simcard .form :input').val("");
             $("#Simcard_fecha_asignacion").text("Asignación");
@@ -109,6 +119,9 @@ function buscar_simcard(ICC){
             $("#titulo_modal").text("ERROR!!");
             $("#contenido_modal").text("Simcard no encontrada");
             remodal.open();
+            //ESCONDER SECCIONES
+            $("#buscar_plan").hide();
+            $("#buscar_paquete").hide();
         }
     });
 }

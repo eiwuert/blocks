@@ -22,7 +22,7 @@
     width: 65%;
 }
 
-#Simcard_plan{
+#Simcard_plan, #Simcard_cliente{
     border:none;
     width:70%;
     padding:0;
@@ -30,4 +30,11 @@
 
 #acciones_buscar_paquete>button{
     width:30%;
+}
+
+#Simcard_cliente{
+    color:black;
+}
+#Simcard_cliente:hover{
+    color:white;
 }

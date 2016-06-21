@@ -93,6 +93,8 @@ class SimcardController extends Controller
         $pista = $request['dato'];
         $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
         if($simcard != ""){
+            //OBTENER CLIENTE DE LA SIMCARD
+            $simcard["cliente"] = $simcard->cliente;
             //OBTENER EL RESPONSABLE Y PAQUETE DE LA SIMCARD
             $paquete = Paquete::find($simcard->Paquete_ID);
             if($paquete != null){

@@ -18,13 +18,15 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $cliente = $request["cliente"];
         $data = array();
         $Actor = Auth::user()->actor;
         $Actor_nombre = $Actor->nombre;
         $data['Actor_nombre'] = $Actor_nombre;
         $data['Cantidad_notificaciones'] = 0;
+        $data["cliente"] = $cliente;        
         return View('cliente',$data);
     }
 
@@ -50,6 +52,79 @@ class ClienteController extends Controller
         $cliente->telefono = $datos_cliente["Cliente_telefono"];
         $cliente->correo = $datos_cliente["Cliente_correo"];
         if($cliente->save()){
+            return "EXITOSO";
+        }else{
+            return "ERROR AL GUARDAR EL CLIENTE";
+        }
+    }
+    
+    public function actualizar_cliente(Request $request){
+        $datos_cliente = $request["dato"];
+        if($datos_cliente["Cliente_identificacion"] != $datos_cliente["identificacion_copia"]){
+            $cliente = Cliente::find($datos_cliente["Cliente_identificacion"]);
+            if($cliente != null){
+                return "EL CÓDIGO YA SE ENCUENTRA REGISTRADO";
+            }else{
+                $cliente = Cliente::find($datos_cliente["identificacion_copia"]);
+                if($cliente != null){
+                    $cliente_nuevo = new Cliente();
+                    $cliente_nuevo->identificacion = $datos_cliente["Cliente_identificacion"];
+                    $cliente_nuevo->tipo = $datos_cliente["Cliente_tipo"];
+                    $cliente_nuevo->nombre = $datos_cliente["Cliente_nombre"];
+                    $cliente_nuevo->telefono = $datos_cliente["Cliente_telefono"];
+                    $cliente_nuevo->correo = $datos_cliente["Cliente_correo"];
+                    if($cliente_nuevo->save()){
+                        $simcards = $cliente->simcards;
+                        foreach ($simcards as &$simcard) {
+                            $simcard->Cliente_identificacion = $datos_cliente["Cliente_identificacion"];
+                            $simcard->save();
+                        }
+                        $responsable = $cliente->responsable;
+                        if($responsable != null){
+                            $responsable->Cliente_identificacion = $datos_cliente["Cliente_identificacion"];
+                            $responsable->save();
+                        }
+                        $cliente->delete();
+                        return "EXITOSO";
+                    }else{
+                        return "ERROR AL GUARDAR EL CLIENTE";
+                    }
+                }else{
+                    return "ERROR AL GUARDAR EL CLIENTE";
+                }
+            }
+        }else{
+            $cliente = Cliente::find($datos_cliente["identificacion_copia"]);
+            if($cliente != null){
+                $cliente->tipo = $datos_cliente["Cliente_tipo"];
+                $cliente->nombre = $datos_cliente["Cliente_nombre"];
+                $cliente->telefono = $datos_cliente["Cliente_telefono"];
+                $cliente->correo = $datos_cliente["Cliente_correo"];
+                if($cliente->save()){
+                    return "EXITOSO";
+                }else{
+                    return "ERROR AL GUARDAR EL CLIENTE";
+                }
+            }else{
+                return "ERROR AL GUARDAR EL CLIENTE";
+            }
+        }
+    }
+    
+    public function eliminar_cliente(Request $request){
+        $datos_cliente = $request["dato"];
+        $cliente = Cliente::find($datos_cliente);
+        if($cliente != null){
+            $simcards = $cliente->simcards;
+            foreach ($simcards as &$simcard) {
+                $simcard->Cliente_identificacion = null;
+                $simcard->save();
+            }
+            $responsable = $cliente->responsable;
+            if($responsable != null){
+                $responsable->delete();
+            }
+            $cliente->delete();
             return "EXITOSO";
         }else{
             return "ERROR AL GUARDAR EL CLIENTE";

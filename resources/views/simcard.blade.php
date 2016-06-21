@@ -44,6 +44,9 @@
                 <div class="text_container"><span>Responsable</span></div><p id="Simcard_responsable">Responsable</p>
               </div>
               <div class="container">
+                <div class="text_container"><span>Cliente</span></div><a id ="Simcard_cliente" class="btn transparente">Cliente</a>
+              </div>
+              <div class="container">
                   <div class="text_container"><span>ICC</span></div><p id ="Simcard_ICC">ICC</p>
               </div>
               <div class="container">

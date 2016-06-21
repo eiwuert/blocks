@@ -27,7 +27,7 @@ function buscar_cliente(cliente){
         if(data != ''){
             $("#buscar_cliente").find(".text_container").show();
             $('#Cliente_identificacion').val(data.identificacion);
-            $('#Cliente_identificacion_copia').val(data.identificacion);
+            $('#Cliente_identificacion_copia').text(data.identificacion);
             $('#Cliente_tipo').text(data.tipo);
             $('#Cliente_nombre').val(data.nombre);
             $('#Cliente_telefono').val(data.telefono);
@@ -66,7 +66,8 @@ function buscar_cliente(cliente){
                     $("#listado_simcards>div").append('<a href="/simcard?simcard='+ simcard.ICC +'" style="margin:5px" class="btn ' + simcard.color + '">' + simcard.numero_linea + '</a>');  
                 });
             }else{
-                $("listado_simcards").hide();
+                $("#listado_simcards>div").html("");
+                $("#listado_simcards").hide();
             }
         }else{
             $("#buscar_responsable").hide();
@@ -75,6 +76,7 @@ function buscar_cliente(cliente){
             $("#buscar_cliente").find(".text_container").hide();
             //BORRAR DATOS DE SECCION CLIENTE
             $('#buscar_cliente .form :input').val("");
+            $('#Cliente_identificacion_copia').text("");
             $('#Cliente_tipo').text("Tipo");
             
             //BORRAR DATOS DE RESPONSABLE
@@ -130,6 +132,90 @@ function crear_cliente(){
 }
 
 function actualizar_cliente(){
+    var datos_cliente = {};
     var inputs = $('#buscar_cliente .form :input');
-    
+    if($("#Cliente_identificacion_copia").text() == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un cliente antes de actualizarlo");
+        remodal.open();
+    }else{
+        datos_cliente["identificacion_copia"] = $("#Cliente_identificacion_copia").text();
+        if($("#Cliente_identificacion").val() == ""){
+            limpiar_modal();
+            modal.addClass("modal_error");
+            $("#titulo_modal").text("ERROR!!");
+            $("#contenido_modal").text("Debe especificar una identificación al cliente");
+            remodal.open();
+        }else{
+            var tipo_cliente = $("#Cliente_tipo").text();
+            if(tipo_cliente == "Tipo"){
+                limpiar_modal();
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text("Debe especificar un tipo de cliente");
+                remodal.open();
+            }else{
+                inputs.each(function() {
+                    datos_cliente[this.id] = $(this).val();
+                }); 
+                datos_cliente["Cliente_tipo"] = tipo_cliente;
+                $.get('/actualizar_cliente', {dato:datos_cliente}, function(data){
+                   limpiar_modal();
+                   if(data == "EXITOSO"){
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Cliente actualizado satisfactoriamente");
+                   } else{
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(data);
+                   }
+                   remodal.open();         
+                });
+            }
+        }
+    }
+}
+
+function eliminar_cliente(){
+    var datos_cliente = {};
+    var inputs = $('#buscar_cliente .form :input');
+    var identificacion = $("#Cliente_identificacion_copia").text();
+    if(identificacion == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un cliente antes de eliminarlo");
+        remodal.open(); 
+    }else{
+        $.get('/eliminar_cliente', {dato:identificacion}, function(data){
+           limpiar_modal();
+           if(data == "EXITOSO"){
+                $("#buscar_responsable").hide();
+                $("#listado_simcards").hide();
+                $("#listado_simcards>div").html("");
+                $("#buscar_cliente").find(".text_container").hide();
+                //BORRAR DATOS DE SECCION CLIENTE
+                $("#Cliente_pista").val("");
+                $('#buscar_cliente .form :input').val("");
+                $('#Cliente_identificacion_copia').text("");
+                $('#Cliente_tipo').text("Tipo");
+                //BORRAR DATOS DE RESPONSABLE
+                $("#buscar_responsable").find(".text_container").hide();
+                //BORRAR DATOS DE RESPONSABLE   
+                $('#buscar_responsable .form :input').val("");
+                //MODAL INFORMANDO ERROR
+                modal.addClass("modal_exito");
+                $("#titulo_modal").text("EXITO!!");
+                $("#contenido_modal").text("Cliente eliminado satisfactoriamente");
+           } else{
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text(data);
+           }
+           remodal.open();         
+        });
+    }
 }

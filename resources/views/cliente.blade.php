@@ -155,4 +155,11 @@
 
 @section('Custom_js')
   <script src="/js/cliente.js"></script>
+  <srcipt>
+  @if($cliente != null)
+  <script>
+    buscar_cliente({{$cliente}});
+  </script>
+  @endif)
+  </srcipt>
 @endsection

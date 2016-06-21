@@ -45,4 +45,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cliente', 'ClienteController@index');
     Route::get('/buscar_cliente', 'ClienteController@buscar_cliente');
     Route::get('/crear_cliente', 'ClienteController@crear_cliente');
+    Route::get('/actualizar_cliente', 'ClienteController@actualizar_cliente');
+    Route::get('/eliminar_cliente', 'ClienteController@eliminar_cliente');
 });
