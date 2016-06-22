@@ -138,6 +138,7 @@ class ClienteController extends Controller
         if($responsable == null){
             $responsable = new Responsable_Empresa();
         }
+        $responsable->Cliente_identificacion = $datos_responsable["Cliente_identificacion"];
         $responsable->cedula = $datos_responsable["Responsable_cedula"];
         $responsable->nombre = $datos_responsable["Responsable_nombre"];
         $responsable->telefono = $datos_responsable["Responsable_telefono"];
@@ -146,6 +147,19 @@ class ClienteController extends Controller
             return "EXITOSO";
         }else {
             return "ERROR AL ACTUALIZAR";
+        }
+    }
+    
+    public function eliminar_responsable(Request $request){
+        $Responsable_cedula = $request["dato"];
+        $responsable = Responsable_Empresa::find($Responsable_cedula);
+        if($responsable == null){
+            return "EXITOSO";
+        }
+        if($responsable->delete()){
+            return "EXITOSO";
+        }else {
+            return "ERROR AL ELIMINAR";
         }
     }
 }

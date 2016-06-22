@@ -204,7 +204,6 @@ function eliminar_cliente(){
                 $('#Cliente_tipo').text("Tipo");
                 //BORRAR DATOS DE RESPONSABLE
                 $("#buscar_responsable").find(".text_container").hide();
-                //BORRAR DATOS DE RESPONSABLE   
                 $('#buscar_responsable .form :input').val("");
                 //MODAL INFORMANDO EXITO
                 modal.addClass("modal_exito");
@@ -242,6 +241,35 @@ function actualizar_responsable(){
                 modal.addClass("modal_exito");
                 $("#titulo_modal").text("EXITO!!");
                 $("#contenido_modal").text("Responsable actualizado satisfactoriamente");
+            } else{
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text(data);
+            }
+            remodal.open();       
+        });
+    }
+}
+
+function eliminar_responsable(){
+    var Responsable_cedula = $("#Responsable_cedula_copia").val();
+    if(Responsable_cedula == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un cliente antes de eliminar el responsable");
+        remodal.open(); 
+    }else{
+        $.get('/eliminar_responsable', {dato:Responsable_cedula}, function(data){
+            limpiar_modal();
+            if(data == "EXITOSO"){
+                //MODAL INFORMANDO EXITO
+                modal.addClass("modal_exito");
+                $("#titulo_modal").text("EXITO!!");
+                $("#contenido_modal").text("Responsable eliminado satisfactoriamente");
+                //BORRAR DATOS RESPONSABLE
+                $("#buscar_responsable").find(".text_container").hide();
+                $('#buscar_responsable .form :input').val("");
             } else{
                 modal.addClass("modal_error");
                 $("#titulo_modal").text("ERROR!!");

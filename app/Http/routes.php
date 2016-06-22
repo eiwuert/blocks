@@ -48,4 +48,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/actualizar_cliente', 'ClienteController@actualizar_cliente');
     Route::get('/eliminar_cliente', 'ClienteController@eliminar_cliente');
     Route::get('/actualizar_responsable', 'ClienteController@actualizar_responsable');
+    Route::get('/eliminar_responsable', 'ClienteController@eliminar_responsable');
 });
