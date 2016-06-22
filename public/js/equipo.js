@@ -134,3 +134,71 @@ function buscar_equipo_especifico(IMEI){
         });
     }
 }
+
+function actualizar_descripcion_equipo(){
+    var cod_scl = $("#Equipo_cod_scl_copia").text();
+    if(cod_scl == ""){
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un equipo antes de actualizarlo");
+        remodal.open();
+    }else{
+        var datos_descripcion_equipo = {};
+        var inputs = $('#buscar_equipo_general .form :input');
+        inputs.each(function() {
+            datos_descripcion_equipo[this.id] = $(this).val();
+        });
+        datos_descripcion_equipo["cod_scl_copia"] = cod_scl;
+        datos_descripcion_equipo["Equipo_gama"] = $("#Equipo_gama").text();
+        $.get('/actualizar_equipo_general', {dato:datos_descripcion_equipo}, function(data){
+            limpiar_modal();
+            if(data == 'EXITOSO'){
+                modal.addClass("modal_exito");
+                $("#titulo_modal").text("EXITO!!");
+                $("#contenido_modal").text("Descripcion de equipo actualizada satisfactoriamente");
+                remodal.open();
+            }else{
+                buscar_equipo_general(cod_scl);
+                //MODAL INFORMANDO ERROR
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text(data);
+                remodal.open();
+            }
+        });
+    }
+}
+
+function actualizar_equipo(){
+    var IMEI = $("#Equipo_IMEI_copia").text();
+    if(IMEI == ""){
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un equipo antes de actualizarlo");
+        remodal.open();
+    }else{
+        var datos_equipo = {};
+        var inputs = $('#buscar_equipo_especifico .form :input');
+        inputs.each(function() {
+            datos_equipo[this.id] = $(this).val();
+        });
+        datos_equipo["Equipo_IMEI_copia"] = IMEI;
+        datos_equipo["Equipo_Simcard_ICC"] = $("#Equipo_Simcard_ICC").text();
+        datos_equipo["Equipo_Cliente_identificacion"] = $("#Equipo_Cliente_identificacion").text();
+        $.get('/actualizar_equipo_especifico', {dato:datos_equipo}, function(data){
+            limpiar_modal();
+            if(data == 'EXITOSO'){
+                modal.addClass("modal_exito");
+                $("#titulo_modal").text("EXITO!!");
+                $("#contenido_modal").text("Descripcion de equipo actualizada satisfactoriamente");
+                remodal.open();
+            }else{
+                //MODAL INFORMANDO ERROR
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text(data);
+                remodal.open();
+            }
+        });
+    }
+}

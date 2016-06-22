@@ -120,7 +120,7 @@
               </div>
             </div> 
           <div class="contenedor_acciones">
-              <button class="btn azul" onClick="actualizar_descripcion_equipo()">Actualizar</button>
+              <button class="btn azul" onClick="actualizar_equipo()">Actualizar</button>
               <button class="btn rojo" onClick="eliminar_descripcion_equipo()">Eliminar</button>
           </div>
         </div>

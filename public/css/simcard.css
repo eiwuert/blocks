@@ -4,11 +4,16 @@
     margin-bottom:10px;
 }
 
-
-#buscar_simcard>div.formulario_busqueda>.form>div.container{
-    width: 45%;
+@media screen and (max-width: 700px) {
+    #buscar_simcard>div.formulario_busqueda>.form>div.container{
+        width: 100%;
+    }
 }
-
+@media screen and (min-width: 700px) {
+    #buscar_simcard>div.formulario_busqueda>.form>div.container{
+        width: 45%;
+    }
+}
 #titulo_paquete{
     text-align: center;
     width: 100%

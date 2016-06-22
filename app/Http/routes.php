@@ -59,4 +59,6 @@ Route::group(['middleware' => 'auth'], function () {
     // ACCIONES EQUIPOS
     Route::get('/buscar_equipo_general', 'EquipoController@buscar_equipo_general');
     Route::get('/buscar_equipo_especifico', 'EquipoController@buscar_equipo_especifico');
+    Route::get('/actualizar_equipo_general', 'EquipoController@actualizar_equipo_general');
+    Route::get('/actualizar_equipo_especifico', 'EquipoController@actualizar_equipo_especifico');
 });
