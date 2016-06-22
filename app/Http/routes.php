@@ -47,4 +47,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/crear_cliente', 'ClienteController@crear_cliente');
     Route::get('/actualizar_cliente', 'ClienteController@actualizar_cliente');
     Route::get('/eliminar_cliente', 'ClienteController@eliminar_cliente');
+    Route::get('/actualizar_responsable', 'ClienteController@actualizar_responsable');
 });

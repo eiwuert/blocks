@@ -122,7 +122,7 @@
                   <div class="text_container"><span>Teléfono</span></div><input type="text" placeholder="Teléfono" id ="Responsable_telefono">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Correo</span></div><input type="text" placeholder="Correo" id ="Responsable_Correo">
+                  <div class="text_container"><span>Correo</span></div><input type="text" placeholder="Correo" id ="Responsable_correo">
               </div>
             </div> 
           <div class="contenedor_acciones">

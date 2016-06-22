@@ -150,7 +150,7 @@
           <div class="form">
             <p style="width:100%;text-align:center">Plan: <span id ="Plan_codigo_lbl"></span></p>
             <div class="container">
-                <div class="text_container"><span>Minutos</span></div><input type="text" placeholder="Código" id ="Plan_codigo">
+                <div class="text_container"><span>Código</span></div><input type="text" placeholder="Código" id ="Plan_codigo">
             </div>
             <div class="container">
                 <div class="text_container"><span>Minutos</span></div><input type="text" placeholder="Minutos" id ="Plan_minutos">

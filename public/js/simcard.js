@@ -388,6 +388,7 @@ function buscar_plan(codigo_plan,color){
         $("#Plan_valor").closest("div").attr('class', 'container');
         if(data != ""){
             $("#buscar_plan").show();
+            $("#buscar_plan").find(".text_container").show();
             $("#Plan_codigo").val(codigo);
             $("#Plan_codigo_lbl").text(codigo);
             $("#Plan_minutos").val(data.cantidad_minutos);
@@ -400,6 +401,7 @@ function buscar_plan(codigo_plan,color){
                 $("#Plan_valor").closest("div").addClass(color);
             }
         }else{
+            $("#buscar_plan").find(".text_container").hide();
             $("#buscar_plan").hide();
             $("#Plan_codigo_lbl").text("");
             $("#Plan_codigo").val("");
@@ -425,9 +427,17 @@ function seleccionar_plan(){
 }
 
 function cambiar_plan_buscar_simcard(codigo_plan){
-    $("#Simcard_plan").text(codigo_plan);
-    limpiar_modal();
-    remodal.close();
+    var categoria = $("#Simcard_categoria").text();
+    if(categoria == "Prepago"){
+        limpiar_modal()
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("No se puede agregar un plan a una simcard prepago");
+        remodal.open();
+    }else{
+        $("#Simcard_plan").text(codigo_plan);
+        remodal.close();
+    }
 }
 
 function crear_plan(){

@@ -191,8 +191,8 @@ function eliminar_cliente(){
         remodal.open(); 
     }else{
         $.get('/eliminar_cliente', {dato:identificacion}, function(data){
-           limpiar_modal();
-           if(data == "EXITOSO"){
+            limpiar_modal();
+            if(data == "EXITOSO"){
                 $("#buscar_responsable").hide();
                 $("#listado_simcards").hide();
                 $("#listado_simcards>div").html("");
@@ -206,16 +206,48 @@ function eliminar_cliente(){
                 $("#buscar_responsable").find(".text_container").hide();
                 //BORRAR DATOS DE RESPONSABLE   
                 $('#buscar_responsable .form :input').val("");
-                //MODAL INFORMANDO ERROR
+                //MODAL INFORMANDO EXITO
                 modal.addClass("modal_exito");
                 $("#titulo_modal").text("EXITO!!");
                 $("#contenido_modal").text("Cliente eliminado satisfactoriamente");
-           } else{
+            } else{
                 modal.addClass("modal_error");
                 $("#titulo_modal").text("ERROR!!");
                 $("#contenido_modal").text(data);
-           }
-           remodal.open();         
+            }
+            remodal.open();         
+        });
+    }
+}
+
+function actualizar_responsable(){
+    var datos_responsable = {};
+    var Cliente_identificacion = $("#Cliente_identificacion_copia").text();
+    if(Cliente_identificacion == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un cliente antes de actualizar el responsable");
+        remodal.open(); 
+    }else{
+        var inputs = $('#buscar_responsable .form :input');
+        inputs.each(function() {
+            datos_responsable[this.id] = $(this).val();
+        }); 
+        datos_responsable["Cliente_identificacion"] = Cliente_identificacion;
+        $.get('/actualizar_responsable', {dato:datos_responsable}, function(data){
+            limpiar_modal();
+            if(data == "EXITOSO"){
+                //MODAL INFORMANDO EXITO
+                modal.addClass("modal_exito");
+                $("#titulo_modal").text("EXITO!!");
+                $("#contenido_modal").text("Responsable actualizado satisfactoriamente");
+            } else{
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text(data);
+            }
+            remodal.open();       
         });
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Actor;
+use App\Responsable_Empresa;
 use App\Simcard;
 use App\Cliente;
 use Auth;
@@ -128,6 +129,23 @@ class ClienteController extends Controller
             return "EXITOSO";
         }else{
             return "ERROR AL GUARDAR EL CLIENTE";
+        }
+    }
+    
+    public function actualizar_responsable(Request $request){
+        $datos_responsable = $request["dato"];
+        $responsable = Responsable_Empresa::where("Cliente_identificacion","=", $datos_responsable["Cliente_identificacion"])->first();
+        if($responsable == null){
+            $responsable = new Responsable_Empresa();
+        }
+        $responsable->cedula = $datos_responsable["Responsable_cedula"];
+        $responsable->nombre = $datos_responsable["Responsable_nombre"];
+        $responsable->telefono = $datos_responsable["Responsable_telefono"];
+        $responsable->correo = $datos_responsable["Responsable_correo"];
+        if($responsable->save()){
+            return "EXITOSO";
+        }else {
+            return "ERROR AL ACTUALIZAR";
         }
     }
 }
