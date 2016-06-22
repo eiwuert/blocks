@@ -18,6 +18,7 @@ class CreateClienteTable extends Migration
             $table->string('nombre');
             $table->string('telefono');
             $table->string('correo');
+            $table->string('direccion');
         });
     }
 

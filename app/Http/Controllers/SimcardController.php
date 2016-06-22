@@ -200,18 +200,22 @@ class SimcardController extends Controller
     public function crear_paquete(Request $request){
         $paquete = new Paquete();
         $datos_simcard = $request['dato'];
-        $paquete->Actor_cedula = $datos_simcard["responsable"];
-        if($paquete->save()){
-            $pista = $datos_simcard["pista"];
-            $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
-            $simcard->Paquete_ID = $paquete->ID;
-            if($simcard->save()){
-                return "EXITOSO";
+        $pista = $datos_simcard["pista"];
+        $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
+        if($simcard != null){
+            $paquete->Actor_cedula = $datos_simcard["responsable"];
+            if($paquete->save()){
+                $simcard->Paquete_ID = $paquete->ID;
+                if($simcard->save()){
+                    return "EXITOSO";
+                }else{
+                    return "NO SE PUDO EMPAQUETAR LA SIMCARD";
+                }
             }else{
-                return "NO SE PUDO EMPAQUETAR LA SIMCARD";
+                return "NO SE PUDO CREAR EL PAQUETE";
             }
         }else{
-            return "NO SE PUDO CREAR EL PAQUETE";
+            return "NO EXISTE LA SIMCARD";
         }
     }
     

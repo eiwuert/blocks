@@ -302,7 +302,7 @@ function empaquetar_simcard(){
     var paquete = $("#numero_paquete").text();
     if(paquete == ""){
         limpiar_modal();
-        modal.addClass("modal_exito");
+        modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR");
         $("#contenido_modal").text("Debe buscar un paquete primero");
         remodal.open();
@@ -539,3 +539,14 @@ function eliminar_plan(){
         });
     }
 }
+
+$("#Paquete_pista").keyup(function (e) {
+    if (e.keyCode == 13) {
+        var numero_paquete = $("#numero_paquete").text();
+        if(numero_paquete == ""){
+            buscar_paquete();
+        }else{
+            empaquetar_simcard();
+        }
+    }
+});

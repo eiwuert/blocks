@@ -32,6 +32,7 @@ function buscar_cliente(cliente){
             $('#Cliente_nombre').val(data.nombre);
             $('#Cliente_telefono').val(data.telefono);
             $('#Cliente_correo').val(data.correo);
+            $('#Cliente_direccion').val(data.direccion);
             if(data.tipo == "NATURAL"){
                 $('#Cliente_identificacion_lbl').text("CC");
                 $("#buscar_responsable").hide();

@@ -9,7 +9,7 @@ class Cliente extends Model
     protected $table = 'Cliente';
     protected $primaryKey = 'identificacion';
     public $timestamps = false;
-    protected $fillable = ['identificacion', 'tipo','nombre','telefono','correo'];
+    protected $fillable = ['identificacion', 'tipo','nombre','telefono','correo','direccion'];
 
     public function responsable(){
         return $this->hasOne('App\Responsable_Empresa','Cliente_identificacion','identificacion');

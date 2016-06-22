@@ -52,6 +52,7 @@ class ClienteController extends Controller
         $cliente->nombre = $datos_cliente["Cliente_nombre"];
         $cliente->telefono = $datos_cliente["Cliente_telefono"];
         $cliente->correo = $datos_cliente["Cliente_correo"];
+        $cliente->direccion = $datos_cliente["Cliente_direccion"];
         if($cliente->save()){
             return "EXITOSO";
         }else{
@@ -74,6 +75,7 @@ class ClienteController extends Controller
                     $cliente_nuevo->nombre = $datos_cliente["Cliente_nombre"];
                     $cliente_nuevo->telefono = $datos_cliente["Cliente_telefono"];
                     $cliente_nuevo->correo = $datos_cliente["Cliente_correo"];
+                    $cliente_nuevo->direccion = $datos_cliente["Cliente_direccion"];
                     if($cliente_nuevo->save()){
                         $simcards = $cliente->simcards;
                         foreach ($simcards as &$simcard) {
@@ -101,6 +103,7 @@ class ClienteController extends Controller
                 $cliente->nombre = $datos_cliente["Cliente_nombre"];
                 $cliente->telefono = $datos_cliente["Cliente_telefono"];
                 $cliente->correo = $datos_cliente["Cliente_correo"];
+                $cliente->direccion = $datos_cliente["Cliente_direccion"];
                 if($cliente->save()){
                     return "EXITOSO";
                 }else{

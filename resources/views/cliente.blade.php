@@ -55,6 +55,9 @@
               <div class="container">
                   <div class="text_container"><span>Correo</span></div><input type="text" placeholder="Correo" id ="Cliente_correo">
               </div>
+              <div class="container">
+                  <div class="text_container"><span>Direccion</span></div><input type="text" placeholder="Direccion" id ="Cliente_direccion">
+              </div>
             </div> 
           <div class="contenedor_acciones">
               <button class="btn verde" onClick="crear_cliente()">Crear</button>

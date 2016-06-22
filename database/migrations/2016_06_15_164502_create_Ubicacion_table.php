@@ -15,7 +15,6 @@ class CreateUbicacionTable extends Migration
         Schema::create('Ubicacion', function (Blueprint $table) {
             $table->string('region');
             $table->string('ciudad');
-            $table->string('direccion')->nullable();
             $table->string('Actor_cedula')->nullable();
             $table->string('Cliente_identificacion')->nullable();
             $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
