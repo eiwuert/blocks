@@ -54,7 +54,7 @@
                   <li><a><i class="fa fa-tablet"></i> Inventarios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li id="link_simcards"><a href="/simcard">Simcards</a></li>
-                      <li><a href="index2.html">Equipos</a></li>
+                      <li id="link_equipos"><a href="/equipo">Equipos</a></li>
                       <li><a href="index3.html">Servicios</a></li>
                     </ul>
                   </li>

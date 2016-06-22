@@ -144,7 +144,7 @@
             <h4>Busque la información de un plan digitando su código, modifiquelo oprimiendo "Actualizar", eliminelo oprimiendo "Eliminar" o cree un nuevo plan digitando su información y oprimiendo "Crear".</h4>
           </div>
           <div>
-              <input type="text" placeholder="Cod_scl" id ="codigo_plan">
+              <input type="text" placeholder="Código" id ="codigo_plan">
               <button class="btn azul" onClick = "buscar_plan()" type="number" id="Plan_buscar">Buscar</button>
           </div>
           <div class="form">

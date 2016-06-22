@@ -1,0 +1,17 @@
+
+#Equipo_gama{
+    border:none;
+    width:70%;
+    padding:0;
+}
+
+#Equipo_simcard, #Equipo_cliente{
+    border:none;
+    width:70%;
+    padding:0;
+    color:black;
+}
+
+#Equipo_simcard:hover, #Equipo_cliente:hover{
+    color:white;
+}

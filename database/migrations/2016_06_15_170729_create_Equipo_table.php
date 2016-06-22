@@ -14,20 +14,14 @@ class CreateEquipoTable extends Migration
     {
         Schema::create('Equipo', function (Blueprint $table) {
             $table->string('IMEI')->unique();
-            $table->string('marca');
-            $table->string('modelo');
-            $table->string('gama');
-            $table->string('cod_scl');
-            $table->float('precio_prepago');
-            $table->float('precio_postpago');
-            $table->float('precio_3_cuotas');
-            $table->float('precio_6_cuotas');
-            $table->float('precio_9_cuotas');
-            $table->float('precio_12_cuotas');
             $table->string('Simcard_ICC')->nullable();
             $table->string('Cliente_identificacion')->nullable();
+            $table->date('fecha_venta')->nullable();
+            $table->string('Descripcion_Equipo_cod_scl');
+            $table->string('descripcion_precio');
             $table->foreign('Simcard_ICC')->references('ICC')->on('Simcard');
             $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');
+            $table->foreign('Descripcion_Equipo_cod_scl')->references('cod_scl')->on('Descripcion_Equipo');
         });
     }
 

@@ -24,8 +24,14 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index');
     
-    // ACCIONES SIMCARDS
+    //PAGINAS PRINCIPALES
+    
     Route::get('/simcard', 'SimcardController@index');
+    Route::get('/cliente', 'ClienteController@index');
+    Route::get('/equipo', 'EquipoController@index');
+    
+    // ACCIONES SIMCARDS
+    
     Route::get('/buscar_simcard', 'SimcardController@buscar_simcard');
     Route::get('/actualizar_simcard', 'SimcardController@actualizar_simcard');
     Route::get('/eliminar_simcard', 'SimcardController@eliminar_simcard');
@@ -42,11 +48,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/eliminar_plan', 'PlanController@eliminar_plan');
     
     // ACCIONES CLIENTES
-    Route::get('/cliente', 'ClienteController@index');
+    
     Route::get('/buscar_cliente', 'ClienteController@buscar_cliente');
     Route::get('/crear_cliente', 'ClienteController@crear_cliente');
     Route::get('/actualizar_cliente', 'ClienteController@actualizar_cliente');
     Route::get('/eliminar_cliente', 'ClienteController@eliminar_cliente');
     Route::get('/actualizar_responsable', 'ClienteController@actualizar_responsable');
     Route::get('/eliminar_responsable', 'ClienteController@eliminar_responsable');
+    
+    // ACCIONES EQUIPOS
+    Route::get('/buscar_equipo_general', 'EquipoController@buscar_equipo_general');
+    Route::get('/buscar_equipo_especifico', 'EquipoController@buscar_equipo_especifico');
 });
