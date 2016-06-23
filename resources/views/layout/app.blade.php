@@ -61,7 +61,7 @@
                   <li><a><i class="fa fa-users"></i> Gestión <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li id="link_clientes"><a href="/cliente">Clientes</a></li>
-                      <li><a href="index2.html">Personal</a></li>
+                      <li id="link_personal"><a href="/personal">Personal</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -82,7 +82,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    {{$Actor_nombre}}
+                    {{$Actor->nombre}}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/simcard', 'SimcardController@index');
     Route::get('/cliente', 'ClienteController@index');
     Route::get('/equipo', 'EquipoController@index');
+    Route::get('/personal', 'ActorController@index');
     
     // ACCIONES SIMCARDS
     

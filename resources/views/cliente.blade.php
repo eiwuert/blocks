@@ -12,7 +12,7 @@
 
 @section('Content')
 <!-- Información general -->
-<p>Recuerda que <span class="red">Rojo</span> es Vencida, <span class="blue">Azul</span> es Disponible y <span class="green">Verde</span> es Activada.</p>
+<p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada.</p>
 <!-- Información general -->
 <div class="row">
   <!-- Seccion administrar cliente -->

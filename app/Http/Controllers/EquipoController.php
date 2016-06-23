@@ -22,9 +22,7 @@ class EquipoController extends Controller
     {
         $equipo = $request["equipo"];
         $data = array();
-        $Actor = Auth::user()->actor;
-        $Actor_nombre = $Actor->nombre;
-        $data['Actor_nombre'] = $Actor_nombre;
+        $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
         $data["equipo"] = $equipo;
         return View('equipo', $data);

@@ -24,9 +24,7 @@ class ClienteController extends Controller
     {
         $cliente = $request["cliente"];
         $data = array();
-        $Actor = Auth::user()->actor;
-        $Actor_nombre = $Actor->nombre;
-        $data['Actor_nombre'] = $Actor_nombre;
+        $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
         $data["cliente"] = $cliente;    
         $regiones = Ubicacion::select('region')->distinct()->get();

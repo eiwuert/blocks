@@ -21,12 +21,8 @@ class HomeController extends Controller
     public function index()
     {
         
-        
-        $Actor_cedula = Auth::user()->Actor_cedula;
-        $Actor = Actor::find($Actor_cedula);
-        $Actor_nombre = $Actor->nombre;
         $data = array();
-        $data['Actor_nombre'] = $Actor_nombre;
+        $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
         
         // CONTAR LAS SIMCARDS PREPAGO

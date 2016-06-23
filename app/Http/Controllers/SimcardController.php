@@ -27,8 +27,7 @@ class SimcardController extends Controller
         $simcard = $request["simcard"];
         $data = array();
         $Actor = Auth::user()->actor;
-        $Actor_nombre = $Actor->nombre;
-        $data['Actor_nombre'] = $Actor_nombre;
+        $data['Actor'] = $Actor;
         $data['Cantidad_notificaciones'] = 0;
         // OBTENER LOS POSIBLES RESPONSABLES
         $actores_sin_revisar = [$Actor];
