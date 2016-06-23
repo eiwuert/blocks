@@ -12,6 +12,7 @@ function buscar_equipo_general(cod_scl){
         var pista = cod_scl;
     }
     if(pista == ""){
+        limpiar_modal();
         modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Debe especificar una pista para buscar");
@@ -78,6 +79,7 @@ function buscar_equipo_especifico(IMEI){
     }
     
     if(pista == ""){
+        limpiar_modal();
         modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Debe especificar un IMEI para buscar");
@@ -138,6 +140,7 @@ function buscar_equipo_especifico(IMEI){
 function actualizar_descripcion_equipo(){
     var cod_scl = $("#Equipo_cod_scl_copia").text();
     if(cod_scl == ""){
+        limpiar_modal();
         modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Debe buscar un equipo antes de actualizarlo");
@@ -172,6 +175,7 @@ function actualizar_descripcion_equipo(){
 function actualizar_equipo(){
     var IMEI = $("#Equipo_IMEI_copia").text();
     if(IMEI == ""){
+        limpiar_modal();
         modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Debe buscar un equipo antes de actualizarlo");
@@ -198,6 +202,97 @@ function actualizar_equipo(){
                 $("#titulo_modal").text("ERROR!!");
                 $("#contenido_modal").text(data);
                 remodal.open();
+            }
+        });
+    }
+}
+
+function eliminar_equipo(){
+    var IMEI = $("#Equipo_IMEI_copia").text();
+    if(IMEI == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un equipo antes de eliminarlo");
+        remodal.open();
+    }else{
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar el equipo?",
+            confirm: function() {
+                $.get('/eliminar_equipo_especifico', {dato:IMEI}, function(data){
+                    limpiar_modal();
+                    if(data == 'EXITOSO'){
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Equipo eliminado satisfactoriamente");
+                        remodal.open();
+                        //BORRAR DATOS DE SECCION EQUIPO ESPECIFICO
+                        $("#Equipo_general_pista").val("");
+                        $('#buscar_equipo_especifico .form :input').val("");
+                        $('#Equipo_IMEI_copia').text("");
+                        $('#Equipo_simcard').text("Simcard");
+                        $('#Equipo_simcard').attr("href","#");
+                        $('#simcard_container').attr("class","container");
+                        $('#Equipo_cliente').text("Cliente");
+                        $('#Equipo_cliente').attr("href","#");
+                        $('#buscar_equipo_general .form :input').val("");
+                        $("#buscar_equipo_general").find(".text_container").hide();
+                        $('#Equipo_gama').text("Gama");
+                        $("#" + IMEI).remove();
+                    }else{
+                        //MODAL INFORMANDO ERROR
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(data);
+                        remodal.open();
+                    }
+                });
+            }
+        });
+    }
+}
+
+function eliminar_descripcion_equipo(){
+    var cod_scl = $("#Equipo_cod_scl_copia").text();
+    if(cod_scl == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar un equipo antes de eliminarlo");
+        remodal.open();
+    }else{
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar el equipo?",
+            confirm: function() {
+                $.get('/eliminar_equipo_general', {dato:cod_scl}, function(data){
+                    limpiar_modal();
+                    if(data == 'EXITOSO'){
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Equipo eliminado satisfactoriamente");
+                        remodal.open();
+                        //BORRAR DATOS DE SECCION EQUIPO ESPECIFICO
+                        $("#Equipo_general_pista").val("");
+                        $('#buscar_equipo_especifico .form :input').val("");
+                        $('#Equipo_IMEI_copia').text("");
+                        $('#Equipo_simcard').text("Simcard");
+                        $('#Equipo_simcard').attr("href","#");
+                        $('#simcard_container').attr("class","container");
+                        $('#Equipo_cliente').text("Cliente");
+                        $('#Equipo_cliente').attr("href","#");
+                        $('#buscar_equipo_general .form :input').val("");
+                        $("#buscar_equipo_general").find(".text_container").hide();
+                        $('#Equipo_gama').text("Gama");
+                        $("#listado_equipos").html("");
+                    }else{
+                        buscar_equipo_general(cod_scl);
+                        //MODAL INFORMANDO ERROR
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(data);
+                        remodal.open();
+                    }
+                });
             }
         });
     }

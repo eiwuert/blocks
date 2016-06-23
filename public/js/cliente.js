@@ -16,6 +16,35 @@ function seleccionar_tipo(){
     $("#tipos_cliente").show();
     remodal.open();
 }
+function cambiar_region(region){
+    $("#Cliente_region").text(region);
+    $("#Cliente_ciudad").text($("#"+region+"_container").children().first().text());
+    $("#ciudades").find("div").hide();
+    $("#"+region+"_container").show();
+    remodal.close();
+}
+function seleccionar_region(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("SELECCIONAR REGIÓN");
+    $("#contenido_modal").text("");
+    $("#regiones").show();
+    remodal.open();
+}
+
+function cambiar_ciudad(ciudad){
+    $("#Cliente_ciudad").text(ciudad);
+    remodal.close();
+}
+function seleccionar_ciudad(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("SELECCIONAR CIUDAD");
+    $("#contenido_modal").text("");
+    $("#ciudades").show();
+    remodal.open();
+}
+
 function buscar_cliente(cliente){
     if(cliente == null){
         var pista = $("#Cliente_pista").val();
@@ -33,6 +62,13 @@ function buscar_cliente(cliente){
             $('#Cliente_telefono').val(data.telefono);
             $('#Cliente_correo').val(data.correo);
             $('#Cliente_direccion').val(data.direccion);
+            if(data.ubicacion != null){
+                $("#Cliente_region").text(data.ubicacion.region);
+                $("#Cliente_ciudad").text(data.ubicacion.ciudad);
+            }else{
+                $("#Cliente_region").text("Región");
+                $("#Cliente_ciudad").text("Ciudad");
+            }
             if(data.tipo == "NATURAL"){
                 $('#Cliente_identificacion_lbl').text("CC");
                 $("#buscar_responsable").hide();
@@ -47,6 +83,8 @@ function buscar_cliente(cliente){
                 $('#Responsable_correo').val("");
             }else{
                 $('#Cliente_identificacion_lbl').text("NIT");
+                $("#Cliente_region").text("Región");
+                $("#Cliente_ciudad").text("Ciudad");
                 if(data.responsable != null){
                     $("#buscar_responsable").show();
                     $("#buscar_responsable").find(".text_container").show();
@@ -69,6 +107,18 @@ function buscar_cliente(cliente){
             }else{
                 $("#listado_simcards>div").html("");
                 $("#listado_simcards").hide();
+            }
+            
+            //LISTAR EQUIPOS CLIENTE    
+            if(data.equipos != ""){
+                $("#listado_equipos").show();
+                $("#listado_equipos>div").html("");
+                $.each(data.equipos, function( index, equipo ) { 
+                    $("#listado_equipos>div").append('<a href="/equipo?equipo='+ equipo.IMEI +'" style="margin:5px" class="btn azul">' + equipo.IMEI + '</a>');  
+                });
+            }else{
+                $("#listado_equipos>div").html("");
+                $("#listado_equipos").hide();
             }
         }else{
             $("#buscar_responsable").hide();
@@ -114,6 +164,8 @@ function crear_cliente(){
             inputs.each(function() {
                 datos_cliente[this.id] = $(this).val();
             }); 
+            datos_cliente["Cliente_region"] = $("#Cliente_region").text();
+            datos_cliente["Cliente_ciudad"] = $("#Cliente_ciudad").text();
             datos_cliente["Cliente_tipo"] = tipo_cliente;
             $.get('/crear_cliente', {dato:datos_cliente}, function(data){
                limpiar_modal();
@@ -161,6 +213,8 @@ function actualizar_cliente(){
                 inputs.each(function() {
                     datos_cliente[this.id] = $(this).val();
                 }); 
+                datos_cliente["Cliente_region"] = $("#Cliente_region").text();
+                datos_cliente["Cliente_ciudad"] = $("#Cliente_ciudad").text();
                 datos_cliente["Cliente_tipo"] = tipo_cliente;
                 $.get('/actualizar_cliente', {dato:datos_cliente}, function(data){
                    limpiar_modal();
@@ -191,31 +245,36 @@ function eliminar_cliente(){
         $("#contenido_modal").text("Debe buscar un cliente antes de eliminarlo");
         remodal.open(); 
     }else{
-        $.get('/eliminar_cliente', {dato:identificacion}, function(data){
-            limpiar_modal();
-            if(data == "EXITOSO"){
-                $("#buscar_responsable").hide();
-                $("#listado_simcards").hide();
-                $("#listado_simcards>div").html("");
-                $("#buscar_cliente").find(".text_container").hide();
-                //BORRAR DATOS DE SECCION CLIENTE
-                $("#Cliente_pista").val("");
-                $('#buscar_cliente .form :input').val("");
-                $('#Cliente_identificacion_copia').text("");
-                $('#Cliente_tipo').text("Tipo");
-                //BORRAR DATOS DE RESPONSABLE
-                $("#buscar_responsable").find(".text_container").hide();
-                $('#buscar_responsable .form :input').val("");
-                //MODAL INFORMANDO EXITO
-                modal.addClass("modal_exito");
-                $("#titulo_modal").text("EXITO!!");
-                $("#contenido_modal").text("Cliente eliminado satisfactoriamente");
-            } else{
-                modal.addClass("modal_error");
-                $("#titulo_modal").text("ERROR!!");
-                $("#contenido_modal").text(data);
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar el cliente?",
+            confirm: function() {
+                $.get('/eliminar_cliente', {dato:identificacion}, function(data){
+                    limpiar_modal();
+                    if(data == "EXITOSO"){
+                        $("#buscar_responsable").hide();
+                        $("#listado_simcards").hide();
+                        $("#listado_simcards>div").html("");
+                        $("#buscar_cliente").find(".text_container").hide();
+                        //BORRAR DATOS DE SECCION CLIENTE
+                        $("#Cliente_pista").val("");
+                        $('#buscar_cliente .form :input').val("");
+                        $('#Cliente_identificacion_copia').text("");
+                        $('#Cliente_tipo').text("Tipo");
+                        //BORRAR DATOS DE RESPONSABLE
+                        $("#buscar_responsable").find(".text_container").hide();
+                        $('#buscar_responsable .form :input').val("");
+                        //MODAL INFORMANDO EXITO
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Cliente eliminado satisfactoriamente");
+                    } else{
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(data);
+                    }
+                    remodal.open();         
+                });
             }
-            remodal.open();         
         });
     }
 }
@@ -261,22 +320,27 @@ function eliminar_responsable(){
         $("#contenido_modal").text("Debe buscar un cliente antes de eliminar el responsable");
         remodal.open(); 
     }else{
-        $.get('/eliminar_responsable', {dato:Responsable_cedula}, function(data){
-            limpiar_modal();
-            if(data == "EXITOSO"){
-                //MODAL INFORMANDO EXITO
-                modal.addClass("modal_exito");
-                $("#titulo_modal").text("EXITO!!");
-                $("#contenido_modal").text("Responsable eliminado satisfactoriamente");
-                //BORRAR DATOS RESPONSABLE
-                $("#buscar_responsable").find(".text_container").hide();
-                $('#buscar_responsable .form :input').val("");
-            } else{
-                modal.addClass("modal_error");
-                $("#titulo_modal").text("ERROR!!");
-                $("#contenido_modal").text(data);
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar el responsable?",
+            confirm: function() {
+                $.get('/eliminar_responsable', {dato:Responsable_cedula}, function(data){
+                    limpiar_modal();
+                    if(data == "EXITOSO"){
+                        //MODAL INFORMANDO EXITO
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Responsable eliminado satisfactoriamente");
+                        //BORRAR DATOS RESPONSABLE
+                        $("#buscar_responsable").find(".text_container").hide();
+                        $('#buscar_responsable .form :input').val("");
+                    } else{
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(data);
+                    }
+                    remodal.open();       
+                });
             }
-            remodal.open();       
         });
     }
 }

@@ -61,4 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/buscar_equipo_especifico', 'EquipoController@buscar_equipo_especifico');
     Route::get('/actualizar_equipo_general', 'EquipoController@actualizar_equipo_general');
     Route::get('/actualizar_equipo_especifico', 'EquipoController@actualizar_equipo_especifico');
+    Route::get('/eliminar_equipo_especifico', 'EquipoController@eliminar_equipo_especifico');
+    Route::get('/eliminar_equipo_general', 'EquipoController@eliminar_equipo_general');
 });

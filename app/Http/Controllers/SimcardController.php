@@ -95,6 +95,8 @@ class SimcardController extends Controller
         if($simcard != ""){
             //OBTENER CLIENTE DE LA SIMCARD
             $simcard["cliente"] = $simcard->cliente;
+            //OBTENER EQUIPOS DE LA SIMCARD
+            $simcard["equipo"] = $simcard->equipo;
             //OBTENER EL RESPONSABLE Y PAQUETE DE LA SIMCARD
             $paquete = Paquete::find($simcard->Paquete_ID);
             if($paquete != null){

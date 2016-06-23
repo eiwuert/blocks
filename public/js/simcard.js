@@ -32,6 +32,14 @@ function buscar_simcard(ICC){
                 $("#Simcard_cliente").text("Cliente");
                 $("#Simcard_cliente").attr("href", "#");
             }
+            // DATOS Y REDIRECCION A EQUIPO
+            if(data.equipo != null){
+                $("#Simcard_equipo").text(data.equipo.IMEI);
+                $("#Simcard_equipo").attr("href", "/equipo?equipo=" + data.equipo.IMEI);
+            }else{
+                $("#Simcard_equipo").text("Equipo");
+                $("#Simcard_equipo").attr("href", "#");
+            }
             $("#buscar_simcard").find(".text_container").show();
             $('#Simcard_ICC').text(data.ICC);
             $('#Simcard_responsable').text(data.responsable_simcard);
@@ -86,6 +94,8 @@ function buscar_simcard(ICC){
             //BORRAR DATOS DE SECCION SIMCARD
             $("#Simcard_cliente").text("Cliente");
             $("#Simcard_cliente").attr("href", "#");
+            $("#Simcard_equipo").text("Equipo");
+            $("#Simcard_equipo").attr("href", "#");
             $("#buscar_simcard").find(".text_container").hide();
             $('#buscar_simcard .form :input').val("");
             $("#Simcard_fecha_asignacion").text("Asignación");
@@ -167,26 +177,35 @@ function eliminar_simcard(){
         $("#contenido_modal").text("Busque una simcard antes de eliminar");  
         remodal.open();
     }else{
-        $.get('/eliminar_simcard', {dato:ICC}, function(resultado){
-            limpiar_modal();
-            if(resultado == "EXITOSO" ){
-                $("#buscar_simcard").find(".text_container").hide();
-                $('#buscar_simcard .form :input').val("");
-                $('#Simcard_ICC').text("ICC");
-                $('#Simcard_responsable').text("Responsable");
-                $('#Simcard_categoria').text("Categoría");
-                $("#buscar_simcard").find(".container").attr('class', 'container');
-                modal.addClass("modal_exito");
-                $("#titulo_modal").text("EXITO!!");
-                $("#contenido_modal").text("Simcard eliminada satisfactoriamente");
-                $("#Simcard_pista").val("");
-            }else{
-                modal.addClass("modal_error");
-                $("#titulo_modal").text("ERROR!!");
-                $("#contenido_modal").text("Ocurrió un error");
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar la simcard?",
+            confirm: function() {
+                $.get('/eliminar_simcard', {dato:ICC}, function(resultado){
+                    limpiar_modal();
+                    if(resultado == "EXITOSO" ){
+                        $("#Simcard_cliente").text("Cliente");
+                        $("#Simcard_cliente").attr("href", "#");
+                        $("#Simcard_equipo").text("Equipo");
+                        $("#Simcard_equipo").attr("href", "#");
+                        $("#buscar_simcard").find(".text_container").hide();
+                        $('#buscar_simcard .form :input').val("");
+                        $('#Simcard_ICC').text("ICC");
+                        $('#Simcard_responsable').text("Responsable");
+                        $('#Simcard_categoria').text("Categoría");
+                        $("#buscar_simcard").find(".container").attr('class', 'container');
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Simcard eliminada satisfactoriamente");
+                        $("#Simcard_pista").val("");
+                    }else{
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text("Ocurrió un error");
+                    }
+                    remodal.open();
+                }); 
             }
-            remodal.open();
-        }); 
+        });
     }
 }
 
@@ -356,20 +375,25 @@ function eliminar_paquete(){
         $("#contenido_modal").text("Debe buscar un paquete primero");
         remodal.open();
     }else{
-        $.get('/eliminar_paquete', {dato:paquete}, function(data){
-            limpiar_modal();
-            if(data == "EXITOSO"){
-                $("#Paquete_pista").val("");
-                $("#simcards_paquete").html("");
-                modal.addClass("modal_exito");
-                $("#titulo_modal").text("EXITO!!");
-                $("#contenido_modal").text("Paquete eliminado satisfactoriamente");
-            }else{
-                modal.addClass("modal_error");
-                $("#titulo_modal").text("ERROR!!");
-                $("#contenido_modal").text(data);
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar el paquete?",
+            confirm: function() {
+                $.get('/eliminar_paquete', {dato:paquete}, function(data){
+                    limpiar_modal();
+                    if(data == "EXITOSO"){
+                        $("#Paquete_pista").val("");
+                        $("#simcards_paquete").html("");
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Paquete eliminado satisfactoriamente");
+                    }else{
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(data);
+                    }
+                    remodal.open();
+                });
             }
-            remodal.open();
         });
     }
 }
@@ -512,30 +536,35 @@ function eliminar_plan(){
         $("#contenido_modal").text("Debe buscar un plan para actualizar");
         remodal.open();
     }else{
-        $.get('/eliminar_plan', {dato:codigo_plan}, function(resultado){
-            limpiar_modal();
-            if(resultado == "EXITOSO"){
-                // BORRAR DATOS DE SECCION PLAN
-                $("#Plan_codigo_lbl").text("");
-                $("#Plan_codigo").val("");
-                $("#Plan_minutos").val("");
-                $("#Plan_datos").val("");
-                $("#Plan_valor").val("");
-                $("#Plan_codigo").closest("div").attr('class', 'container');
-                $("#Plan_minutos").closest("div").attr('class', 'container');
-                $("#Plan_datos").closest("div").attr('class', 'container');
-                $("#Plan_valor").closest("div").attr('class', 'container');
-                //INFORMAR AL USUARIO
-                modal.addClass("modal_exito");
-                $("#titulo_modal").text("EXITO!!");
-                $("#contenido_modal").text("Plan eliminado satisfactoriamente");
-            }else{
-                //INFORMAR AL USUARIO
-                modal.addClass("modal_error");
-                $("#titulo_modal").text("ERROR!!");
-                $("#contenido_modal").text(resultado);
+        $.confirm({
+            text: "¿Está seguro que quiere eliminar el plan?",
+            confirm: function() {
+                $.get('/eliminar_plan', {dato:codigo_plan}, function(resultado){
+                    limpiar_modal();
+                    if(resultado == "EXITOSO"){
+                        // BORRAR DATOS DE SECCION PLAN
+                        $("#Plan_codigo_lbl").text("");
+                        $("#Plan_codigo").val("");
+                        $("#Plan_minutos").val("");
+                        $("#Plan_datos").val("");
+                        $("#Plan_valor").val("");
+                        $("#Plan_codigo").closest("div").attr('class', 'container');
+                        $("#Plan_minutos").closest("div").attr('class', 'container');
+                        $("#Plan_datos").closest("div").attr('class', 'container');
+                        $("#Plan_valor").closest("div").attr('class', 'container');
+                        //INFORMAR AL USUARIO
+                        modal.addClass("modal_exito");
+                        $("#titulo_modal").text("EXITO!!");
+                        $("#contenido_modal").text("Plan eliminado satisfactoriamente");
+                    }else{
+                        //INFORMAR AL USUARIO
+                        modal.addClass("modal_error");
+                        $("#titulo_modal").text("ERROR!!");
+                        $("#contenido_modal").text(resultado);
+                    }
+                    remodal.open();
+                });
             }
-            remodal.open();
         });
     }
 }

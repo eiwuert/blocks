@@ -22,7 +22,13 @@ class CreateActorTable extends Migration
             $table->string('tipo_contrato');
             $table->double('sueldo',12,2);
             $table->string('jefe_cedula')->nullable();
-            $table->timestamps();
+            $table->integer("Ubicacion_ID")->unsigned();
+            $table->float("porcentaje_equipo");
+            $table->float("porcentaje_servicio");
+            $table->float("porcentaje_libre");
+            $table->float("porcentaje_prepago");
+            $table->float("porcentaje_postpago");
+            $table->foreign('Ubicacion_ID')->references('ID')->on('Ubicacion');
         });
         Schema::table('Actor', function (Blueprint $table) {
             $table->foreign('jefe_cedula')->references('cedula')->on('Actor')->onDelete('cascade');

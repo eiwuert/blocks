@@ -22,6 +22,10 @@ class Simcard extends Model
     {
         return $this->belongsTo('App\Cliente','Cliente_identificacion','identificacion');
     }
+    public function equipo()
+    {
+        return $this->belongsTo('App\Equipo','ICC','Simcard_ICC');
+    }
     public function plan(){
         return $this->hasOne('App\Asignacion_Plan','Simcard_ICC','ICC');
     }

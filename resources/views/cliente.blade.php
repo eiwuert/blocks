@@ -44,6 +44,12 @@
                   <div class="text_container"><span id="Cliente_identificacion_lbl"></span></div><input type="text" placeholder="ID" id ="Cliente_identificacion">
               </div>
               <div class="container">
+                  <div class="text_container"><span>Región</span></div><button class="btn transparente" id ="Cliente_region" onClick="seleccionar_region()">Región</button>
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Ciudad</span></div><button class="btn transparente" id ="Cliente_ciudad" onClick="seleccionar_ciudad()">Ciudad</button>
+              </div>
+              <div class="container">
                   <div class="text_container"><span>Tipo</span></div><button class="btn transparente" id ="Cliente_tipo" onClick="seleccionar_tipo()">Tipo</button>
               </div>
               <div class="container">
@@ -69,30 +75,6 @@
     </div>
   </div>
   <!-- Seccion administrar cliente -->
-  
-  <!-- Seccion listado simcards cliente -->
-  <div class="col-md-6 col-sm-6 col-xs-12" id="container_listado_simcards">
-    <div class="x_panel tile">
-      <div class="x_title">
-        <h2>Simcards Cliente</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      
-      <div class="x_content" id="listado_simcards" style="display:none">  
-        <h4>Listado de simcards pertenecientes al cliente buscado. Oprima una para observar su información.</h4>
-        <div class="flex_filas">
-          
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Seccion listado simcards cliente -->
   
   <!-- Seccion administrar responsable cliente -->
   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -137,6 +119,54 @@
     </div>
   </div>
   <!-- Seccion administrar responsable cliente -->
+  
+  <!-- Seccion listado simcards cliente -->
+  <div class="col-md-6 col-sm-6 col-xs-12" id="container_listado_simcards">
+    <div class="x_panel tile">
+      <div class="x_title">
+        <h2>Simcards Cliente</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      
+      <div class="x_content" id="listado_simcards" style="display:none">  
+        <h4>Listado de simcards pertenecientes al cliente buscado. Oprima una para observar su información.</h4>
+        <div class="flex_filas">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Seccion listado simcards cliente -->
+  
+  <!-- Seccion listado equipos cliente -->
+  <div class="col-md-6 col-sm-6 col-xs-12" id="container_listado_equipos">
+    <div class="x_panel tile">
+      <div class="x_title">
+        <h2>Equipos Cliente</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      
+      <div class="x_content" id="listado_equipos" style="display:none">  
+        <h4>Listado de equipos pertenecientes al cliente buscado. Oprima una para observar su información.</h4>
+        <div class="flex_filas">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Seccion listado simcards cliente -->
 </div>
 <!-- /page content -->
 @endsection
@@ -147,6 +177,22 @@
 <div id="tipos_cliente" style="display:none">
   <button class="btn transparente" id='NATURAL' onClick='cambiar_tipo(this.id)'>NATURAL</button>
   <button class="btn transparente" id='EMPRESA' onClick='cambiar_tipo(this.id)'>EMPRESA</button>
+</div>
+
+<div id="regiones" style="display:none">
+  @foreach ($regiones as $region)
+      <button class="btn transparente" id='{{$region->region}}' onClick='cambiar_region(this.id)'>{{$region->region}}</button>
+  @endforeach
+</div>
+
+<div id="ciudades" style="display:none">
+  @foreach ($regiones as $region)
+  <div id ="{{$region->region}}_container" style="display:none;">
+    @foreach ($region->ciudades as $ciudad)  
+      <button class="btn transparente" id='{{$ciudad->ciudad}}' onClick='cambiar_ciudad(this.id)'>{{$ciudad->ciudad}}</button>
+    @endforeach    
+  </div>
+  @endforeach
 </div>
 @endsection
 

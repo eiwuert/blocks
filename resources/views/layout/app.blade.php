@@ -166,9 +166,22 @@
     <script src="/js/skycons.js"></script>
     <!-- Modal library Script -->
     <script src="/js/remodal.js"></script>
+    <script src="/js/jquery.confirm.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/js/custom.min.js"></script>
     <script src="/js/general.js"></script>
+    <script type="text/javascript">
+      $.confirm.options = {
+          title: "",
+          confirmButton: "Si",
+          cancelButton: "No",
+          post: false,
+          submitForm: false,
+          confirmButtonClass: "verde sin_margen",
+          cancelButtonClass: "rojo sin_margen",
+          dialogClass: "modal-dialog"
+      } 
+    </script>
     @yield('Custom_js')
   </body>
 </html>

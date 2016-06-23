@@ -9,6 +9,7 @@ use App\Actor;
 use App\Responsable_Empresa;
 use App\Simcard;
 use App\Cliente;
+use App\Ubicacion;
 use Auth;
 use App\Http\Controllers\Controller;
 
@@ -27,19 +28,26 @@ class ClienteController extends Controller
         $Actor_nombre = $Actor->nombre;
         $data['Actor_nombre'] = $Actor_nombre;
         $data['Cantidad_notificaciones'] = 0;
-        $data["cliente"] = $cliente;        
+        $data["cliente"] = $cliente;    
+        $regiones = Ubicacion::select('region')->distinct()->get();
+        foreach ($regiones as &$region) {
+            $region->ciudades = Ubicacion::select('ciudad')->where('region',$region->region)->get();
+        }
+        $data["regiones"] = $regiones;
         return View('cliente',$data);
     }
 
     public function buscar_cliente(Request $request){
         $pista = $request["dato"];
-        $cliente = Cliente::where('identificacion','=',$pista)->orWhere('nombre', 'like' , '%' . $pista . '%')->first();
+        $cliente = Cliente::where('identificacion','like','%' . $pista . '%')->orWhere('nombre', 'like' , '%' . $pista . '%')->first();
         if($cliente != null){
             $cliente->responsable = $cliente->responsable;
             $cliente->simcards = $cliente->simcards;
             foreach ($cliente->simcards as &$simcard){
                 $simcard->color = Simcard::color_estado($simcard);
             }
+            $cliente->equipos = $cliente->equipos;
+            $cliente->ubicacion = $cliente->ubicacion;
         }
         return $cliente;
     }
@@ -53,6 +61,13 @@ class ClienteController extends Controller
         $cliente->telefono = $datos_cliente["Cliente_telefono"];
         $cliente->correo = $datos_cliente["Cliente_correo"];
         $cliente->direccion = $datos_cliente["Cliente_direccion"];
+        //ASIGNAR UBICACION
+        if($datos_cliente["Cliente_region"] != "Región"){
+            $ubicacion = Ubicacion::where("region",$datos_cliente["Cliente_region"])->where("ciudad",$datos_cliente["Cliente_ciudad"])->first();
+            if($ubicacion != null){
+                $cliente->Ubicacion_ID = $ubicacion->ID;
+            }
+        }
         if($cliente->save()){
             return "EXITOSO";
         }else{
@@ -76,6 +91,13 @@ class ClienteController extends Controller
                     $cliente_nuevo->telefono = $datos_cliente["Cliente_telefono"];
                     $cliente_nuevo->correo = $datos_cliente["Cliente_correo"];
                     $cliente_nuevo->direccion = $datos_cliente["Cliente_direccion"];
+                    //ASIGNAR UBICACION
+                    if($datos_cliente["Cliente_region"] != "Región"){
+                        $ubicacion = Ubicacion::where("region",$datos_cliente["Cliente_region"])->where("ciudad",$datos_cliente["Cliente_ciudad"])->first();
+                        if($ubicacion != null){
+                            $cliente->Ubicacion_ID = $ubicacion->ID;
+                        }
+                    }
                     if($cliente_nuevo->save()){
                         $simcards = $cliente->simcards;
                         foreach ($simcards as &$simcard) {
@@ -104,6 +126,13 @@ class ClienteController extends Controller
                 $cliente->telefono = $datos_cliente["Cliente_telefono"];
                 $cliente->correo = $datos_cliente["Cliente_correo"];
                 $cliente->direccion = $datos_cliente["Cliente_direccion"];
+                //ASIGNAR UBICACION
+                if($datos_cliente["Cliente_region"] != "Región"){
+                    $ubicacion = Ubicacion::where("region",$datos_cliente["Cliente_region"])->where("ciudad",$datos_cliente["Cliente_ciudad"])->first();
+                    if($ubicacion != null){
+                        $cliente->Ubicacion_ID = $ubicacion->ID;
+                    }
+                }
                 if($cliente->save()){
                     return "EXITOSO";
                 }else{

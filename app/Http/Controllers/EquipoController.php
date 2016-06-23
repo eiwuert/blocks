@@ -120,4 +120,36 @@ class EquipoController extends Controller
             return "Error al guardar datos";
         }
     }
+    
+    public function eliminar_equipo_especifico(Request $request){
+        $IMEI = $request["dato"];
+        $equipo = Equipo::find($IMEI);
+        if($equipo != null){
+            if($equipo->delete()){
+                return "EXITOSO";
+            }else{
+                return "Error al eliminar equipo";
+            }
+        }else{
+            return "Equipo no encontrado";
+        }
+    }
+    
+    public function eliminar_equipo_general(Request $request){
+        $cod_scl = $request["dato"];
+        $equipos = Equipo::where("Descripcion_Equipo_cod_scl",$cod_scl)->get();
+        foreach ($equipos as $equipo) {
+            $equipo->delete();
+        }
+        $equipo_general = Descripcion_Equipo::find($cod_scl);
+        if($equipo_general != null){
+            if($equipo_general->delete()){
+                return "EXITOSO";
+            }else{
+                return "Error al eliminar equipo";
+            }
+        }else{
+            return "Equipo no encontrado";
+        }
+    }
 }

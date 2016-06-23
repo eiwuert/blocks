@@ -13,12 +13,9 @@ class CreateUbicacionTable extends Migration
     public function up()
     {
         Schema::create('Ubicacion', function (Blueprint $table) {
+            $table->increments("ID");
             $table->string('region');
             $table->string('ciudad');
-            $table->string('Actor_cedula')->nullable();
-            $table->string('Cliente_identificacion')->nullable();
-            $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
-            $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');
         });
     }
 

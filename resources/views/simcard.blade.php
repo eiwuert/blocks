@@ -56,6 +56,9 @@
                   <div class="text_container"><span>Categoría</span></div><p id ="Simcard_categoria">Categoría</p>
               </div>
               <div class="container">
+                <div class="text_container"><span>Equipo</span></div><a id ="Simcard_equipo" class="btn transparente">Equipo</a>
+              </div>
+              <div class="container">
                   <div class="text_container"><span>Paquete</span></div><p id ="Simcard_paquete">Paquete</p>
               </div>
               <div class="container">

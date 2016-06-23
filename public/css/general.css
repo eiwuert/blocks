@@ -20,6 +20,9 @@
     background-color:rgba(255,255,255,0.4);
 }
 
+.sin_margen{
+    margin:0 !important;
+}
 button.rojo,button.azul,button.verde,button.transparente,
 a.rojo,a.azul,a.verde,
 button.rojo:hover,button.azul:hover,button.verde:hover,button.transparente:hover,

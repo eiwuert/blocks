@@ -121,7 +121,7 @@
             </div> 
           <div class="contenedor_acciones">
               <button class="btn azul" onClick="actualizar_equipo()">Actualizar</button>
-              <button class="btn rojo" onClick="eliminar_descripcion_equipo()">Eliminar</button>
+              <button class="btn rojo" onClick="eliminar_equipo()">Eliminar</button>
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@
   <div class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel tile">
       <div class="x_title">
-        <h2>Descripción Específica Equipo</h2>
+        <h2>Equipos del mismo modelo</h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -145,7 +145,7 @@
       
       <div class="x_content" id="listado_equipos_contaier">  
         <div class="formulario_busqueda">
-          <h4>Listado de equipos con el codigo scl buscado</h4>
+          <h4>Listado de equipos con el mismo modelo. Oprimalos para ver el detalle.</h4>
           <div class="flex_filas" id="listado_equipos">
           </div>
         </div>
@@ -173,7 +173,7 @@
   <!-- Si es peticion de un equipo desde una peticion GET -->
   @if($equipo!=null)
   <script>
-    buscar_equipo({{$equipo}});
+    buscar_equipo_especifico("{{$equipo}}");
   </script>
   @endif
   <!-- Si es peticion de un equipo desde una peticion GET -->

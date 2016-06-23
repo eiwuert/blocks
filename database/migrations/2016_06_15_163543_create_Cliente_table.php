@@ -19,6 +19,8 @@ class CreateClienteTable extends Migration
             $table->string('telefono');
             $table->string('correo');
             $table->string('direccion');
+            $table->integer("Ubicacion_ID")->unsigned();
+            $table->foreign('Ubicacion_ID')->references('ID')->on('Ubicacion');
         });
     }
 

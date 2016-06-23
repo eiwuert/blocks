@@ -27,7 +27,7 @@
     width: 65%;
 }
 
-#Simcard_plan, #Simcard_cliente{
+#Simcard_plan, #Simcard_cliente, #Simcard_equipo{
     border:none;
     width:70%;
     padding:0;
@@ -37,9 +37,9 @@
     width:30%;
 }
 
-#Simcard_cliente{
+#Simcard_cliente, #Simcard_equipo{
     color:black;
 }
-#Simcard_cliente:hover{
+#Simcard_cliente:hover, #Simcard_equipo:hover{
     color:white;
 }
