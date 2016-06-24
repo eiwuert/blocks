@@ -1,4 +1,5 @@
 
+
 .rojo{
     background-color: #ff656c !important;
 }
@@ -189,6 +190,12 @@ a.verde:hover{
     margin:0;
     cursor: pointer;
 }
+.x_content>div.formulario_busqueda>.form>div>input:disabled,
+.x_content>div.formulario_busqueda>.form>div>button:disabled{
+    color:black;
+    opacity: 0.65;
+    cursor:text;
+}
 
 .x_content>div.formulario_busqueda>.form>div>input::-webkit-input-placeholder{
    color: #000;
@@ -205,3 +212,8 @@ a.verde:hover{
     text-align:center;
 }
 
+#region,#ciudad{
+    border:none;
+    width:70%;
+    padding:0;
+}

@@ -1,0 +1,24 @@
+#Actor_jefe_nombre{
+    border:none;
+    width:70%;
+    padding:0;
+}
+
+@media screen and (max-width: 700px) {
+    #buscar_empleado .form .container{
+        width: 100%;
+    }
+}
+@media screen and (min-width: 700px) {
+    #buscar_empleado .form .container{
+        width: 45%;
+    }
+}
+
+
+#buscar_empleado .form h4{
+    width: 100%;
+    border-bottom-style: dotted;
+    padding-bottom: 10px;
+    text-align: center;
+}

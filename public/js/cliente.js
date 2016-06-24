@@ -16,34 +16,6 @@ function seleccionar_tipo(){
     $("#tipos_cliente").show();
     remodal.open();
 }
-function cambiar_region(region){
-    $("#Cliente_region").text(region);
-    $("#Cliente_ciudad").text($("#"+region+"_container").children().first().text());
-    $("#ciudades").find("div").hide();
-    $("#"+region+"_container").show();
-    remodal.close();
-}
-function seleccionar_region(){
-    limpiar_modal();
-    modal.addClass("modal_info");
-    $("#titulo_modal").text("SELECCIONAR REGIÓN");
-    $("#contenido_modal").text("");
-    $("#regiones").show();
-    remodal.open();
-}
-
-function cambiar_ciudad(ciudad){
-    $("#Cliente_ciudad").text(ciudad);
-    remodal.close();
-}
-function seleccionar_ciudad(){
-    limpiar_modal();
-    modal.addClass("modal_info");
-    $("#titulo_modal").text("SELECCIONAR CIUDAD");
-    $("#contenido_modal").text("");
-    $("#ciudades").show();
-    remodal.open();
-}
 
 function buscar_cliente(cliente){
     if(cliente == null){
@@ -51,96 +23,104 @@ function buscar_cliente(cliente){
     }else{
         var pista = cliente;
     }
-    $.get('/buscar_cliente', {dato:pista}, function(data){
+    if(pista == ""){
         limpiar_modal();
-        if(data != ''){
-            $("#buscar_cliente").find(".text_container").show();
-            $('#Cliente_identificacion').val(data.identificacion);
-            $('#Cliente_identificacion_copia').text(data.identificacion);
-            $('#Cliente_tipo').text(data.tipo);
-            $('#Cliente_nombre').val(data.nombre);
-            $('#Cliente_telefono').val(data.telefono);
-            $('#Cliente_correo').val(data.correo);
-            $('#Cliente_direccion').val(data.direccion);
-            if(data.ubicacion != null){
-                $("#Cliente_region").text(data.ubicacion.region);
-                $("#Cliente_ciudad").text(data.ubicacion.ciudad);
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe especificar una pista para buscar");
+        remodal.open();
+    }else{
+        $.get('/buscar_cliente', {dato:pista}, function(data){
+            limpiar_modal();
+            if(data != ''){
+                $("#buscar_cliente").find(".text_container").show();
+                $('#Cliente_identificacion').val(data.identificacion);
+                $('#Cliente_identificacion_copia').text(data.identificacion);
+                $('#Cliente_tipo').text(data.tipo);
+                $('#Cliente_nombre').val(data.nombre);
+                $('#Cliente_telefono').val(data.telefono);
+                $('#Cliente_correo').val(data.correo);
+                $('#Cliente_direccion').val(data.direccion);
+                if(data.ubicacion != null){
+                    $("#region").text(data.ubicacion.region);
+                    $("#ciudad").text(data.ubicacion.ciudad);
+                }else{
+                    $("#region").text("Región");
+                    $("#ciudad").text("Ciudad");
+                }
+                if(data.tipo == "NATURAL"){
+                    $('#Cliente_identificacion_lbl').text("CC");
+                    $("#buscar_responsable").hide();
+                    //BORRAR DATOS DE RESPONSABLE
+                    $("#buscar_responsable").find(".text_container").hide();
+                    //BORRAR DATOS DE RESPONSABLE   
+                    $('#Responsable_cedula').val("");
+                    $('#Responsable_cedula_copia').val("");
+                    $('#Responsable_tipo').text("Tipo");
+                    $('#Responsable_nombre').val("");
+                    $('#Responsable_telefono').val("");
+                    $('#Responsable_correo').val("");
+                }else{
+                    $('#Cliente_identificacion_lbl').text("NIT");
+                    $("#region").text("Región");
+                    $("#ciudad").text("Ciudad");
+                    if(data.responsable != null){
+                        $("#buscar_responsable").show();
+                        $("#buscar_responsable").find(".text_container").show();
+                        $('#Responsable_cedula').val(data.responsable.cedula);
+                        $('#Responsable_cedula_copia').val(data.responsable.cedula);
+                        $('#Responsable_nombre').val(data.responsable.nombre);
+                        $('#Responsable_telefono').val(data.responsable.telefono);
+                        $('#Responsable_correo').val(data.responsable.correo);
+                    }else{
+                        $("#buscar_responsable").hide();
+                    }
+                }
+                //LISTAR SIMCARDS CLIENTE    
+                if(data.simcards != ""){
+                    $("#listado_simcards").show();
+                    $("#listado_simcards>div").html("");
+                    $.each(data.simcards, function( index, simcard ) { 
+                        $("#listado_simcards>div").append('<a href="/simcard?simcard='+ simcard.ICC +'" style="margin:5px" class="btn ' + simcard.color + '">' + simcard.numero_linea + '</a>');  
+                    });
+                }else{
+                    $("#listado_simcards>div").html("");
+                    $("#listado_simcards").hide();
+                }
+                
+                //LISTAR EQUIPOS CLIENTE    
+                if(data.equipos != ""){
+                    $("#listado_equipos").show();
+                    $("#listado_equipos>div").html("");
+                    $.each(data.equipos, function( index, equipo ) { 
+                        $("#listado_equipos>div").append('<a href="/equipo?equipo='+ equipo.IMEI +'" style="margin:5px" class="btn azul">' + equipo.IMEI + '</a>');  
+                    });
+                }else{
+                    $("#listado_equipos>div").html("");
+                    $("#listado_equipos").hide();
+                }
             }else{
-                $("#Cliente_region").text("Región");
-                $("#Cliente_ciudad").text("Ciudad");
-            }
-            if(data.tipo == "NATURAL"){
-                $('#Cliente_identificacion_lbl').text("CC");
                 $("#buscar_responsable").hide();
+                $("#listado_simcards").hide();
+                $("#listado_simcards>div").html("");
+                $("#buscar_cliente").find(".text_container").hide();
+                //BORRAR DATOS DE SECCION CLIENTE
+                $('#buscar_cliente .form :input').val("");
+                $('#Cliente_identificacion_copia').text("");
+                $('#Cliente_tipo').text("Tipo");
+                
                 //BORRAR DATOS DE RESPONSABLE
                 $("#buscar_responsable").find(".text_container").hide();
                 //BORRAR DATOS DE RESPONSABLE   
-                $('#Responsable_cedula').val("");
-                $('#Responsable_cedula_copia').val("");
-                $('#Responsable_tipo').text("Tipo");
-                $('#Responsable_nombre').val("");
-                $('#Responsable_telefono').val("");
-                $('#Responsable_correo').val("");
-            }else{
-                $('#Cliente_identificacion_lbl').text("NIT");
-                $("#Cliente_region").text("Región");
-                $("#Cliente_ciudad").text("Ciudad");
-                if(data.responsable != null){
-                    $("#buscar_responsable").show();
-                    $("#buscar_responsable").find(".text_container").show();
-                    $('#Responsable_cedula').val(data.responsable.cedula);
-                    $('#Responsable_cedula_copia').val(data.responsable.cedula);
-                    $('#Responsable_nombre').val(data.responsable.nombre);
-                    $('#Responsable_telefono').val(data.responsable.telefono);
-                    $('#Responsable_correo').val(data.responsable.correo);
-                }else{
-                    $("#buscar_responsable").hide();
-                }
+                $('#buscar_responsable .form :input').val("");
+                //MODAL INFORMANDO ERROR
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text("Cliente no encontrado");
+                remodal.open();
             }
-            //LISTAR SIMCARDS CLIENTE    
-            if(data.simcards != ""){
-                $("#listado_simcards").show();
-                $("#listado_simcards>div").html("");
-                $.each(data.simcards, function( index, simcard ) { 
-                    $("#listado_simcards>div").append('<a href="/simcard?simcard='+ simcard.ICC +'" style="margin:5px" class="btn ' + simcard.color + '">' + simcard.numero_linea + '</a>');  
-                });
-            }else{
-                $("#listado_simcards>div").html("");
-                $("#listado_simcards").hide();
-            }
-            
-            //LISTAR EQUIPOS CLIENTE    
-            if(data.equipos != ""){
-                $("#listado_equipos").show();
-                $("#listado_equipos>div").html("");
-                $.each(data.equipos, function( index, equipo ) { 
-                    $("#listado_equipos>div").append('<a href="/equipo?equipo='+ equipo.IMEI +'" style="margin:5px" class="btn azul">' + equipo.IMEI + '</a>');  
-                });
-            }else{
-                $("#listado_equipos>div").html("");
-                $("#listado_equipos").hide();
-            }
-        }else{
-            $("#buscar_responsable").hide();
-            $("#listado_simcards").hide();
-            $("#listado_simcards>div").html("");
-            $("#buscar_cliente").find(".text_container").hide();
-            //BORRAR DATOS DE SECCION CLIENTE
-            $('#buscar_cliente .form :input').val("");
-            $('#Cliente_identificacion_copia').text("");
-            $('#Cliente_tipo').text("Tipo");
-            
-            //BORRAR DATOS DE RESPONSABLE
-            $("#buscar_responsable").find(".text_container").hide();
-            //BORRAR DATOS DE RESPONSABLE   
-            $('#buscar_responsable .form :input').val("");
-            //MODAL INFORMANDO ERROR
-            modal.addClass("modal_error");
-            $("#titulo_modal").text("ERROR!!");
-            $("#contenido_modal").text("Cliente no encontrado");
-            remodal.open();
-        }
-    });
+        });
+    }
 }
 
 function crear_cliente(){
@@ -164,8 +144,8 @@ function crear_cliente(){
             inputs.each(function() {
                 datos_cliente[this.id] = $(this).val();
             }); 
-            datos_cliente["Cliente_region"] = $("#Cliente_region").text();
-            datos_cliente["Cliente_ciudad"] = $("#Cliente_ciudad").text();
+            datos_cliente["Cliente_region"] = $("#region").text();
+            datos_cliente["Cliente_ciudad"] = $("#ciudad").text();
             datos_cliente["Cliente_tipo"] = tipo_cliente;
             $.get('/crear_cliente', {dato:datos_cliente}, function(data){
                limpiar_modal();
@@ -213,8 +193,8 @@ function actualizar_cliente(){
                 inputs.each(function() {
                     datos_cliente[this.id] = $(this).val();
                 }); 
-                datos_cliente["Cliente_region"] = $("#Cliente_region").text();
-                datos_cliente["Cliente_ciudad"] = $("#Cliente_ciudad").text();
+                datos_cliente["Cliente_region"] = $("#region").text();
+                datos_cliente["Cliente_ciudad"] = $("#ciudad").text();
                 datos_cliente["Cliente_tipo"] = tipo_cliente;
                 $.get('/actualizar_cliente', {dato:datos_cliente}, function(data){
                    limpiar_modal();

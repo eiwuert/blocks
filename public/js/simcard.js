@@ -20,67 +20,100 @@ function buscar_simcard(ICC){
     }else{
         var pista = ICC;
     }
-    $.get('/buscar_simcard', {dato:pista}, function(data){
-        var modal = $('[data-remodal-id=modal]');
-        var remodal = modal.remodal();
-        if(data != ''){
-            // DATOS Y REDIRECCION A CLIENTE
-            if(data.cliente != null){
-                $("#Simcard_cliente").text(data.cliente.nombre);
-                $("#Simcard_cliente").attr("href", "/cliente?cliente=" + data.cliente.identificacion);
+    if(pista == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe especificar una pista para buscar");
+        remodal.open();
+    }else{
+        $.get('/buscar_simcard', {dato:pista}, function(data){
+            var modal = $('[data-remodal-id=modal]');
+            var remodal = modal.remodal();
+            if(data != ''){
+                // DATOS Y REDIRECCION A CLIENTE
+                if(data.cliente != null){
+                    $("#Simcard_cliente").text(data.cliente.nombre);
+                    $("#Simcard_cliente").attr("href", "/cliente?cliente=" + data.cliente.identificacion);
+                }else{
+                    $("#Simcard_cliente").text("Cliente");
+                    $("#Simcard_cliente").attr("href", "#");
+                }
+                // DATOS Y REDIRECCION A EQUIPO
+                if(data.equipo != null){
+                    $("#Simcard_equipo").text(data.equipo.IMEI);
+                    $("#Simcard_equipo").attr("href", "/equipo?equipo=" + data.equipo.IMEI);
+                }else{
+                    $("#Simcard_equipo").text("Equipo");
+                    $("#Simcard_equipo").attr("href", "#");
+                }
+                $("#buscar_simcard").find(".text_container").show();
+                $('#Simcard_ICC').text(data.ICC);
+                $('#Simcard_responsable').text(data.responsable_simcard);
+                $('#Simcard_numero_linea').val(data.numero_linea);
+                $('#Simcard_categoria').text(data.categoria);
+                $('#Simcard_paquete').text(data.paquete);
+                $('#Simcard_plan').text(data.plan);
+                if(data.fecha_asignacion == null){
+                    $('#Simcard_fecha_asignacion').text("NO ASIGNADA");
+                }else{
+                    $('#Simcard_fecha_asignacion').text(data.fecha_asignacion);
+                }
+                if(data.fecha_adjudicacion == null){
+                    $('#Simcard_fecha_adjudicacion').val("SIN ADJUDICAR");
+                }else{
+                    $('#Simcard_fecha_adjudicacion').val(data.fecha_adjudicacion);
+                }
+                if(data.fecha_activacion == null){
+                    $('#Simcard_fecha_activacion').val("SIN ACTIVAR");
+                }else{
+                    $('#Simcard_fecha_activacion').val(data.fecha_activacion);
+                }
+                $('#Simcard_fecha_vencimiento').val(data.fecha_vencimiento);
+                $("#buscar_simcard").find(".container").attr('class', 'container');
+                $("#buscar_simcard").find(".container").addClass(data.color);
+                if(data.paquete != "SIN PAQUETE"){
+                    buscar_paquete(pista);
+                }else{
+                    $("#buscar_paquete").hide();
+                    $("#simcards_paquete").html("");
+                    $("#numero_paquete").text("");
+                    $("#titulo_paquete").hide();
+                    $("#responsables_simcards_crear_paquete").hide();
+                    $("#planes_simcard_buscar_simcard").hide();
+                    $("#responsables_simcards").hide();
+                    $("#acciones_buscar_paquete").hide();    
+                }
+                if(data.plan != "SIN PLAN"){
+                    buscar_plan(data.plan, data.color);
+                }else{
+                    $("#buscar_plan").hide();
+                    $("#Plan_codigo").val("");
+                    $("#Plan_minutos").val("");
+                    $("#Plan_datos").val("");
+                    $("#Plan_valor").val("");
+                    $("#Plan_codigo").closest("div").attr('class', 'container');
+                    $("#Plan_minutos").closest("div").attr('class', 'container');
+                    $("#Plan_datos").closest("div").attr('class', 'container');
+                    $("#Plan_valor").closest("div").attr('class', 'container');
+                }
             }else{
+                //BORRAR DATOS DE SECCION SIMCARD
                 $("#Simcard_cliente").text("Cliente");
                 $("#Simcard_cliente").attr("href", "#");
-            }
-            // DATOS Y REDIRECCION A EQUIPO
-            if(data.equipo != null){
-                $("#Simcard_equipo").text(data.equipo.IMEI);
-                $("#Simcard_equipo").attr("href", "/equipo?equipo=" + data.equipo.IMEI);
-            }else{
                 $("#Simcard_equipo").text("Equipo");
                 $("#Simcard_equipo").attr("href", "#");
-            }
-            $("#buscar_simcard").find(".text_container").show();
-            $('#Simcard_ICC').text(data.ICC);
-            $('#Simcard_responsable').text(data.responsable_simcard);
-            $('#Simcard_numero_linea').val(data.numero_linea);
-            $('#Simcard_categoria').text(data.categoria);
-            $('#Simcard_paquete').text(data.paquete);
-            $('#Simcard_plan').text(data.plan);
-            if(data.fecha_asignacion == null){
-                $('#Simcard_fecha_asignacion').text("NO ASIGNADA");
-            }else{
-                $('#Simcard_fecha_asignacion').text(data.fecha_asignacion);
-            }
-            if(data.fecha_adjudicacion == null){
-                $('#Simcard_fecha_adjudicacion').val("SIN ADJUDICAR");
-            }else{
-                $('#Simcard_fecha_adjudicacion').val(data.fecha_adjudicacion);
-            }
-            if(data.fecha_activacion == null){
-                $('#Simcard_fecha_activacion').val("SIN ACTIVAR");
-            }else{
-                $('#Simcard_fecha_activacion').val(data.fecha_activacion);
-            }
-            $('#Simcard_fecha_vencimiento').val(data.fecha_vencimiento);
-            $("#buscar_simcard").find(".container").attr('class', 'container');
-            $("#buscar_simcard").find(".container").addClass(data.color);
-            if(data.paquete != "SIN PAQUETE"){
-                buscar_paquete(pista);
-            }else{
-                $("#buscar_paquete").hide();
-                $("#simcards_paquete").html("");
-                $("#numero_paquete").text("");
-                $("#titulo_paquete").hide();
-                $("#responsables_simcards_crear_paquete").hide();
-                $("#planes_simcard_buscar_simcard").hide();
-                $("#responsables_simcards").hide();
-                $("#acciones_buscar_paquete").hide();    
-            }
-            if(data.plan != "SIN PLAN"){
-                buscar_plan(data.plan, data.color);
-            }else{
-                $("#buscar_plan").hide();
+                $("#buscar_simcard").find(".text_container").hide();
+                $('#buscar_simcard .form :input').val("");
+                $("#Simcard_fecha_asignacion").text("Asignación");
+                $('#Simcard_ICC').text("ICC");
+                $('#Simcard_paquete').text("Paquete");
+                $('#Simcard_responsable').text("Responsable");
+                $('#Simcard_categoria').text("Categoría");
+                $('#Simcard_plan').text("Plan");
+                $("#buscar_simcard").find(".container").attr('class', 'container');
+                // BORRAR DATOS DE SECCION PLAN
+                $("#Plan_codigo_lbl").text("");
                 $("#Plan_codigo").val("");
                 $("#Plan_minutos").val("");
                 $("#Plan_datos").val("");
@@ -89,51 +122,26 @@ function buscar_simcard(ICC){
                 $("#Plan_minutos").closest("div").attr('class', 'container');
                 $("#Plan_datos").closest("div").attr('class', 'container');
                 $("#Plan_valor").closest("div").attr('class', 'container');
+                //BORRAR DATOS DE SECCION PAQUETE
+                $("#simcards_paquete").html("");
+                $("#numero_paquete").text("");
+                $("#titulo_paquete").hide();
+                $("#responsables_simcards_crear_paquete").hide();
+                $("#planes_simcard_buscar_simcard").hide();
+                $("#responsables_simcards").hide();
+                $("#acciones_buscar_paquete").hide();    
+                //MODAL INFORMANDO ERROR
+                limpiar_modal();
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text("Simcard no encontrada");
+                remodal.open();
+                //ESCONDER SECCIONES
+                $("#buscar_plan").hide();
+                $("#buscar_paquete").hide();
             }
-        }else{
-            //BORRAR DATOS DE SECCION SIMCARD
-            $("#Simcard_cliente").text("Cliente");
-            $("#Simcard_cliente").attr("href", "#");
-            $("#Simcard_equipo").text("Equipo");
-            $("#Simcard_equipo").attr("href", "#");
-            $("#buscar_simcard").find(".text_container").hide();
-            $('#buscar_simcard .form :input').val("");
-            $("#Simcard_fecha_asignacion").text("Asignación");
-            $('#Simcard_ICC').text("ICC");
-            $('#Simcard_paquete').text("Paquete");
-            $('#Simcard_responsable').text("Responsable");
-            $('#Simcard_categoria').text("Categoría");
-            $('#Simcard_plan').text("Plan");
-            $("#buscar_simcard").find(".container").attr('class', 'container');
-            // BORRAR DATOS DE SECCION PLAN
-            $("#Plan_codigo_lbl").text("");
-            $("#Plan_codigo").val("");
-            $("#Plan_minutos").val("");
-            $("#Plan_datos").val("");
-            $("#Plan_valor").val("");
-            $("#Plan_codigo").closest("div").attr('class', 'container');
-            $("#Plan_minutos").closest("div").attr('class', 'container');
-            $("#Plan_datos").closest("div").attr('class', 'container');
-            $("#Plan_valor").closest("div").attr('class', 'container');
-            //BORRAR DATOS DE SECCION PAQUETE
-            $("#simcards_paquete").html("");
-            $("#numero_paquete").text("");
-            $("#titulo_paquete").hide();
-            $("#responsables_simcards_crear_paquete").hide();
-            $("#planes_simcard_buscar_simcard").hide();
-            $("#responsables_simcards").hide();
-            $("#acciones_buscar_paquete").hide();    
-            //MODAL INFORMANDO ERROR
-            limpiar_modal();
-            modal.addClass("modal_error");
-            $("#titulo_modal").text("ERROR!!");
-            $("#contenido_modal").text("Simcard no encontrada");
-            remodal.open();
-            //ESCONDER SECCIONES
-            $("#buscar_plan").hide();
-            $("#buscar_paquete").hide();
-        }
-    });
+        });
+    }
 }
 
 function actualizar_simcard(){

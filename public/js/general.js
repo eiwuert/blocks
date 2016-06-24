@@ -17,8 +17,38 @@ function limpiar_modal(){
    $("#tipos_cliente").hide();
    $("#responsables_simcards").hide();
    $("#regiones").hide();
+   $("#jefes").hide();
    $("#ciudades").hide();
    $("#botones_modal").hide();   
    $("#titulo_modal").text("");
    $("#contenido_modal").text("");
+}
+
+function cambiar_region(region){
+    $("#region").text(region);
+    $("#ciudad").text($("#"+region+"_container").children().first().text());
+    $("#ciudades").find("div").hide();
+    $("#"+region+"_container").show();
+    remodal.close();
+}
+function seleccionar_region(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("SELECCIONAR REGIÓN");
+    $("#contenido_modal").text("");
+    $("#regiones").show();
+    remodal.open();
+}
+
+function cambiar_ciudad(ciudad){
+    $("#ciudad").text(ciudad);
+    remodal.close();
+}
+function seleccionar_ciudad(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("SELECCIONAR CIUDAD");
+    $("#contenido_modal").text("");
+    $("#ciudades").show();
+    remodal.open();
 }

@@ -81,6 +81,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
+                  <p id="user_cedula" style="display:none">{{$Actor->cedula}}</p>
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     {{$Actor->nombre}}
                     <span class=" fa fa-angle-down"></span>

@@ -45,4 +45,31 @@ class ActorController extends Controller
         return View('personal',$data);
     }
 
+    public function buscar_actor(Request $request){
+        $pista = $request["dato"];
+        $actor = Actor::where('cedula','like','%' . $pista . '%')->orWhere('nombre', 'like' , '%' . $pista . '%')->first();
+        if($actor != null){
+            if($actor->cedula != Auth::user()->actor->cedula){
+                // REVISAR AUTORIZACION
+                $usuario = Auth::user()->actor;
+                $jefe = $actor->jefe;
+                $autorizado = false;
+                while($jefe != null && $autorizado == false){
+                    if($jefe->cedula == $usuario->cedula){
+                        $autorizado = true;
+                    }
+                    $jefe = $jefe->jefe;
+                }
+                if($autorizado == false){
+                    return 'NO AUTORIZADO';
+                }
+            }
+            // HALLAR JEFE
+            if($actor->jefe != null){
+                $actor->jefe = $actor->jefe;
+            }
+            $actor->ubicacion = $actor->ubicacion;
+        }
+        return $actor;
+    }
 }

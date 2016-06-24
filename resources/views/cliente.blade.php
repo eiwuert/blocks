@@ -44,10 +44,10 @@
                   <div class="text_container"><span id="Cliente_identificacion_lbl"></span></div><input type="text" placeholder="ID" id ="Cliente_identificacion">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Región</span></div><button class="btn transparente" id ="Cliente_region" onClick="seleccionar_region()">Región</button>
+                  <div class="text_container"><span>Región</span></div><button class="btn transparente" id ="region" onClick="seleccionar_region()">Región</button>
               </div>
               <div class="container">
-                  <div class="text_container"><span>Ciudad</span></div><button class="btn transparente" id ="Cliente_ciudad" onClick="seleccionar_ciudad()">Ciudad</button>
+                  <div class="text_container"><span>Ciudad</span></div><button class="btn transparente" id ="ciudad" onClick="seleccionar_ciudad()">Ciudad</button>
               </div>
               <div class="container">
                   <div class="text_container"><span>Tipo</span></div><button class="btn transparente" id ="Cliente_tipo" onClick="seleccionar_tipo()">Tipo</button>

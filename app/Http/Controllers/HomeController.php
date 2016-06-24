@@ -59,7 +59,6 @@ class HomeController extends Controller
         
         // CONTAR LAS SIMCARDS POSTPAGO
         $data['Total_postpago'] = Simcard::where("categoria",'=','Postago')->count();
-        $data['Actor_nombre'] = $Actor_nombre;
         $data['Cantidad_notificaciones'] = 0;
         return View('home', $data);
     }

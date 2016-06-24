@@ -21,6 +21,11 @@ $factory->define(App\Actor::class, function ($faker) {
         'contratante' => $faker->randomElement($array = array ('Movicom','Cellphone')),
         'tipo_contrato' => $faker->randomElement($array = array ('Temporal','Indeterminado')),
         'sueldo' => $faker->randomFloat($nbMaxDecimals = 2, $min = 100000, $max = 1000000),
+        'porcentaje_equipo' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
+        'porcentaje_servicio' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
+        'porcentaje_prepago' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
+        'porcentaje_postpago' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
+        'porcentaje_libre' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
         'Ubicacion_ID' => 1
     ];
 });

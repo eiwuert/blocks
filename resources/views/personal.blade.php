@@ -5,7 +5,7 @@
 <link href="/css/green.css" rel="stylesheet">
 
 <!-- Custom_css -->
-<link href="/css/cliente.css" rel="stylesheet">
+<link href="/css/personal.css" rel="stylesheet">
 <!-- jVectorMap -->
 <link href="/css/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 @endsection
@@ -14,33 +14,9 @@
 <!-- Información general -->
 <p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada.</p>
 <!-- Información general -->
-<p id="cedula_rol" style="display:none">{{$Actor->cedula}}</p>
-<div class="row">  
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel tile">
-      <div class="x_title">
-        <h2>Selección de rol - Viendo como: <span id="nombre_rol">{{$Actor->nombre}}</span></h2>
-        <div class="clearfix"></div>
-      </div>
-      
-      <div class="x_content" id="buscar_empleados">  
-        <div class="formulario_busqueda">
-          <div>
-            <h4>Seleccione un usuario, revise/actualice su información y administre sus empleados.</h4>
-          </div>
-          <div class="flex_filas">
-            @foreach ($actores as $actor)
-            <button onClick="cambiar_rol(this.id)" style="margin-bottom:5px" class="btn azul" id ='{{$actor["cedula"]}}'>{{$actor["nombre"]}}</button>
-            @endforeach
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="row">
   <!-- Seccion administrar cliente -->
-  <div class="col-md-6 col-sm-6 col-xs-12">
+  <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel tile">
       <div class="x_title">
         <h2>Administración empleados</h2>
@@ -53,28 +29,32 @@
         <div class="clearfix"></div>
       </div>
       
-      <div class="x_content" id="buscar_empleados">  
+      <div class="x_content" id="buscar_empleado">  
         <div class="formulario_busqueda">
           <div>
             <h4>Busque un empleado, actualicelo/añadalo modificando los valores blancos en los bloques y oprimiendo "Actualizar"/"Crear" o eliminelo oprimiendo "Eliminar".</h4>
           </div>
           <div class="contenedor_pista">
-              <input type="text" placeholder="Cedula / Nombre" id="Cliente_pista">
+              <input type="text" placeholder="Cedula / Nombre" id="Actor_pista">
               <button class="btn azul" onClick = "buscar_empleado()" id="Actor_buscar">Buscar</button>
           </div>
           <div class="form">
               <p style="display:none" id="Actor_cedula_copia"></p>
               <div class="container">
-                  <div class="text_container"><span id="Actor_cedula_lbl"></span></div><input type="text" placeholder="ID" id ="Actor_cedula">
-              </div>
-              <div class="container">
-                  <div class="text_container"><span>Región</span></div><button class="btn transparente" id ="Cliente_region" onClick="seleccionar_region()">Región</button>
-              </div>
-              <div class="container">
-                  <div class="text_container"><span>Ciudad</span></div><button class="btn transparente" id ="Cliente_ciudad" onClick="seleccionar_ciudad()">Ciudad</button>
+                  <div class="text_container"><span>Cedula</span></div><input type="text" placeholder="Cedula" id ="Actor_cedula">
               </div>
               <div class="container">
                   <div class="text_container"><span>Nombre</span></div><input type="text" placeholder="Nombre" id ="Actor_nombre">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Región</span></div><button class="btn transparente" id ="region" onClick="seleccionar_region()">Región</button>
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Ciudad</span></div><button class="btn transparente" id ="ciudad" onClick="seleccionar_ciudad()">Ciudad</button>
+              </div>
+              <div class="container">
+                  <p id="Cliente_jefe_cedula" style="display:none"></p>
+                  <div class="text_container" id="Actor_jefe_container"><span>Jefe</span></div><button class="btn transparente" id ="Actor_jefe_nombre" onClick="seleccionar_jefe()">Jefe</button>
               </div>
               <div class="container">
                   <div class="text_container"><span>Teléfono</span></div><input type="text" placeholder="Teléfono" id ="Actor_telefono">
@@ -85,7 +65,23 @@
               <div class="container">
                   <div class="text_container"><span>Sueldo</span></div><input type="text" placeholder="Sueldo" id ="Actor_sueldo">
               </div>
-            </div> 
+              <h4>Porcentaje comisiones</h4>
+              <div class="container">
+                  <div class="text_container"><span>Prepago</span></div><input type="text" placeholder="Prepago" id ="Actor_porcentaje_prepago">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Libre</span></div><input type="text" placeholder="Libre" id ="Actor_porcentaje_libre">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Postpago</span></div><input type="text" placeholder="Postpago" id ="Actor_porcentaje_postpago">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Equipos</span></div><input type="text" placeholder="Equipos" id ="Actor_porcentaje_equipo">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Servicios</span></div><input type="text" placeholder="Servicios" id ="Actor_porcentaje_servicio">
+              </div>
+            </div>
           <div class="contenedor_acciones">
               <button class="btn verde" onClick="crear_cliente()">Crear</button>
               <button class="btn azul" onClick="actualizar_cliente()">Actualizar</button>
@@ -121,6 +117,12 @@
       <button class="btn transparente" id='{{$ciudad->ciudad}}' onClick='cambiar_ciudad(this.id)'>{{$ciudad->ciudad}}</button>
     @endforeach    
   </div>
+  @endforeach
+</div>
+
+<div id="jefes" style="display:none">
+  @foreach ($actores as $actor)
+  <button onClick="cambiar_jefe(this.id)" style="margin-bottom:5px" class="btn transparente" id ='{{$actor["cedula"]}}'>{{$actor["nombre"]}}</button>
   @endforeach
 </div>
 @endsection
