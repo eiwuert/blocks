@@ -12,5 +12,8 @@ class Ubicacion extends Model
     
     protected $fillable = ['ID', 'region', 'ciudad'];
     
-    
+    public function actor()
+    {
+        return $this->belongsTo('App\Actor', 'Ubicacion_ID','ID');
+    }
 }

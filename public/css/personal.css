@@ -8,10 +8,25 @@
     #buscar_empleado .form .container{
         width: 100%;
     }
+    .contenedor_pista>input{
+        width: 90% !important;
+    }
+    .contenedor_pista{
+        flex-wrap: wrap !important;
+    }
+    .contenedor_pista>button{
+        width: 45% !important;
+    }
 }
 @media screen and (min-width: 700px) {
     #buscar_empleado .form .container{
         width: 45%;
+    }
+    #Actor_buscar{
+        width: 30% !important;
+    }
+    #Actor_limpiar{
+        width: 10% !important;
     }
 }
 

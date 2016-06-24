@@ -72,4 +72,111 @@ class ActorController extends Controller
         }
         return $actor;
     }
+    
+    public function crear_actor(Request $request){
+        $datos_actor = $request["dato"];
+        $actor = Actor::find($datos_actor["Actor_cedula"]);
+        if($actor != null){
+            return "La cedula ya se encuentra registrada";
+        }
+        $actor = new Actor();
+        $actor->cedula = $datos_actor["Actor_cedula"];
+        $actor->nombre = $datos_actor["Actor_nombre"];
+        $actor->jefe_cedula = $datos_actor["Actor_jefe_cedula"];
+        $ubicacion = Ubicacion::where("region",$datos_actor["Actor_region"])->where("ciudad",$datos_actor["Actor_ciudad"])->first();
+        if($ubicacion != null){
+            $actor->Ubicacion_ID = $ubicacion->ID;
+        }else{
+            return "Problema asignando la ubicación";
+        }
+        $actor->telefono = $datos_actor["Actor_telefono"];
+        $actor->correo = $datos_actor["Actor_correo"];
+        $actor->sueldo = $datos_actor["Actor_sueldo"];
+        $actor->porcentaje_prepago = $datos_actor["Actor_porcentaje_prepago"];
+        $actor->porcentaje_libre = $datos_actor["Actor_porcentaje_libre"];
+        $actor->porcentaje_postpago = $datos_actor["Actor_porcentaje_postpago"];
+        $actor->porcentaje_equipo = $datos_actor["Actor_porcentaje_equipo"];
+        $actor->porcentaje_servicio = $datos_actor["Actor_porcentaje_servicio"];
+        if($actor->save()){
+            return "EXITOSO";
+        }else{
+            return "Error guardando el empleado";
+        }
+    }
+    
+    public function actualizar_actor(Request $request){
+        $datos_actor = $request["dato"];
+        if($datos_actor["Actor_cedula_copia"] != $datos_actor["Actor_cedula"]){
+            $actor_aux = Actor::find($datos_actor["Actor_cedula"]);
+            if($actor_aux != null){
+                return "La cedula ya se encuentra registrada";
+            }else{
+                $actor = new Actor();
+                $actor->cedula = $datos_actor["Actor_cedula"];
+            }    
+        }else{
+            $actor = Actor::find($datos_actor["Actor_cedula"]);
+        }
+        $actor->nombre = $datos_actor["Actor_nombre"];
+        $actor->jefe_cedula = $datos_actor["Actor_jefe_cedula"];
+        $ubicacion = Ubicacion::where("region",$datos_actor["Actor_region"])->where("ciudad",$datos_actor["Actor_ciudad"])->first();
+        if($ubicacion != null){
+            $actor->Ubicacion_ID = $ubicacion->ID;
+        }else{
+            return "Problema asignando la ubicación";
+        }
+        $actor->telefono = $datos_actor["Actor_telefono"];
+        $actor->correo = $datos_actor["Actor_correo"];
+        $actor->sueldo = $datos_actor["Actor_sueldo"];
+        $actor->porcentaje_prepago = $datos_actor["Actor_porcentaje_prepago"];
+        $actor->porcentaje_libre = $datos_actor["Actor_porcentaje_libre"];
+        $actor->porcentaje_postpago = $datos_actor["Actor_porcentaje_postpago"];
+        $actor->porcentaje_equipo = $datos_actor["Actor_porcentaje_equipo"];
+        $actor->porcentaje_servicio = $datos_actor["Actor_porcentaje_servicio"];
+        if($actor->save()){
+            if($datos_actor["Actor_cedula_copia"] != $datos_actor["Actor_cedula"]){
+                $actor_aux = Actor::find($datos_actor["Actor_cedula_copia"]);
+                $user = $actor_aux->user;
+                $user->Actor_cedula = $datos_actor["Actor_cedula"];
+                $user->save();
+                $empleados = Actor::where("jefe_cedula", $actor_aux->cedula)->get();
+                foreach ($empleados as $empleado) {
+                    $empleado->jefe_cedula = $datos_actor["Actor_cedula"];
+                    $empleado->save();
+                }
+                $paquetes = $actor_aux->paquetes;
+                foreach ($paquetes as $paquete) {
+                    $paquete->Actor_cedula = null;
+                    $paquete->save();
+                }
+                $actor_aux->delete();
+            }
+            return "EXITOSO";
+        }else{
+            return "Error guardando el empleado";
+        }
+    }
+    
+    public function eliminar_actor(Request $request){
+        $cedula = $request["dato"];
+        $actor = Actor::find($cedula);
+        if($actor != null){
+            $empleados = Actor::where("jefe_cedula", $cedula)->get();
+            foreach ($empleados as $empleado) {
+                $empleado->jefe_cedula = Auth::user()->actor->cedula;
+                $empleado->save();
+            }
+            $paquete = $actor->paquetes;
+            foreach ($paquetes as $paquete) {
+                $paquete->Actor_cedula = null;
+                $paquete->save();
+            }
+            $actor->delete();
+            return "EXITOSO";
+        }else{
+            return "No se encuentra registrada la cedula";
+        }
+    }
+    
+    
 }

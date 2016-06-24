@@ -67,4 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     // ACCIONES EMPLEADOS
     Route::get('/buscar_actor', 'ActorController@buscar_actor');
+    Route::get('/crear_actor', 'ActorController@crear_actor');
+    Route::get('/actualizar_actor', 'ActorController@actualizar_actor');
+    Route::get('/eliminar_actor', 'ActorController@eliminar_actor');
 });

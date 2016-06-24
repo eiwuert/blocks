@@ -31,7 +31,7 @@ class CreateActorTable extends Migration
             $table->foreign('Ubicacion_ID')->references('ID')->on('Ubicacion');
         });
         Schema::table('Actor', function (Blueprint $table) {
-            $table->foreign('jefe_cedula')->references('cedula')->on('Actor')->onDelete('cascade');
+            $table->foreign('jefe_cedula')->references('cedula')->on('Actor');
         });
     }
 

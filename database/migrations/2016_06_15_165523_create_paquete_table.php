@@ -16,7 +16,6 @@ class CreatePaqueteTable extends Migration
             $table->increments('ID');
             $table->string('Actor_cedula');
             $table->date('fecha_entrega')->nullable();
-            $table->timestamps();
             $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
         });
     }

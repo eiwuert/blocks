@@ -37,6 +37,7 @@
           <div class="contenedor_pista">
               <input type="text" placeholder="Cedula / Nombre" id="Actor_pista">
               <button class="btn azul" onClick = "buscar_empleado()" id="Actor_buscar">Buscar</button>
+              <button class="btn rojo" onClick = "limpiar_empleado()" id="Actor_limpiar">Limpiar</button>
           </div>
           <div class="form">
               <p style="display:none" id="Actor_cedula_copia"></p>
@@ -53,7 +54,7 @@
                   <div class="text_container"><span>Ciudad</span></div><button class="btn transparente" id ="ciudad" onClick="seleccionar_ciudad()">Ciudad</button>
               </div>
               <div class="container">
-                  <p id="Cliente_jefe_cedula" style="display:none"></p>
+                  <p id="Actor_jefe_cedula" style="display:none"></p>
                   <div class="text_container" id="Actor_jefe_container"><span>Jefe</span></div><button class="btn transparente" id ="Actor_jefe_nombre" onClick="seleccionar_jefe()">Jefe</button>
               </div>
               <div class="container">
@@ -83,9 +84,9 @@
               </div>
             </div>
           <div class="contenedor_acciones">
-              <button class="btn verde" onClick="crear_cliente()">Crear</button>
-              <button class="btn azul" onClick="actualizar_cliente()">Actualizar</button>
-              <button class="btn rojo" onClick="eliminar_cliente()">Eliminar</button>
+              <button class="btn verde" onClick="crear_empleado()">Crear</button>
+              <button class="btn azul" onClick="actualizar_empleado()">Actualizar</button>
+              <button class="btn rojo" id="btn_eliminar_empleado" onClick="eliminar_empleado()">Eliminar</button>
           </div>
         </div>
       </div>

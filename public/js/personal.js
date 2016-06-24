@@ -6,18 +6,10 @@ $( document ).ready(function() {
 
 function seleccionar_jefe(){
    limpiar_modal();
-   var empleado = $("#Actor_cedula_copia").text();
-   if( empleado == ""){
-      modal.addClass("modal_error");
-      $("#titulo_modal").text("ERROR");
-      $("#contenido_modal").text("Debe buscar un empleado primero");  
-   }else{
-      modal.addClass("modal_info");
-      $("#jefes").show();
-      $("#titulo_modal").text("SELECCIONAR JEFE");
-      $("#contenido_modal").text("");
-      $("#"+empleado).hide();
-   }
+   modal.addClass("modal_info");
+   $("#jefes").show();
+   $("#titulo_modal").text("SELECCIONAR JEFE");
+   $("#contenido_modal").text("");
    remodal.open();
 }
 
@@ -86,6 +78,8 @@ function buscar_empleado(cedula){
                   $("#Actor_porcentaje_servicio").prop('disabled', true);
                   $("#Actor_porcentaje_equipo").prop('disabled', true);
                   $("#Actor_jefe_nombre").prop('disabled', true);
+                  $("#btn_eliminar_empleado").prop('disabled', true);
+                  $("#Actor_cedula").prop('disabled', true);
                }else{
                   $("#Actor_porcentaje_prepago").prop('disabled', false);
                   $("#Actor_porcentaje_postpago").prop('disabled', false);
@@ -93,6 +87,8 @@ function buscar_empleado(cedula){
                   $("#Actor_porcentaje_servicio").prop('disabled', false);
                   $("#Actor_porcentaje_equipo").prop('disabled', false);
                   $("#Actor_jefe_nombre").prop('disabled', false);
+                  $("#btn_eliminar_empleado").prop('disabled', false);
+                  $("#Actor_cedula").prop('disabled', false);
                }
             }else{
                $('#buscar_empleado .form :input').val("");
@@ -110,3 +106,134 @@ function buscar_empleado(cedula){
       });
    }
 }
+
+function crear_empleado(){
+   if($("#Actor_jefe_cedula").text() == "" || $("#region").text() == "Región"){
+      limpiar_modal();
+      modal.addClass("modal_error");
+      $("#titulo_modal").text("ERROR!!");
+      $("#contenido_modal").text("Debe especificar un jefe y una ubicación");
+      remodal.open();
+   }else if($("#Actor_jefe_nombre").is(':disabled')){
+      limpiar_modal();
+      modal.addClass("modal_error");
+      $("#titulo_modal").text("ERROR!!");
+      $("#contenido_modal").text("No se puede seleccionar un jefe suyo");
+      remodal.open();
+   }else{
+      var inputs = $('#buscar_empleado .form :input');
+      var datos_empleado = {};
+      inputs.each(function() {
+         datos_empleado[this.id] = $(this).val();
+      });
+      datos_empleado["Actor_jefe_cedula"] = $("#Actor_jefe_cedula").text();
+      datos_empleado["Actor_region"] = $("#region").text();
+      datos_empleado["Actor_ciudad"] = $("#ciudad").text();
+      $.get('/crear_actor', {dato:datos_empleado}, function(data){
+            limpiar_modal();
+            if(data == 'EXITOSO'){
+               //MODAL INFORMANDO EXITO
+               modal.addClass("modal_exito");
+               $("#titulo_modal").text("EXITO!!");
+               $("#contenido_modal").text("Empleado creado satisfactoriamente");
+            }else{
+               //MODAL INFORMANDO ERROR
+               modal.addClass("modal_error");
+               $("#titulo_modal").text("ERROR!!");
+               $("#contenido_modal").text(data);
+            }
+            remodal.open();
+      });
+   }
+}
+
+function actualizar_empleado(){
+   var cedula = $("#Actor_cedula_copia").text();
+   if(cedula == ""){
+      //MODAL INFORMANDO ERROR
+      limpiar_modal();
+      modal.addClass("modal_error");
+      $("#titulo_modal").text("ERROR!!");
+      $("#contenido_modal").text("Debe buscar un empleado antes de actualizarlo");
+      remodal.open();
+   }else if($("#Actor_jefe_cedula").text() == "" || $("#region").text() == "Región"){
+      limpiar_modal();
+      modal.addClass("modal_error");
+      $("#titulo_modal").text("ERROR!!");
+      $("#contenido_modal").text("Debe especificar un jefe y una ubicación");
+      remodal.open();
+   }else{
+      var inputs = $('#buscar_empleado .form :input');
+      var datos_empleado = {};
+      inputs.each(function() {
+         datos_empleado[this.id] = $(this).val();
+      });
+      datos_empleado["Actor_cedula_copia"] =$("#Actor_cedula_copia").text(); 
+      datos_empleado["Actor_jefe_cedula"] = $("#Actor_jefe_cedula").text();
+      datos_empleado["Actor_region"] = $("#region").text();
+      datos_empleado["Actor_ciudad"] = $("#ciudad").text();
+      $.get('/actualizar_actor', {dato:datos_empleado}, function(data){
+            limpiar_modal();
+            if(data == 'EXITOSO'){
+               $("#Actor_cedula_copia").text($("#Actor_jefe_cedula").text());
+               //MODAL INFORMANDO EXITO
+               modal.addClass("modal_exito");
+               $("#titulo_modal").text("EXITO!!");
+               $("#contenido_modal").text("Empleado actualizado satisfactoriamente");
+            }else{
+               //MODAL INFORMANDO ERROR
+               modal.addClass("modal_error");
+               $("#titulo_modal").text("ERROR!!");
+               $("#contenido_modal").text(data);
+            }
+            remodal.open();
+      });
+   }
+}
+
+function eliminar_empleado(){
+   var cedula = $("#Actor_cedula_copia").text();
+   if(cedula == ""){
+      //MODAL INFORMANDO ERROR
+      modal.addClass("modal_error");
+      $("#titulo_modal").text("ERROR!!");
+      $("#contenido_modal").text("Debe buscar un empleado antes de eliminarlo");
+      remodal.open();
+   }else{
+      $.get('/eliminar_actor', {dato:cedula}, function(data){
+            limpiar_modal();
+            if(data == 'EXITOSO'){
+               //MODAL INFORMANDO EXITO
+               modal.addClass("modal_exito");
+               $("#titulo_modal").text("EXITO!!");
+               $("#contenido_modal").text("Empleado eliminado satisfactoriamente");
+               limpiar_empleado();
+            }else{
+               //MODAL INFORMANDO ERROR
+               modal.addClass("modal_error");
+               $("#titulo_modal").text("ERROR!!");
+               $("#contenido_modal").text(data);
+            }
+            remodal.open();
+      });
+   }
+}
+
+function limpiar_empleado(){
+   $("#Actor_pista").val("");
+   $('#buscar_empleado .form :input').val("");
+   $("#Actor_jefe_cedula").text("");
+   $("#Actor_jefe_nombre").text("Jefe");
+   $("#region").text("Región");
+   $("#ciudad").text("Ciudad");
+   $("#Actor_cedula_copia").text("");
+   $("#Actor_cedula").val("");
+   $("#buscar_empleado").find(".text_container").hide();
+   $("#Actor_porcentaje_prepago").prop('disabled', false);
+   $("#Actor_porcentaje_postpago").prop('disabled', false);
+   $("#Actor_porcentaje_libre").prop('disabled', false);
+   $("#Actor_porcentaje_servicio").prop('disabled', false);
+   $("#Actor_porcentaje_equipo").prop('disabled', false);
+   $("#Actor_jefe_nombre").prop('disabled', false);
+}
+

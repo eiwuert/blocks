@@ -14,7 +14,7 @@ class Actor extends Model
 
     public function paquetes()
     {
-        return $this->hasMany('App\Paquete');
+        return $this->hasMany('App\Paquete','Actor_cedula','cedula');
     }
     
     public function jefe()
@@ -23,5 +23,8 @@ class Actor extends Model
     }
     public function ubicacion(){
         return $this->hasOne('App\Ubicacion','ID','Ubicacion_ID');
+    }
+    public function user(){
+        return $this->hasOne('App\User','Actor_cedula','cedula');
     }
 }
