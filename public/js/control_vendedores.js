@@ -14,7 +14,7 @@ function buscar(){
         success: function(data){
             var html = "";
             for(var i = 0; i < data.length; i++){
-                html += '<button class ="btn verde" onClick="ver_mapa(this.value)" style="width:45%;margin-right:20px;font-size:13px" value="'+data[i].latitud+","+data[i].longitud+'">' + data[i].fecha + "</button>";
+                html += '<button class ="btn verde ubicacion" onClick="ver_mapa(this.value)" value="'+data[i].latitud+","+data[i].longitud+'">' + data[i].fecha + "</button>";
             }
             $('#listado_ubicaciones').html(html);
         }
@@ -23,5 +23,9 @@ function buscar(){
 
 function ver_mapa(value){
     var html = '<iframe frameborder="0" class ="mapa" style="border:0;margin:0 auto;" src="https://www.google.com/maps/embed/v1/place?q='+value+'&key=AIzaSyDaFmSLTqXnu89e_vBGK9gYF70YW-I1KAM" allowfullscreen></iframe>';
-    $('#ubicacion').html(html);
+    limpiar_modal();
+    $("#titulo_modal").text("EXITO!!");
+    $("#contenido_modal").html(html);
+    remodal.open();
+    //$('#ubicacion').html(html);
 }

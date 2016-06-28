@@ -11,3 +11,18 @@
     outline: none;
     background: #FFF;
 }
+
+@media screen and (max-width: 700px) {
+    .ubicacion{
+        width:45%;
+        margin-right:20px;
+        font-size:13px
+    }
+}
+@media screen and (min-width: 700px) {
+    .ubicacion{
+        width:20%;
+        margin-right:10px;
+        font-size:13px
+    }
+}
