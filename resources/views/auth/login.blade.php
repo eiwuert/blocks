@@ -28,6 +28,8 @@
     <!-- Modal library css -->
     <link rel="stylesheet" href="/css/remodal.css">
     <link rel="stylesheet" href="/css/remodal-default-theme.css">
+    <!-- Background Image Script -->
+    <script src="/js/backstretch.min.js"></script>
   </head>
   <body class="login">
     <div>
@@ -55,7 +57,7 @@
               @endif
               <div>
                 <button type="submit" class="btn btn-default submit" href="index.html">Ingresar</button>
-                <a class="reset_pass" href="#">¿Olvidó su contraseña?</a>
+                <a class="reset_pass" href="/password/email">¿Olvidó su contraseña?</a>
               </div>
             
               <div class="clearfix"></div>
@@ -115,5 +117,8 @@
         </div>
       </div>
     </div>
+    <script>
+      //$.backstretch("");
+    </script>
   </body>
 </html>

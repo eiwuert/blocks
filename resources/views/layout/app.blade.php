@@ -168,6 +168,8 @@
     <!-- Custom Theme Scripts -->
     <script src="/js/custom.min.js"></script>
     <script src="/js/general.js"></script>
+    <!-- Background Image Script -->
+    <script src="/js/backstretch.min.js"></script>
     <script type="text/javascript">
       $.confirm.options = {
           title: "",
