@@ -16,8 +16,9 @@ class ActorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $cedula_buscada = $request["cedula"];
         $data = array();
         $Actor = Auth::user()->actor;
         $data['Actor'] = Auth::user()->actor;
@@ -42,6 +43,7 @@ class ActorController extends Controller
             }
         }
         $data['actores'] = $actores;
+        $data["cedula"] = $cedula_buscada;        
         return View('personal',$data);
     }
 

@@ -1,4 +1,9 @@
 
+@media screen and (max-width: 700px) {
+    h1{
+        font-size: 2em !important;
+    }
+}
 
 .rojo{
     background-color: #ff656c !important;
@@ -17,7 +22,10 @@
     border: solid 2px white;
 }
 
-.remodal>div>button.transparente:hover{
+.remodal>div>button.transparente:hover,
+.remodal>div>form>button.transparente:hover,
+.remodal>div>form>input.transparente:hover,
+.remodal>div>form>label.transparente:hover{
     background-color:rgba(255,255,255,0.4);
 }
 
@@ -27,7 +35,9 @@
 button.rojo,button.azul,button.verde,button.transparente,
 a.rojo,a.azul,a.verde,
 button.rojo:hover,button.azul:hover,button.verde:hover,button.transparente:hover,
-a.rojo:hover,a.azul:hover,a.verde:hover
+a.rojo:hover,a.azul:hover,a.verde:hover,
+input.rojo,input.azul,input.transparente,
+input.rojo:hover,input.azul:hover,input.transparente:hover
 {
     color:white;
 }
@@ -66,6 +76,7 @@ a.verde:hover{
 .flex_filas{
     display:flex;
     justify-content:center;
+    align-items:center;
 }
 
 .contenedor_acciones{

@@ -20,6 +20,8 @@ function limpiar_modal(){
    $("#jefes").hide();
    $("#ciudades").hide();
    $("#botones_modal").hide();   
+   $("#cargar_simcard_modal").hide();
+   $("#cargar_plan_modal").hide();   
    $("#titulo_modal").text("");
    $("#contenido_modal").text("");
 }

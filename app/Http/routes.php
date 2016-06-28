@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     //PAGINAS PRINCIPALES
     
-    Route::get('/simcard', 'SimcardController@index');
+    Route::get('/simcard', ['as' => 'simcard', 'uses' => 'SimcardController@index']);
     Route::get('/cliente', 'ClienteController@index');
     Route::get('/equipo', 'EquipoController@index');
     Route::get('/personal', 'ActorController@index');
@@ -41,13 +41,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/empaquetar_simcard', 'SimcardController@empaquetar_simcard');
     Route::get('/crear_paquete', 'SimcardController@crear_paquete');
     Route::get('/eliminar_paquete', 'SimcardController@eliminar_paquete');
+    Route::post('/subir_archivo_simcards', ['as' => 'subirArchivoSimcards', 'uses' => 'SimcardController@subir_archivo']);
     
     // ACCIONES PLANES
     Route::get('/buscar_plan', 'PlanController@buscar_plan');
     Route::get('/crear_plan', 'PlanController@crear_plan');
     Route::get('/actualizar_plan', 'PlanController@actualizar_plan');
     Route::get('/eliminar_plan', 'PlanController@eliminar_plan');
-    
+    Route::post('/subir_archivo_planes', ['as' => 'subirArchivoPlanes', 'uses' => 'PlanController@subir_archivo']);
     // ACCIONES CLIENTES
     
     Route::get('/buscar_cliente', 'ClienteController@buscar_cliente');

@@ -43,3 +43,9 @@
 #Simcard_cliente:hover, #Simcard_equipo:hover{
     color:white;
 }
+
+#categoria{
+    background-color: transparent;
+    border: none;
+    margin-right: 10px;
+}

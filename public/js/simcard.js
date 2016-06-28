@@ -577,6 +577,23 @@ function eliminar_plan(){
     }
 }
 
+function modal_cargar_simcards(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("CARGAR ARCHIVO DE SIMCARDS");
+    $("#contenido_modal").text('Selecciona el archivo, el tipo de simcard y oprime "subir"');
+    $("#cargar_simcard_modal").show();  
+    remodal.open();
+}
+
+function modal_cargar_planes(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("CARGAR ARCHIVO DE PLANES");
+    $("#cargar_plan_modal").show();  
+    remodal.open();
+}
+
 $("#Paquete_pista").keyup(function (e) {
     if (e.keyCode == 13) {
         var numero_paquete = $("#numero_paquete").text();

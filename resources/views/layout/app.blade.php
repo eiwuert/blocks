@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -28,6 +28,11 @@
     <!-- Modal library css -->
     <link rel="stylesheet" href="/css/remodal.css">
     <link rel="stylesheet" href="/css/remodal-default-theme.css">
+    <!-- Input File css-->
+		<link rel="stylesheet" type="text/css" href="/css/component.css" />
+    <!-- remove this if you use Modernizr -->
+		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+
     @yield('Custom_css')
     
     
@@ -87,14 +92,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="/personal?cedula={{$Actor->cedula}}"> Perfil</a></li>
                     <li><a href="auth/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
@@ -109,10 +107,7 @@
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
                       <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
+                        
                       </div>
                     </li>
                   </ul>
@@ -168,6 +163,8 @@
     <!-- Modal library Script -->
     <script src="/js/remodal.js"></script>
     <script src="/js/jquery.confirm.min.js"></script>
+    <!-- Input File Script-->
+    <script src="js/custom-file-input.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="/js/custom.min.js"></script>
     <script src="/js/general.js"></script>

@@ -80,4 +80,17 @@ class PlanController extends Controller
            return "PlAN NO ENCONTRADO"; 
         }
     }
+    
+    public function subir_archivo(Request $request){
+        if ($request->hasFile('archivo_plan'))
+        {
+            try{
+            $request->file('archivo_plan')->move("files/planes");
+            }catch(\Exception $e){
+                return \Redirect::route('simcard')->with('error_archivo' ,$e);
+            }
+            return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
+        }
+        return \Redirect::route('simcard')->with('error_archivo' ,"");
+    }
 }

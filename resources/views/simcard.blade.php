@@ -22,10 +22,9 @@
       <div class="x_title">
         <h2>Administración simcards</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
+          <li><a onClick="modal_cargar_simcards()"><i class="fa fa-cloud-upload"></i></a></li>
+          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a></li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -37,7 +36,7 @@
           </div>
           <div class="contenedor_pista">
               <input type="number" placeholder="ICC / número linea" id="Simcard_pista">
-              <button style="width:20%" class="btn azul" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
+              <button style="width:20%;margin:0;padding:0;" class="btn azul" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
           </div>
           <div class="form">
               <div class="container">
@@ -108,9 +107,9 @@
           <div>
             <h4>Busque el contenido de un paquete, seleccione una simcard para ver su información, asigne todo el paquete a un responsable oprimiendo "Asignar", eliminelo oprimiendo "Eliminar" o cree un nuevo paquete oprimiendo "Crear".</h4>
           </div>
-          <div class="flex_filas">
+          <div>
             <input type="number" placeholder="ICC / número linea" id="Paquete_pista">
-            <button class="btn azul" onClick = "buscar_paquete()" type="number" id="Simcard_buscar">Buscar</button>
+            <button style="margin:0;padding:0;" class="btn azul" onClick = "buscar_paquete()" type="number" id="Simcard_buscar">Buscar</button>
           </div>
           <h2 id ="titulo_paquete" style="display:none">Paquete #<span id ="numero_paquete"></span></h2>
           <div id="simcards_paquete">
@@ -133,10 +132,9 @@
       <div class="x_title">
         <h2>Administración planes</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
+          <li><a onClick="modal_cargar_planes()"><i class="fa fa-cloud-upload"></i></a></li>
+          <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a></li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -148,7 +146,7 @@
           </div>
           <div>
               <input type="text" placeholder="Código" id ="codigo_plan">
-              <button class="btn azul" onClick = "buscar_plan()" type="number" id="Plan_buscar">Buscar</button>
+              <button style="margin:0;padding:0;"class="btn azul" onClick = "buscar_plan()" type="number" id="Plan_buscar">Buscar</button>
           </div>
           <div class="form">
             <p style="width:100%;text-align:center">Plan: <span id ="Plan_codigo_lbl"></span></p>
@@ -199,6 +197,39 @@
   @endforeach
     <button class="btn transparente" id='SIN PLAN' onClick="cambiar_plan_buscar_simcard(this.id)">SIN PLAN</button>
 </div>
+<div class="flex_filas" id="cargar_simcard_modal">
+  {!! Form::open(
+      array(
+          'route' => 'subirArchivoSimcards', 
+          'class' => 'flex_filas', 
+          'novalidate' => 'novalidate', 
+          'files' => true,
+          'style' => 'text-align:center')) !!}
+  	
+		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_simcard" id="file-2" class="inputfile inputfile-2"/>
+  	<label class="transparente" for="file-2"><span>Escoje un archivo&hellip;</span></label>
+  	<select id="categoria" name="categoria">
+      <option value="Prepago">Prepago</option>
+      <option value="Postpago">Postpago</option>
+      <option value="Libre">Libre</option>
+    </select>
+  	<input type="submit" class="btn transparente" value="Subir">
+	{!! Form::close() !!}     
+</div>
+
+<div class="flex_filas" id="cargar_plan_modal">
+  {!! Form::open(
+      array(
+          'route' => 'subirArchivoPlanes', 
+          'class' => 'flex_filas', 
+          'novalidate' => 'novalidate', 
+          'files' => true,
+          'style' => 'text-align:center')) !!}
+  	<input type="file" accept=".xlsx,.csv,.xls" name="archivo_plan" id="file-3" class="inputfile inputfile-2"/>
+  	<label class="transparente" for="file-3"><span>Escoje un archivo&hellip;</span></label>
+  	<input type="submit" class="btn transparente" value="Subir">
+	{!! Form::close() !!}     
+</div>
 @endsection
 
 @section('botones_modal')
@@ -216,4 +247,25 @@
   </script>
   @endif
   <!-- Si es peticion de una simcard desde una peticion GET -->
+  <!-- Si es peticion de subir archivo desde una petición POST -->
+  @if(Session::get('subiendo_archivo') == true)
+    <script>
+      limpiar_modal();
+      modal.addClass("modal_info");
+      $("#titulo_modal").text("CARGANDO ARCHIVO SIMCARDS");
+      $("#contenido_modal").text("Se le enviará un correo con el resultado");
+      remodal.open();
+    </script>
+  @endif
+  
+  @if(Session('error_archivo'))
+    <script>
+      limpiar_modal();
+      modal.addClass("modal_info");
+      $("#titulo_modal").text("ERROR CARGANDO ARCHIVO SIMCARDS");
+      $("#contenido_modal").text("{{Session('error_archivo')}}");
+      remodal.open();
+    </script>
+  @endif
+  <!-- Si es peticion de subir archivo desde una petición POST -->
 @endsection

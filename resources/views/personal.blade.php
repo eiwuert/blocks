@@ -3,7 +3,6 @@
 @section('Custom_css')
 <!-- iCheck -->
 <link href="/css/green.css" rel="stylesheet">
-
 <!-- Custom_css -->
 <link href="/css/personal.css" rel="stylesheet">
 <!-- jVectorMap -->
@@ -136,4 +135,10 @@
 
 @section('Custom_js')
   <script src="/js/personal.js"></script>
+  @if($cedula != null)
+  <script>
+    buscar_empleado({{$cedula}});
+  </script>
+  @endif
 @endsection
+

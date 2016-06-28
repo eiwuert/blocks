@@ -9,7 +9,9 @@ use App\Plan;
 use App\Paquete;
 use App\Asignacion_Plan;
 use DB;
+use Excel;
 use Log;
+use Input;
 use App\Simcard;
 use Auth;
 use App\Http\Requests;
@@ -24,8 +26,8 @@ class SimcardController extends Controller
      */
     public function index(Request $request)
     {
-        $simcard = $request["simcard"];
-        $data = array();
+        $simcard = $request["simcard"]; 
+        $data = array(); 
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
         $data['Cantidad_notificaciones'] = 0;
@@ -230,5 +232,55 @@ class SimcardController extends Controller
         $paquete = Paquete::find($numero_paquete);
         $paquete->delete();
         return "EXITOSO";
+    }
+    
+    public function subir_archivo(Request $request){
+        if ($request->hasFile('archivo_simcard'))
+        {
+            $request->file('archivo_simcard')->move("files/simcards");
+            /*
+            $files = scandir("files/simcards",1);
+            $files = array_diff($files, array('.', '..'));
+            $files->each(function($file) {
+                $rows = Excel::selectSheetsByIndex(0)->load("files/simcards/" . $file, function($reader) {})->get();
+                global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
+                $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
+                $rows->each(function($row) {
+                    global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
+                    try{
+                        $counter_filas++;
+                        $fecha_adjudicacion = $row->fecha_adjudicacion;
+                        if($fecha_adjudicacion != null){
+                            $fecha_adjudicacion = $fecha_adjudicacion->format('Y-m-d');
+                        }
+                        $fecha_activacion = $row->fecha_activacion;
+                        if($fecha_activacion != null){
+                            $fecha_activacion = $fecha_activacion->format('Y-m-d');
+                        }
+                        $fecha_asignacion = $row->fecha_asignacion;
+                        if($fecha_asignacion != null){
+                            $fecha_asignacion = $fecha_asignacion->format('Y-m-d');
+                        }
+                        $simcard = new Simcard(array("ICC" => $row->icc, "numero_linea" => $row->numero_linea,"categoria" => $request['categoria'] ,"fecha_adjudicacion" => $fecha_adjudicacion,"fecha_activacion" => $fecha_activacion,"fecha_asignacion" => $fecha_asignacion,"paquete_ID" => $row->paquete_id,"Cliente_identificacion" => $row->cliente_identificacion));
+                        $simcard->save();
+                        $filas_buenas++;
+                    }catch(\Exception $e){
+                        if($e->getCode() == 23000){
+                            $errores = $errores . $counter_filas . ":  ICC ya registrada\n"; 
+                        }else{
+                            $errores = $errores . $counter_filas . ": " . $e->getMessage() ."\n";    
+                        }
+                        $filas_malas++;
+                    }
+                });
+                unlink("files/simcards/" . $file);
+            });
+            $msg = $msg . "Cantidad de registros añadidos: " . $filas_buenas . "\n";
+            $msg = $msg . "Cantidad de registros con errores: " . $filas_malas . "\n";
+            $msg = $msg . "ERRORES: \n";
+            $msg = $msg . $errores;
+            */
+            return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
+        }
     }
 }
