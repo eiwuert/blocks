@@ -22,10 +22,9 @@
       <div class="x_title">
         <h2>Descripción General Equipo</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
+          <li><a onClick="modal_cargar_descripcion_equipos()"><i class="fa fa-cloud-upload"></i></a></li>
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -86,10 +85,9 @@
       <div class="x_title">
         <h2>Descripción Específica Equipo</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
+          <li><a onClick="modal_cargar_equipos()"><i class="fa fa-cloud-upload"></i></a></li>
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -160,6 +158,36 @@
 <!-- Modal -->
 @section('contenido_modal')
 <p id ="contenido_modal"></p>
+
+<div class="flex_filas" id="cargar_descripcion_equipo_modal">
+  {!! Form::open(
+      array(
+          'route' => 'subirArchivoDescripcionEquipo', 
+          'class' => 'flex_filas', 
+          'novalidate' => 'novalidate', 
+          'files' => true,
+          'style' => 'text-align:center')) !!}
+  	
+		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_descripcion" id="file-2" class="inputfile inputfile-2"/>
+  	<label class="transparente" for="file-2"><span>Escoje un archivo&hellip;</span></label>
+  	<input type="submit" class="btn transparente" value="Subir">
+	{!! Form::close() !!}     
+</div>
+
+<div class="flex_filas" id="cargar_equipo_modal">
+  {!! Form::open(
+      array(
+          'route' => 'subirArchivoEquipo', 
+          'class' => 'flex_filas', 
+          'novalidate' => 'novalidate', 
+          'files' => true,
+          'style' => 'text-align:center')) !!}
+  	
+		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_equipo" id="file-3" class="inputfile inputfile-2"/>
+  	<label class="transparente" for="file-3"><span>Escoje un archivo&hellip;</span></label>
+  	<input type="submit" class="btn transparente" value="Subir">
+	{!! Form::close() !!}     
+</div>
 @endsection
 
 @section('botones_modal')
@@ -177,4 +205,25 @@
   </script>
   @endif
   <!-- Si es peticion de un equipo desde una peticion GET -->
+  
+  @if(Session::get('subiendo_archivo') == true)
+    <script>
+      limpiar_modal();
+      modal.addClass("modal_info");
+      $("#titulo_modal").text("CARGANDO ARCHIVO EQUIPOS");
+      $("#contenido_modal").text("Se le enviará un correo con el resultado");
+      remodal.open();
+    </script>
+  @endif
+  
+  @if(Session('error_archivo'))
+    <script>
+      limpiar_modal();
+      modal.addClass("modal_info");
+      $("#titulo_modal").text("ERROR CARGANDO ARCHIVO EQUIPOS");
+      $("#contenido_modal").text("{{Session('error_archivo')}}");
+      remodal.open();
+      
+    </script>
+  @endif
 @endsection

@@ -150,4 +150,20 @@ class EquipoController extends Controller
             return "Equipo no encontrado";
         }
     }
+    
+    public function subir_archivo_descripcion(Request $request){
+        if ($request->hasFile('archivo_descripcion'))
+        {
+            $request->file('archivo_descripcion')->move("files/equipo/descripcion"); 
+            return \Redirect::route('equipo')->with('subiendo_archivo' ,true);
+        }
+    }
+    
+    public function subir_archivo_equipo(Request $request){
+        if ($request->hasFile('archivo_equipo'))
+        {
+            $request->file('archivo_equipo')->move("files/equipo/equipo"); 
+            return \Redirect::route('equipo')->with('subiendo_archivo' ,true);
+        }
+    }
 }

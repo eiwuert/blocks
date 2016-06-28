@@ -237,8 +237,6 @@ function asignar_responsable_paquete(id){
     var paquete = $("#numero_paquete").text();
     if(paquete == ""){
         limpiar_modal();
-        var modal = $('[data-remodal-id=modal]');
-        var remodal = modal.remodal();
         modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Debe buscar un paquete primero");
@@ -252,6 +250,7 @@ function asignar_responsable_paquete(id){
             if(resultado == "EXITOSO" ){
                 $("#buscar_paquete").find(".text_container").hide();
                 $('#buscar_paquete .form :input').val("");
+                $('#Simcard_pista').val("ICC");
                 $('#Simcard_ICC').text("ICC");
                 $('#Simcard_paquete').text("Paquete");
                 $('#Simcard_plan').text("Plan");
@@ -278,7 +277,6 @@ function asignar_responsable_paquete(id){
                 $("#titulo_modal").text("ERROR!!");
                 $("#contenido_modal").text("Ocurrió un error");
             }
-            $("#botones_modal").hide();
             remodal.open();
         }); 
     }
@@ -293,6 +291,8 @@ function buscar_paquete(paquete){
     $.get('/buscar_paquete', {dato:pista}, function(data){
         if(data != ''){
             $("#buscar_paquete").show();
+            $("#paquete_chevron").removeClass("fa-chevron-down");
+            $("#paquete_chevron").addClass("fa-chevron-up");
             var contenedor = $("#simcards_paquete");
             var simcards = "";
             data.forEach(function( simcard ) {
@@ -420,6 +420,8 @@ function buscar_plan(codigo_plan,color){
         $("#Plan_valor").closest("div").attr('class', 'container');
         if(data != ""){
             $("#buscar_plan").show();
+            $("#plan_chevron").removeClass("fa-chevron-down");
+            $("#plan_chevron").addClass("fa-chevron-up");
             $("#buscar_plan").find(".text_container").show();
             $("#Plan_codigo").val(codigo);
             $("#Plan_codigo_lbl").text(codigo);

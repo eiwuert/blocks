@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/simcard', ['as' => 'simcard', 'uses' => 'SimcardController@index']);
     Route::get('/cliente', 'ClienteController@index');
-    Route::get('/equipo', 'EquipoController@index');
+    Route::get('/equipo', ['as' => 'equipo', 'uses' => 'EquipoController@index']);
     Route::get('/personal', 'ActorController@index');
     
     // ACCIONES SIMCARDS
@@ -73,10 +73,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/actualizar_equipo_especifico', 'EquipoController@actualizar_equipo_especifico');
     Route::get('/eliminar_equipo_especifico', 'EquipoController@eliminar_equipo_especifico');
     Route::get('/eliminar_equipo_general', 'EquipoController@eliminar_equipo_general');
-    
+    Route::post('/subir_archivo_descripcion_equipos', ['as' => 'subirArchivoDescripcionEquipo', 'uses' => 'EquipoController@subir_archivo_descripcion']);
+    Route::post('/subir_archivo_equipos', ['as' => 'subirArchivoEquipo', 'uses' => 'EquipoController@subir_archivo_equipo']);
     // ACCIONES EMPLEADOS
     Route::get('/buscar_actor', 'ActorController@buscar_actor');
     Route::get('/crear_actor', 'ActorController@crear_actor');
     Route::get('/actualizar_actor', 'ActorController@actualizar_actor');
     Route::get('/eliminar_actor', 'ActorController@eliminar_actor');
+    
+    // ACCIONES SERVICIOS
+    
 });

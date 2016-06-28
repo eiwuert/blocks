@@ -297,3 +297,21 @@ function eliminar_descripcion_equipo(){
         });
     }
 }
+
+function modal_cargar_descripcion_equipos(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("CARGAR ARCHIVO DE DESCRIPCION EQUIPOS");
+    $("#contenido_modal").text('Selecciona el archivo y oprime "subir"');
+    $("#cargar_descripcion_equipo_modal").show();  
+    remodal.open();
+}
+
+function modal_cargar_equipos(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("CARGAR ARCHIVO DE EQUIPOS");
+    $("#contenido_modal").text('Selecciona el archivo y oprime "subir"');
+    $("#cargar_equipo_modal").show();  
+    remodal.open();
+}
