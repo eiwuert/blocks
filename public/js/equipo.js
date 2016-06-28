@@ -24,6 +24,8 @@ function buscar_equipo_general(cod_scl){
                 //BORRAR DATOS DE SECCION EQUIPO ESPECIFICO
                 $("#Equipo_especifico_pista").val("");
                 $("#buscar_equipo_especifico").hide();
+                $("#equipo_chevron").addClass("fa-chevron-down");
+                $("#equipo_chevron").removeClass("fa-chevron-up");
                 $('#buscar_equipo_especifico .form :input').val("");
                 $('#Equipo_IMEI_copia').text("");
                 $('#Equipo_simcard').text("Simcard");
@@ -51,11 +53,15 @@ function buscar_equipo_general(cod_scl){
                 //LISTAR EQUIPOS ESPECIFICOS
                 if(data.equipos != ""){
                     $("#listado_equipos_container").show();
+                    $("#equipos_chevron").addClass("fa-chevron-up");
+                    $("#equipos_chevron").removeClass("fa-chevron-down");
                     $.each(data.equipos, function( index, equipo ) {
                         $("#listado_equipos").append('<button class="btn" id="' + equipo.IMEI + '" onClick="buscar_equipo_especifico(this.id)">' + equipo.IMEI + '</button>');       
                     });
                 }else{
                     $("#listado_equipos_container").hide();
+                    $("#equipos_chevron").addClass("fa-chevron-down");
+                    $("#equipos_chevron").removeClass("fa-chevron-up");
                 }
             }else{
                 $('#buscar_equipo_general .form :input').val("");
@@ -89,7 +95,11 @@ function buscar_equipo_especifico(IMEI){
             limpiar_modal();
             if(data != ''){
                 $("#buscar_equipo_especifico").show();
+                $("#equipo_chevron").addClass("fa-chevron-up");
+                $("#equipo_chevron").removeClass("fa-chevron-down");
                 $("#buscar_equipo_general").show();
+                $("#equipos_chevron").addClass("fa-chevron-up");
+                $("#equipos_chevron").removeClass("fa-chevron-down");
                 $("#buscar_equipo_especifico").find(".text_container").show();
                 $('#Equipo_IMEI_copia').text(data.IMEI);
                 $('#Equipo_IMEI').val(data.IMEI);
@@ -107,7 +117,7 @@ function buscar_equipo_especifico(IMEI){
                     $('#Equipo_cliente').attr("href","/cliente?cliente=" + data.cliente.identificacion);
                 }else{
                     $('#Equipo_cliente').text("Cliente");
-                    $('#Equipo_simcard').attr("href","#");
+                    $('#Equipo_cliente').attr("href","#");
                 }
                 $('#Equipo_modelo').val(data.modelo);
                 $('#Equipo_fecha_venta').val(data.fecha_venta);
@@ -116,7 +126,6 @@ function buscar_equipo_especifico(IMEI){
             }else{
                 $("#Equipo_general_pista").val("");
                 //BORRAR DATOS DE SECCION EQUIPO ESPECIFICO
-                $("#buscar_equipo_general").hide();
                 $('#buscar_equipo_especifico .form :input').val("");
                 $('#Equipo_IMEI_copia').text("");
                 $('#Equipo_simcard').text("Simcard");
@@ -127,6 +136,8 @@ function buscar_equipo_especifico(IMEI){
                 $('#buscar_equipo_general .form :input').val("");
                 $("#buscar_equipo_general").find(".text_container").hide();
                 $('#Equipo_gama').text("Gama");
+                //LIMPIAR LISTADO DE EQUIPOS
+                $("#listado_equipos").html("");
                 //MODAL INFORMANDO ERROR
                 modal.addClass("modal_error");
                 $("#titulo_modal").text("ERROR!!");

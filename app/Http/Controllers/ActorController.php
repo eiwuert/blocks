@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Actor;
+use App\Ubicacion_Empleado;
 use Auth;
 use App\Ubicacion;
 class ActorController extends Controller
@@ -47,6 +48,28 @@ class ActorController extends Controller
         return View('personal',$data);
     }
 
+    public function control_vendedores(Request $request){
+        $data = array();
+        $Actor = Auth::user()->actor;
+        $data['Actor'] = Auth::user()->actor;
+        $data['Cantidad_notificaciones'] = 0;
+        // OBTENER LOS POSIBLES EMPLEADOS
+        $actores_sin_revisar = [$Actor];
+        $actores = array();
+        while(count($actores_sin_revisar) > 0){
+            $actor = array_pop($actores_sin_revisar);
+            if(!empty($actor)){
+                $cedula = $actor["cedula"];
+                array_push($actores,$actor);
+                $empleados = Actor::where("jefe_cedula", '=', $cedula)->get()->toArray();
+                foreach ($empleados as $empleado) {
+                    array_push($actores_sin_revisar, $empleado);
+                }
+            }
+        }
+        $data['actores'] = $actores; 
+        return View('control_vendedores',$data);    
+    }
     public function buscar_actor(Request $request){
         $pista = $request["dato"];
         $actor = Actor::where('cedula','like','%' . $pista . '%')->orWhere('nombre', 'like' , '%' . $pista . '%')->first();
@@ -181,4 +204,13 @@ class ActorController extends Controller
     }
     
     
+    public function buscar_ubicaciones(Request $request){
+        $nombre = $request["nombre"];
+        $actor = Actor::where("nombre",$nombre)->first();
+        if($actor != null){
+            $cedula = $actor->cedula;
+            $ubicaciones = Ubicacion_Empleado::where("Actor_cedula",$cedula)->get();
+        }
+        return $ubicaciones;
+    }
 }

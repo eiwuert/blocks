@@ -86,7 +86,7 @@
         <h2>Descripción Específica Equipo</h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a onClick="modal_cargar_equipos()"><i class="fa fa-cloud-upload"></i></a></li>
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          <li><a class="collapse-link"><i id="equipo_chevron" class="fa fa-chevron-up"></i></a></li>
           <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
         <div class="clearfix"></div>
@@ -133,7 +133,7 @@
       <div class="x_title">
         <h2>Equipos del mismo modelo</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          <li><a class="collapse-link"><i id="equipos_chevron" class="fa fa-chevron-up"></i></a>
           </li>
           <li><a class="close-link"><i class="fa fa-close"></i></a>
           </li>

@@ -76,6 +76,8 @@ function buscar_simcard(ICC){
                     buscar_paquete(pista);
                 }else{
                     $("#buscar_paquete").hide();
+                    $("#paquete_chevron").addClass("fa-chevron-down");
+                    $("#paquete_chevron").removeClass("fa-chevron-up");
                     $("#simcards_paquete").html("");
                     $("#numero_paquete").text("");
                     $("#titulo_paquete").hide();
@@ -88,6 +90,8 @@ function buscar_simcard(ICC){
                     buscar_plan(data.plan, data.color);
                 }else{
                     $("#buscar_plan").hide();
+                    $("#plan_chevron").addClass("fa-chevron-down");
+                    $("#plan_chevron").removeClass("fa-chevron-up");
                     $("#Plan_codigo").val("");
                     $("#Plan_minutos").val("");
                     $("#Plan_datos").val("");
@@ -138,7 +142,11 @@ function buscar_simcard(ICC){
                 remodal.open();
                 //ESCONDER SECCIONES
                 $("#buscar_plan").hide();
+                $("#plan_chevron").addClass("fa-chevron-down");
+                $("#plan_chevron").removeClass("fa-chevron-up");
                 $("#buscar_paquete").hide();
+                $("#paquete_chevron").addClass("fa-chevron-down");
+                $("#paquete_chevron").removeClass("fa-chevron-up");
             }
         });
     }
@@ -307,6 +315,8 @@ function buscar_paquete(paquete){
             }
         }else{
             $("#buscar_paquete").hide();
+            $("#paquete_chevron").addClass("fa-chevron-down");
+            $("#paquete_chevron").removeClass("fa-chevron-up");
             limpiar_modal();
             modal.addClass("modal_error");
             $("#botones_modal").show();
@@ -437,6 +447,8 @@ function buscar_plan(codigo_plan,color){
         }else{
             $("#buscar_plan").find(".text_container").hide();
             $("#buscar_plan").hide();
+            $("#plan_chevron").addClass("fa-chevron-down");
+            $("#plan_chevron").removeClass("fa-chevron-up");
             $("#Plan_codigo_lbl").text("");
             $("#Plan_codigo").val("");
             $("#Plan_minutos").val("");

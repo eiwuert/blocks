@@ -11,6 +11,7 @@
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-select.css" rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href="/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -67,6 +68,7 @@
                     <ul class="nav child_menu">
                       <li id="link_clientes"><a href="/cliente">Clientes</a></li>
                       <li id="link_personal"><a href="/personal">Personal</a></li>
+                      <li id="link_control_vendedores"><a href="/control_vendedores">Control Vendedores</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-money"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
@@ -156,6 +158,7 @@
 
     <!-- Bootstrap -->
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-select.js"></script>
     <!-- FastClick -->
     <script src="/js/fastclick.js"></script>
     <!-- NProgress -->
