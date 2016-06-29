@@ -59,6 +59,10 @@ function buscar_cartera_empleado(nombre){
             }else{
                 $("#boton_crear_registro").prop("disabled",false);
             }
+            
+            $('html, body').animate({
+                scrollTop: $("#saldo_container").offset().top
+            }, 2000);
         }
     });
 }

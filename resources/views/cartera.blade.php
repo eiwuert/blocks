@@ -42,19 +42,21 @@
               </select>
               <button style="width:20%" class="btn azul" onClick = "buscar_cartera_empleado()" type="number" id="Empleado_buscar">Buscar</button>
           </div>
-          <table id="datatable-responsive" class="table table-bordered" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Descripción</th>
-                <th class="no_visibile_mobile">Cantidad</th>
-                <th class="no_visibile_mobile">Valor Unitario</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody id="cuerpo_cartera">
-            </tbody>
-          </table>
+          <div style="width:100%; max-height:500px; overflow:auto;">
+            <table id="datatable-responsive" class="table table-bordered" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
+                  <th class="no_visibile_mobile">Cantidad</th>
+                  <th class="no_visibile_mobile">Valor Unitario</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="cuerpo_cartera">
+              </tbody>
+            </table>
+          </div>
           <h3 id="saldo_container" style="display:none">SALDO A LA FECHA: <span id="saldo"></span></h3>
           <div class="contenedor_acciones">
             <button id="boton_crear_registro" class="btn verde" onClick="crear_registro()">Agregar</button>
