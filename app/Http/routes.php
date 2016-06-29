@@ -29,6 +29,9 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
+// Control vendedores
+Route::get('/control', 'ActorController@control_vendedores_front');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index');
     
@@ -38,7 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cliente', 'ClienteController@index');
     Route::get('/equipo', ['as' => 'equipo', 'uses' => 'EquipoController@index']);
     Route::get('/personal', 'ActorController@index');
-    Route::get('/control_vendedores', 'ActorController@control_vendedores');
+    Route::get('/control_vendedores', 'ActorController@control_vendedores');    
+    Route::get('/cartera', 'CarteraController@index');
     
     // ACCIONES SIMCARDS
     
@@ -83,6 +87,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/actualizar_actor', 'ActorController@actualizar_actor');
     Route::get('/eliminar_actor', 'ActorController@eliminar_actor');
     Route::get('/buscar_ubicaciones', 'ActorController@buscar_ubicaciones');
+    Route::get('/guardar_ubicacion', 'ActorController@guardar_ubicacion');
+    
     // ACCIONES SERVICIOS
     
+    // ACCIONES CARTERA
+    Route::get('/buscar_cartera', 'CarteraController@buscar_cartera');
+    Route::get('/obtener_registro_cartera', 'CarteraController@obtener_registro');
+    Route::get('/crear_registro', 'CarteraController@crear_registro');
+    Route::get('/eliminar_registro', 'CarteraController@eliminar_registro');
+    Route::get('/actualizar_registro', 'CarteraController@actualizar_registro');
 });

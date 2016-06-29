@@ -9,12 +9,18 @@
     background-color: #DB5466 !important;
 }
 
+.rojo_claro{
+    background-color: rgba(219, 84, 102,.6) !important;
+}
 .azul{
     background-color: #85C1F5 !important;
 }
 
 .verde{
     background-color: #7FCA9F !important;
+}
+.verde_claro{
+    background-color: rgba(127, 202, 159,.6) !important;
 }
 
 .transparente{
@@ -37,14 +43,16 @@ a.rojo,a.azul,a.verde,
 button.rojo:hover,button.azul:hover,button.verde:hover,button.transparente:hover,
 a.rojo:hover,a.azul:hover,a.verde:hover,
 input.rojo,input.azul,input.transparente,
-input.rojo:hover,input.azul:hover,input.transparente:hover
+input.rojo:hover,input.azul:hover,input.transparente:hover,
+tr.rojo_claro:hover>td,tr.verde_claro:hover>td
 {
     color:white;
 }
 
 button.rojo:hover,
 a.rojo:hover,
-div.rojo:hover{
+div.rojo:hover,
+tr.rojo_claro:hover{
     background-color: #7f3236 !important;
 }
 button.azul:hover,
@@ -54,7 +62,8 @@ div.azul:hover{
 }
 button.verde:hover,
 a.verde:hover,
-div.verde:hover{
+div.verde:hover,
+tr.verde_claro:hover{
     background-color: #3f654f !important;
 }
 .modal_info{

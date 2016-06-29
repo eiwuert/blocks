@@ -74,7 +74,7 @@
                   <li><a><i class="fa fa-money"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li id="link_clientes"><a href="/cliente">Comisiones</a></li>
-                      <li id="link_personal"><a href="/personal">Cartera</a></li>
+                      <li id="link_cartera"><a href="/cartera">Cartera</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -94,6 +94,7 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
+                  <p id="user_nombre" style="display:none">{{$Actor->nombre}}</p>
                   <p id="user_cedula" style="display:none">{{$Actor->cedula}}</p>
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     {{$Actor->nombre}}

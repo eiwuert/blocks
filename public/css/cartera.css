@@ -1,0 +1,73 @@
+
+.data {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    font-family: regular;
+    padding: 0 20px 0 50px;
+    outline: none;
+    background: #FFF;
+}
+
+#container_control{
+    display:flex;
+    align-items:center;
+    height:100%;
+    width:100%;
+    text-align:center;
+    padding-left:10px;
+    padding-right:10px;    
+}
+
+#cedula{
+    max-width: 500px;    
+}
+.x_content>.formulario_busqueda span{
+    height: auto !important;
+}
+.contenedor_pista{
+    margin-bottom: 10px;
+}
+#cartera_empleado{
+    min-height: 500px;
+}
+
+#Empleado_buscar{
+    margin: 0 5px;
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    text-align: center;
+    color:black;
+}
+tr{
+    cursor:pointer;
+}
+@media screen and (max-width: 700px) {
+    .no_visibile_mobile{
+        display: none;
+    }
+    #Empleado_buscar{
+        padding: 0;
+    }
+}
+
+.x_content>div.formulario_busqueda>.form>div.container{
+    border: 2px solid white;
+    background-color: transparent !important;
+}
+
+.contenedor_acciones{
+    border:none;
+}
+
+#saldo_container{
+    text-align: center !important;
+}

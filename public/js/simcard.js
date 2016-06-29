@@ -194,7 +194,7 @@ function eliminar_simcard(){
         remodal.open();
     }else{
         $.confirm({
-            text: "¿Está seguro que quiere eliminar la simcard?",
+            text: "¿Estás seguro que quieres eliminar la simcard?",
             confirm: function() {
                 $.get('/eliminar_simcard', {dato:ICC}, function(resultado){
                     limpiar_modal();

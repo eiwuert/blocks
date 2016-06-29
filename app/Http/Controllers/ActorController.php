@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Actor;
 use App\Ubicacion_Empleado;
 use Auth;
+use DateTime;
 use App\Ubicacion;
 class ActorController extends Controller
 {
@@ -70,6 +71,11 @@ class ActorController extends Controller
         $data['actores'] = $actores; 
         return View('control_vendedores',$data);    
     }
+    
+    public function control_vendedores_front(Request $request){
+        return View('control_vendedores_front');    
+    }
+    
     public function buscar_actor(Request $request){
         $pista = $request["dato"];
         $actor = Actor::where('cedula','like','%' . $pista . '%')->orWhere('nombre', 'like' , '%' . $pista . '%')->first();
@@ -212,5 +218,18 @@ class ActorController extends Controller
             $ubicaciones = Ubicacion_Empleado::where("Actor_cedula",$cedula)->get();
         }
         return $ubicaciones;
+    }
+    
+    public function guardar_ubicacion(Request $request){
+        $hoy = new DateTime();
+        $ubicacion = new Ubicacion_Empleado();
+        $ubicacion->cedula = $request["cedula"];
+        $ubicacion->latitud = $request["latitud"];
+        $ubicacion->longitud = $request["longitud"];
+        if($ubicacion->save()){
+            return "EXITOSO";
+        }else{
+            return "ERROR";
+        }
     }
 }
