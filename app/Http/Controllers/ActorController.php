@@ -149,7 +149,8 @@ class ActorController extends Controller
             $actor = Actor::find($datos_actor["Actor_cedula"]);
         }
         $actor->nombre = $datos_actor["Actor_nombre"];
-        $actor->jefe_cedula = $datos_actor["Actor_jefe_cedula"];
+        if($datos_actor["Actor_jefe_cedula"]!= null)
+            $actor->jefe_cedula = $datos_actor["Actor_jefe_cedula"];
         $ubicacion = Ubicacion::where("region",$datos_actor["Actor_region"])->where("ciudad",$datos_actor["Actor_ciudad"])->first();
         if($ubicacion != null){
             $actor->Ubicacion_ID = $ubicacion->ID;

@@ -1,4 +1,18 @@
 
-#estado_financiero:hover{
-    
+
+
+@media screen and (max-width: 700px) {
+    #grafico_comisiones{
+        min-height: 300px;
+    }
+}
+@media screen and (min-width: 700px) {
+    #grafico_comisiones{
+        min-height:490px;
+    }
+}
+@media screen and (min-width: 1000px) {
+    #estado_financiero_container{
+         padding-right:0;
+    }
 }

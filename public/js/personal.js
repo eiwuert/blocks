@@ -171,7 +171,11 @@ function actualizar_empleado(){
          datos_empleado[this.id] = $(this).val();
       });
       datos_empleado["Actor_cedula_copia"] =$("#Actor_cedula_copia").text(); 
-      datos_empleado["Actor_jefe_cedula"] = $("#Actor_jefe_cedula").text();
+      if($("#Actor_jefe_cedula").text() != "GERENTE"){
+         datos_empleado["Actor_jefe_cedula"] = $("#Actor_jefe_cedula").text();
+      }else{
+         datos_empleado["Actor_jefe_cedula"] = null;
+      }
       datos_empleado["Actor_region"] = $("#region").text();
       datos_empleado["Actor_ciudad"] = $("#ciudad").text();
       $.get('/actualizar_actor', {dato:datos_empleado}, function(data){

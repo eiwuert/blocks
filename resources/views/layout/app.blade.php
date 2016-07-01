@@ -58,7 +58,7 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
+                <h3>Bienvenido</h3>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-cube"></i> Inventarios <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -74,7 +74,7 @@
                       <li id="link_control_vendedores"><a href="/control_vendedores">Control Vendedores</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-money"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li id="link_clientes"><a href="/cliente">Comisiones</a></li>
                       <li id="link_cartera"><a href="/cartera">Cartera</a></li>

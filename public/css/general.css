@@ -27,7 +27,17 @@
     background-color: transparent;
     border: solid 2px white;
 }
+.prepago{
+    color: #897FBA;
+}
 
+.libre{
+    color: #ED5784;
+}
+
+.postpago{
+    color: grey;
+}
 .remodal>div>button.transparente:hover,
 .remodal>div>form>button.transparente:hover,
 .remodal>div>form>input.transparente:hover,

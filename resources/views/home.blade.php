@@ -11,11 +11,9 @@
 @endsection
 
 @section('Content')
-<!-- Información general -->
-<p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada.</p>
 <!-- top tiles -->
 <div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
+  <div id="estado_financiero_container" class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel tile">
       <div class="x_title">
           <h2>Estado financiero</h2>
@@ -25,7 +23,7 @@
           </ul>
           <div class="clearfix"></div>
         </div>
-      <div class="x_content" id="buscar_simcard">
+      <div class="x_content">
         @if($estado_financiero >= 0)
           <h2 class="green" style="margin:0">Tienes un saldo a favor de <a href="/cartera?nombre={{$Actor->nombre}}" class="green">${{number_format($estado_financiero)}}</a></h2>
         @else
@@ -47,7 +45,7 @@
           <div class="clearfix"></div>
         </div>
       <div class="x_content" id="buscar_simcard">
-        <div style="min-height:490px;" id="grafico_comisiones"></div>
+        <div id="grafico_comisiones"></div>
       </div> 
     </div> 
   </div> 
@@ -94,7 +92,9 @@
 <script>
   @if($comisiones != null)
     var data = <?php echo json_encode($comisiones); ?>;
-    console.log(data);
+    if(screen.width < 700){
+      data.splice(0,2);
+    }
     Morris.Bar({
       element: 'grafico_comisiones',
       data: data,
@@ -104,28 +104,36 @@
       hideHover:"auto",
       resize:true,
       ymax: {{$max_comision}},
+      barColors: ["#897FBA", "#ED5784", "#d3d3d3"],
+      hoverCallback: function (index, options, content, row) {
+        
+        return '<div><p style="margin-bottom:3px"><strong>'+ row.y +'</strong></p><p style="margin:0;" class="prepago">Prepago: <span>'+accounting.formatMoney(row.prepago,"$",0)+'</span></p><p  style="margin:0" class="libre">Libre: <span>'+accounting.formatMoney(row.libre,"$",0)+'</span></p><p  style="margin:0" class="postpago">Postpago: <span>'+accounting.formatMoney(row.postpago,"$",0)+'</span></p></div>';
+      }
     });
   @endif
-  Morris.Donut({
-    element: 'grafico_estado_prepago',
-    data: [
-      {label: "Vencidas", value: {{$Total_prepago_vencidas}}},
-      {label: "Activas", value: {{$Total_prepago_activas}}},
-      {label: "Disponibles", value: {{$Total_prepago}}}
-    ],
-    colors: ["#DB5466","#7FCA9F", "#85C1F5"],
-    resize:true
-  });
-  Morris.Donut({
-    element: 'grafico_estado_libre',
-    data: [
-      {label: "Vencidas", value: {{$Total_libres_vencidas}}},
-      {label: "Activas", value: {{$Total_libres_activas}}},
-      {label: "Disponibles", value: {{$Total_libres}}}
-    ],
-    colors: ["#DB5466","#7FCA9F", "#85C1F5"],
-    resize:true
-  });
-
+  var paquetes = <?php echo json_encode($Actor->paquetes); ?>;;
+    
+  if(paquetes.length != 0){
+    Morris.Donut({
+      element: 'grafico_estado_prepago',
+      data: [
+        {label: "Vencidas", value: {{$Total_prepago_vencidas}}},
+        {label: "Activas", value: {{$Total_prepago_activas}}},
+        {label: "Disponibles", value: {{$Total_prepago}}}
+      ],
+      colors: ["#DB5466","#7FCA9F", "#85C1F5"],
+      resize:true
+    });
+    Morris.Donut({
+      element: 'grafico_estado_libre',
+      data: [
+        {label: "Vencidas", value: {{$Total_libres_vencidas}}},
+        {label: "Activas", value: {{$Total_libres_activas}}},
+        {label: "Disponibles", value: {{$Total_libres}}}
+      ],
+      colors: ["#DB5466","#7FCA9F", "#85C1F5"],
+      resize:true
+    });
+  }
 </script>
 @endsection

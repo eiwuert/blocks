@@ -54,3 +54,12 @@ $factory->define(App\Paquete::class, function ($faker) {
         'fecha_entrega' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
     ];
 });
+
+$factory->define(App\Registro_Cartera::class, function ($faker) {
+    return [
+        'fecha' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
+        'valor_unitario' => $faker->numberBetween($min = -100000, $max = 100000),
+        'cantidad' => $faker->randomNumber($nbDigits = 2),
+        'descripcion' => $faker->realText($maxNbChars = 10, $indexSize = 2)
+    ];
+});
