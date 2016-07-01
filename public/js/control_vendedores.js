@@ -22,8 +22,9 @@ function buscar(){
 }
 
 function ver_mapa(value){
-    var html = '<iframe frameborder="0" class ="mapa" style="border:0;margin:0 auto;" src="https://www.google.com/maps/embed/v1/place?q='+value+'&key=AIzaSyDaFmSLTqXnu89e_vBGK9gYF70YW-I1KAM" allowfullscreen></iframe>';
+    var html = '<iframe frameborder="0" class ="mapa" style="width;500px;heigth:500px;border:0;margin:0 auto;" src="https://www.google.com/maps/embed/v1/place?q='+value+'&key=AIzaSyDaFmSLTqXnu89e_vBGK9gYF70YW-I1KAM" allowfullscreen></iframe>';
     limpiar_modal();
+    modal.addClass("modal_info");
     $("#titulo_modal").text("EXITO!!");
     $("#contenido_modal").html(html);
     remodal.open();

@@ -6,7 +6,7 @@ function showPosition(position) {
         data:{latitud:position.coords.latitude,longitud:position.coords.longitude,cedula:cedula},
         type:'get',
         success: function(data){
-            if(data == 1){
+            if(data == "EXITOSO"){
                 alert('satisfactorio');
                 $('#cedula').val("");
             }else{

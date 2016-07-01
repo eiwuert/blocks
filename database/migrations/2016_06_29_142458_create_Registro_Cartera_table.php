@@ -16,7 +16,7 @@ class CreateRegistroCarteraTable extends Migration
             $table->increments('ID')->unique();
             $table->date('fecha');
             $table->integer('cantidad');
-            $table->float('valor_unitario');
+            $table->double('valor_unitario',10,2);
             $table->string('descripcion');
             $table->string('Actor_cedula');
             $table->foreign('Actor_cedula')->references('cedula')->on('Actor');

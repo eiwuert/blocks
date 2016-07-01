@@ -223,7 +223,8 @@ class ActorController extends Controller
     public function guardar_ubicacion(Request $request){
         $hoy = new DateTime();
         $ubicacion = new Ubicacion_Empleado();
-        $ubicacion->cedula = $request["cedula"];
+        $ubicacion->fecha = $hoy;
+        $ubicacion->Actor_cedula = $request["cedula"];
         $ubicacion->latitud = $request["latitud"];
         $ubicacion->longitud = $request["longitud"];
         if($ubicacion->save()){

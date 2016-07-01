@@ -14,7 +14,7 @@
 
 @section('Content')
 <!-- Información general -->
-<p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada.</p>
+<p>Recuerda que un registro <span class="red">Rojo</span> indica una deuda y un registro <span class="green">Verde</span> indica un pago</p>
 <!-- Información general -->
 <div class="row">
   <!-- Seccion administrar descripcion general equipo -->
@@ -114,31 +114,11 @@
   <script src="/js/cartera.js"></script>
   
   <!-- Si es peticion de un equipo desde una peticion GET -->
-  @if($cedula != null)
+  @if($nombre != null)
   <script>
-    
+    buscar_cartera_empleado("{{$nombre}}");
   </script>
   @endif
   <!-- Si es peticion de un equipo desde una peticion GET -->
   
-  @if(Session::get('subiendo_archivo') == true)
-    <script>
-      limpiar_modal();
-      modal.addClass("modal_info");
-      $("#titulo_modal").text("CARGANDO ARCHIVO EQUIPOS");
-      $("#contenido_modal").text("Se le enviará un correo con el resultado");
-      remodal.open();
-    </script>
-  @endif
-  
-  @if(Session('error_archivo'))
-    <script>
-      limpiar_modal();
-      modal.addClass("modal_info");
-      $("#titulo_modal").text("ERROR CARGANDO ARCHIVO EQUIPOS");
-      $("#contenido_modal").text("{{Session('error_archivo')}}");
-      remodal.open();
-      
-    </script>
-  @endif
 @endsection

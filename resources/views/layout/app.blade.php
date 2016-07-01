@@ -23,6 +23,9 @@
     <link href="/css/custom.min.css" rel="stylesheet">
     <link href="/css/general.css" rel="stylesheet">
     
+    <!-- Charts Style -->
+    <link href="/css/morris.css" rel="stylesheet">
+    
     <!-- jQuery -->
     <script src="/js/jquery.min.js"></script>
     
@@ -102,6 +105,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="/personal?cedula={{$Actor->cedula}}"> Perfil</a></li>
+                    <li><a href="/cartera?nombre={{$Actor->nombre}}"> Cartera</a></li>
                     <li><a href="auth/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
@@ -178,6 +182,11 @@
     <!-- Custom Theme Scripts -->
     <script src="/js/custom.min.js"></script>
     <script src="/js/general.js"></script>
+    <!-- Number format Script -->
+    <script src="/js/accounting.min.js"></script>
+    <!-- Charts Script -->
+    <script src="/js/Raphael.min.js"></script>
+    <script src="/js/morris.min.js"></script>
     <!-- Background Image Script -->
     <script src="/js/backstretch.min.js"></script>
     <script type="text/javascript">

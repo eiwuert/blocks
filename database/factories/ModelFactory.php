@@ -41,3 +41,16 @@ $factory->define(App\Simcard::class, function ($faker) {
         'fecha_vencimiento' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '2years', $timezone = date_default_timezone_get())
     ];
 });
+
+$factory->define(App\Comision::class, function ($faker) {
+    return [
+        'fecha' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
+        'valor' => $faker->randomNumber($nbDigits = 5)
+    ];
+});
+
+$factory->define(App\Paquete::class, function ($faker) {
+    return [
+        'fecha_entrega' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
+    ];
+});

@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Actor;
 use DB;
 use App\Simcard;
+use App\Comision;
+use App\Registro_Cartera;
 use Auth;
 use App\Http\Controllers\Controller;
 
@@ -20,9 +22,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
+        setlocale(LC_MONETARY, 'es_CO');
         $data = array();
-        $data['Actor'] = Auth::user()->actor;
+        $actor = Auth::user()->actor;
+        $data['Actor'] = $actor;
         $data['Cantidad_notificaciones'] = 0;
         
         // CONTAR LAS SIMCARDS PREPAGO
@@ -40,7 +43,7 @@ class HomeController extends Controller
                 $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
                       ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
             })->count();
-        
+        // CONTAR LAS SIMCARDS PREPAGO
         // CONTAR LAS SIMCARDS LIBRE
         $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
             $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
@@ -56,9 +59,61 @@ class HomeController extends Controller
                 $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
                       ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
             })->count();
-        
+        // CONTAR LAS SIMCARDS LIBRE
         // CONTAR LAS SIMCARDS POSTPAGO
-        $data['Total_postpago'] = Simcard::where("categoria",'=','Postago')->count();
+        $data['Total_postpago'] = Simcard::whereHas('paquete', function ($query) {
+                                        $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+                                    })->where("categoria",'=','Postpago')->count();
+        // CONTAR LAS SIMCARDS POSTPAGO
+        // OBTENER COMISIONES POR MES
+        $paquetes = $actor->paquetes;
+        $comisiones = DB::table('Actor')
+            ->join('Paquete', 'Paquete.Actor_cedula', '=', 'Actor.cedula')
+            ->join('Simcard', 'Simcard.Paquete_ID', '=', 'Paquete.ID')
+            ->join('Comision', 'Comision.Simcard_ICC', '=', 'Simcard.ICC')
+            ->select(DB::raw('YEAR(Comision.fecha) as anho'),DB::raw('MONTH(Comision.fecha) as mes'),"Simcard.categoria",DB::raw('sum(Comision.valor) as total'))
+            ->where('Actor_cedula',$actor->cedula)
+            ->groupBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), "Simcard.categoria")
+            ->orderBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), 'desc')
+            ->take(9)
+            ->get();
+        $aux = [];
+        foreach ($comisiones as $comision) {
+            $periodo = $comision->anho . "-" . $comision->mes;
+            $aux[$periodo][$comision->categoria] = $comision->total;
+        }
+        $data_comisiones = [];
+        $max_comision = 0;
+        while ($raw = current($aux)) {
+            $obj["y"] = key($aux);
+            if(array_key_exists ("Prepago",$raw)){
+                $obj["prepago"] = $raw["Prepago"]*$actor->porcentaje_prepago;
+                if($obj["prepago"] > $max_comision)$max_comision = $obj["prepago"];
+            }else{
+                $obj["prepago"] = 0;
+            }
+            if(array_key_exists ("Libre",$raw)){
+                $obj["libre"] = $raw["Libre"]*$actor->porcentaje_libre;
+                if($obj["libre"] > $max_comision)$max_comision = $obj["libre"];
+            }else{
+                $obj["libre"] = 0;
+            }
+            if(array_key_exists ("Postpago",$raw)){
+                $obj["postpago"] = $raw["Postpago"]*$actor->porcentaje_postpago;
+                if($obj["postpago"] > $max_comision)$max_comision = $obj["postpago"];
+            }else{
+                $obj["postpago"] = 0;
+            }
+            array_push($data_comisiones, $obj);
+            next($aux);
+        }
+        // OBTENER COMISIONES POR MES
+        // OBTENER ESTADO FINANCIERO
+        $estado_financiero = Registro_Cartera::where("Actor_cedula", $actor->cedula)->sum(DB::raw("valor_unitario*cantidad"));
+        // OBTENER ESTADO FINANCIERO
+        $data['comisiones'] = $data_comisiones;
+        $data["max_comision"] = round ($max_comision,-3);
+        $data['estado_financiero'] = $estado_financiero;
         $data['Cantidad_notificaciones'] = 0;
         return View('home', $data);
     }

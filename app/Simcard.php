@@ -30,6 +30,11 @@ class Simcard extends Model
         return $this->hasOne('App\Asignacion_Plan','Simcard_ICC','ICC');
     }
     
+    public function comisiones()
+    {
+        return $this->hasMany('App\Comision', "Simcard_ICC", 'ICC');
+    }
+    
     public static function color_estado($simcard){
         $color ="";
         $hoy = new DateTime();

@@ -19,11 +19,11 @@ class CarteraController extends Controller
      */
     public function index(Request $request)
     {
-        $cedula = $request["cedula"];
+        $nombre = $request["nombre"];
         $data = array();
         $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
-        $data["cedula"] = $cedula;
+        $data["nombre"] = $nombre;
         // OBTENER LOS POSIBLES EMPLEADOS
         $Actor = Auth::user()->actor;
         $actores_sin_revisar = [$Actor];

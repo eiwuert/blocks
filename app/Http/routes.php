@@ -31,6 +31,7 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Control vendedores
 Route::get('/control', 'ActorController@control_vendedores_front');
+Route::get('/guardar_ubicacion', 'ActorController@guardar_ubicacion');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index');
@@ -87,7 +88,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/actualizar_actor', 'ActorController@actualizar_actor');
     Route::get('/eliminar_actor', 'ActorController@eliminar_actor');
     Route::get('/buscar_ubicaciones', 'ActorController@buscar_ubicaciones');
-    Route::get('/guardar_ubicacion', 'ActorController@guardar_ubicacion');
     
     // ACCIONES SERVICIOS
     

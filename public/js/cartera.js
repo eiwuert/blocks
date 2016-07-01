@@ -29,13 +29,12 @@ function buscar_cartera_empleado(nombre){
                 html += '<td>' + data[i].fecha + '</td>';
                 html += '<td>' + data[i].descripcion + '</td>';
                 html += '<td class="no_visibile_mobile">' + data[i].cantidad + '</td>';
-                
                 if(data[i].valor_unitario < 0){
-                    html += '<td class="no_visibile_mobile">' + (data[i].valor_unitario*(-1)) + '</td>';
-                    html += '<td>' + (data[i].cantidad*data[i].valor_unitario*(-1)) + '</td>';
+                    html += '<td class="no_visibile_mobile">' + accounting.formatMoney(data[i].valor_unitario*(-1),"$",0) + '</td>';
+                    html += '<td>' + accounting.formatMoney(data[i].cantidad*data[i].valor_unitario*(-1),"$",0) + '</td>';
                 }else{
-                    html += '<td class="no_visibile_mobile">' + data[i].valor_unitario + '</td>';
-                    html += '<td>' + (data[i].cantidad*data[i].valor_unitario) + '</td>';
+                    html += '<td class="no_visibile_mobile">' + accounting.formatMoney(data[i].valor_unitario,"$",0) + '</td>';
+                    html += '<td>' + accounting.formatMoney(data[i].cantidad*data[i].valor_unitario,"$",0) + '</td>';
                 }
                 html += '</tr>';
             }
@@ -48,7 +47,7 @@ function buscar_cartera_empleado(nombre){
                 }else{
                     $("#saldo").attr("style","color:#7FCA9F");
                 }
-                $("#saldo").text("$" +saldo);
+                $("#saldo").text( accounting.formatMoney(saldo,"$",0));
             }else{
                 $("#saldo_container").hide();
             }
