@@ -81,6 +81,8 @@ function buscar_empleado(cedula){
                   $("#btn_eliminar_empleado").prop('disabled', true);
                   $("#Actor_sueldo").prop('disabled', true);
                   $("#Actor_cedula").prop('disabled', true);
+                  $("#region").prop('disabled', true);
+                  $("#ciudad").prop('disabled', true);
                }else{
                   $("#Actor_porcentaje_prepago").prop('disabled', false);
                   $("#Actor_porcentaje_postpago").prop('disabled', false);
@@ -91,6 +93,8 @@ function buscar_empleado(cedula){
                   $("#btn_eliminar_empleado").prop('disabled', false);
                   $("#Actor_sueldo").prop('disabled', false);
                   $("#Actor_cedula").prop('disabled', false);
+                  $("#region").prop('disabled', false);
+                  $("#ciudad").prop('disabled', false);
                }
             }else{
                $('#buscar_empleado .form :input').val("");
@@ -242,5 +246,7 @@ function limpiar_empleado(){
    $("#Actor_porcentaje_equipo").prop('disabled', false);
    $("#Actor_jefe_nombre").prop('disabled', false);
    $("#Actor_sueldo").prop('disabled', false);
+   $("#region").prop('disabled', false);
+   $("#ciudad").prop('disabled', false);
 }
 

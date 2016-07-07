@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Actor;
 use DB;
 use App\Simcard;
+use App\Equipo;
 use App\Comision;
 use App\Registro_Cartera;
 use Auth;
@@ -43,7 +44,6 @@ class HomeController extends Controller
                 $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
                       ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
             })->count();
-        // CONTAR LAS SIMCARDS PREPAGO
         // CONTAR LAS SIMCARDS LIBRE
         $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
             $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
@@ -59,12 +59,44 @@ class HomeController extends Controller
                 $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
                       ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
             })->count();
-        // CONTAR LAS SIMCARDS LIBRE
         // CONTAR LAS SIMCARDS POSTPAGO
         $data['Total_postpago'] = Simcard::whereHas('paquete', function ($query) {
                                         $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
                                     })->where("categoria",'=','Postpago')->count();
-        // CONTAR LAS SIMCARDS POSTPAGO
+        // OBTENER INVENTARIOS
+        $data_inventarios = [];
+            // PREPAGO
+            $inventario["y"] = "Prepago";
+            $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                        })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+            $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                        })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+        array_push($data_inventarios, $inventario);     
+            // POSTPAGO
+            $inventario["y"] = "Postpago";
+            $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                        })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+            $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                        })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+        array_push($data_inventarios, $inventario);
+            // LIBRE
+            $inventario["y"] = "Libre";
+            $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                        })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+            $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                        })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+        array_push($data_inventarios, $inventario);    
+            // EQUIPOS
+            $inventario["y"] = "Equipos";
+            $inventario["Inventario"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->count();
+            $inventario["Vendidas"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNotNull("Cliente_identificacion")->count();
+        array_push($data_inventarios, $inventario); 
         // OBTENER COMISIONES POR MES
         $paquetes = $actor->paquetes;
         $comisiones = DB::table('Actor')
@@ -107,15 +139,16 @@ class HomeController extends Controller
             array_push($data_comisiones, $obj);
             next($aux);
         }
-        // OBTENER COMISIONES POR MES
         // OBTENER ESTADO FINANCIERO
         $estado_financiero = Registro_Cartera::where("Actor_cedula", $actor->cedula)->sum(DB::raw("valor_unitario*cantidad"));
-        // OBTENER ESTADO FINANCIERO
+        // RETORNAR VALORES
         $data['comisiones'] = $data_comisiones;
+        $data['inventarios'] = $data_inventarios;
         $data["max_comision"] = round ($max_comision,-3);
         $data['estado_financiero'] = $estado_financiero;
         $data['Cantidad_notificaciones'] = 0;
-        return View('home', $data);
+        
+        return View('home_admin', $data);
     }
 
     /**

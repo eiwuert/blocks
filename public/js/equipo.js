@@ -41,7 +41,7 @@ function buscar_equipo_general(cod_scl){
                 $("#buscar_equipo_general").find(".text_container").show();
                 $('#Equipo_cod_scl_copia').text(data.cod_scl);
                 $('#Equipo_cod_scl').val(data.cod_scl);
-                $('#Equipo_gama').text(data.gama);
+                $('#Equipo_gama').val(data.gama);
                 $('#Equipo_marca').val(data.marca);
                 $('#Equipo_modelo').val(data.modelo);
                 $('#Equipo_precio_prepago').val(data.precio_prepago);
@@ -66,7 +66,7 @@ function buscar_equipo_general(cod_scl){
             }else{
                 $('#buscar_equipo_general .form :input').val("");
                 $("#buscar_equipo_general").find(".text_container").hide();
-                $('#Equipo_gama').text("Gama");
+                $('#Equipo_gama').val("");
                 //MODAL INFORMANDO ERROR
                 modal.addClass("modal_error");
                 $("#titulo_modal").text("ERROR!!");
@@ -108,7 +108,7 @@ function buscar_equipo_especifico(IMEI){
                     $('#Equipo_simcard').text(data.simcard.numero_linea);
                     $('#Equipo_simcard').attr("href","/simcard?simcard=" + data.simcard.ICC);
                 }else{
-                    $('#Equipo_simcard').text("Simcard");
+                    $('#Equipo_simcard').text("Sin Simcard");
                     $('#Equipo_simcard').attr("href","#");
                     $('#simcard_container').attr("class","container");
                 }
@@ -116,11 +116,10 @@ function buscar_equipo_especifico(IMEI){
                     $('#Equipo_cliente').text(data.cliente.nombre);
                     $('#Equipo_cliente').attr("href","/cliente?cliente=" + data.cliente.identificacion);
                 }else{
-                    $('#Equipo_cliente').text("Cliente");
+                    $('#Equipo_cliente').text("Sin Cliente");
                     $('#Equipo_cliente').attr("href","#");
                 }
                 $('#Equipo_modelo').val(data.modelo);
-                $('#Equipo_fecha_venta').val(data.fecha_venta);
                 $('#Equipo_descripcion_precio').val(data.descripcion_precio);
                 buscar_equipo_general(data.descripcion_equipo.cod_scl);
             }else{
@@ -135,7 +134,7 @@ function buscar_equipo_especifico(IMEI){
                 $('#Equipo_cliente').attr("href","#");
                 $('#buscar_equipo_general .form :input').val("");
                 $("#buscar_equipo_general").find(".text_container").hide();
-                $('#Equipo_gama').text("Gama");
+                $('#Equipo_gama').val("");
                 //LIMPIAR LISTADO DE EQUIPOS
                 $("#listado_equipos").html("");
                 //MODAL INFORMANDO ERROR
@@ -163,7 +162,7 @@ function actualizar_descripcion_equipo(){
             datos_descripcion_equipo[this.id] = $(this).val();
         });
         datos_descripcion_equipo["cod_scl_copia"] = cod_scl;
-        datos_descripcion_equipo["Equipo_gama"] = $("#Equipo_gama").text();
+        datos_descripcion_equipo["Equipo_gama"] = $("#Equipo_gama").val();
         $.get('/actualizar_equipo_general', {dato:datos_descripcion_equipo}, function(data){
             limpiar_modal();
             if(data == 'EXITOSO'){
@@ -248,7 +247,7 @@ function eliminar_equipo(){
                         $('#Equipo_cliente').attr("href","#");
                         $('#buscar_equipo_general .form :input').val("");
                         $("#buscar_equipo_general").find(".text_container").hide();
-                        $('#Equipo_gama').text("Gama");
+                        $('#Equipo_gama').val("");
                         $("#" + IMEI).remove();
                     }else{
                         //MODAL INFORMANDO ERROR
@@ -293,7 +292,7 @@ function eliminar_descripcion_equipo(){
                         $('#Equipo_cliente').attr("href","#");
                         $('#buscar_equipo_general .form :input').val("");
                         $("#buscar_equipo_general").find(".text_container").hide();
-                        $('#Equipo_gama').text("Gama");
+                        $('#Equipo_gama').val("");
                         $("#listado_equipos").html("");
                     }else{
                         buscar_equipo_general(cod_scl);

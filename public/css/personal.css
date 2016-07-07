@@ -38,3 +38,9 @@
     text-align: center;
 }
 
+.x_content>div.formulario_busqueda>.form>div>input:disabled,
+.x_content>div.formulario_busqueda>.form>div>button:disabled{
+    color:white;
+    opacity: 0.65;
+    cursor:text;
+}

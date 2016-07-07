@@ -10,9 +10,6 @@
 @endsection
 
 @section('Content')
-<!-- Información general -->
-<p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada.</p>
-<!-- Información general -->
 <div class="row">
   <!-- Seccion administrar cliente -->
   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -65,7 +62,7 @@
               <div class="container">
                   <div class="text_container"><span>Sueldo</span></div><input type="text" placeholder="Sueldo" id ="Actor_sueldo">
               </div>
-              <h4>Porcentaje comisiones</h4>
+              <!--h4>Porcentaje comisiones</h4>
               <div class="container">
                   <div class="text_container"><span>Prepago</span></div><input type="text" placeholder="Prepago" id ="Actor_porcentaje_prepago">
               </div>
@@ -80,7 +77,7 @@
               </div>
               <div class="container">
                   <div class="text_container"><span>Servicios</span></div><input type="text" placeholder="Servicios" id ="Actor_porcentaje_servicio">
-              </div>
+              </div-->
             </div>
           <div class="contenedor_acciones">
               <button class="btn verde" onClick="crear_empleado()">Crear</button>

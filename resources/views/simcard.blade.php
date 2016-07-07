@@ -40,43 +40,43 @@
           </div>
           <div class="form">
               <div class="container">
-                <div class="text_container"><span>Responsable</span></div><p id="Simcard_responsable">Responsable</p>
+                <div class="text_container"><span>Responsable</span></div><input disabled="true" id="Simcard_responsable" placeholder="Responsable">
               </div>
               <div class="container">
                 <div class="text_container"><span>Cliente</span></div><a id ="Simcard_cliente" class="btn transparente">Cliente</a>
               </div>
               <div class="container">
-                  <div class="text_container"><span>ICC</span></div><p id ="Simcard_ICC">ICC</p>
+                  <div class="text_container"><span>ICC</span></div><input disabled="true" id ="Simcard_ICC" placeholder="ICC">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Línea</span></div><input type="text" placeholder="Número" id ="Simcard_numero_linea">
+                  <div class="text_container"><span>Línea</span></div><input disabled="true" type="text" placeholder="Número" id ="Simcard_numero_linea">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Categoría</span></div><p id ="Simcard_categoria">Categoría</p>
+                  <div class="text_container"><span>Categoría</span></div><input disabled="true" id ="Simcard_categoria" placeholder="Categoría">
               </div>
               <div class="container">
                 <div class="text_container"><span>Equipo</span></div><a id ="Simcard_equipo" class="btn transparente">Equipo</a>
               </div>
               <div class="container">
-                  <div class="text_container"><span>Paquete</span></div><p id ="Simcard_paquete">Paquete</p>
+                  <div class="text_container"><span>Paquete</span></div><input disabled="true" id ="Simcard_paquete" placeholder="Paquete">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Plan</span></div><button class="btn transparente" id ="Simcard_plan" onClick="seleccionar_plan()">Plan</button>
+                  <div class="text_container"><span>Plan</span></div><input disabled="true" id ="Simcard_plan"placeholder="Plan">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Adjudicada</span></div><input type="text" placeholder="Adjudicación" id ="Simcard_fecha_adjudicacion">
+                  <div class="text_container"><span>Adjudicada</span></div><input disabled="true" type="text" placeholder="Adjudicación" id ="Simcard_fecha_adjudicacion">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Activada</span></div><input type="text" placeholder="Activación" id ="Simcard_fecha_activacion">
+                  <div class="text_container"><span>Activada</span></div><input disabled="true" type="text" placeholder="Activación" id ="Simcard_fecha_activacion">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Asignada</span></div><p id ="Simcard_fecha_asignacion">Asignación</p>
+                  <div class="text_container"><span>Asignada</span></div><input disabled="true" id ="Simcard_fecha_asignacion" placeholder="Asignación">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Vence</span></div><input type="text" placeholder="Vencimiento" id ="Simcard_fecha_vencimiento">
+                  <div class="text_container"><span>Vence</span></div><input disabled="true" type="text" placeholder="Vencimiento" id ="Simcard_fecha_vencimiento">
               </div>
             </div> 
-          <div class="contenedor_acciones">
+          <div class="contenedor_acciones" style="display:none">
               <button class="btn azul" onClick="actualizar_simcard()">Actualizar</button>
               <button class="btn rojo" onClick="eliminar_simcard()">Eliminar</button>
           </div>
@@ -149,22 +149,21 @@
               <button style="margin:0;padding:0;"class="btn azul" onClick = "buscar_plan()" type="number" id="Plan_buscar">Buscar</button>
           </div>
           <div class="form">
-            <p style="width:100%;text-align:center">Plan: <span id ="Plan_codigo_lbl"></span></p>
             <div class="container">
-                <div class="text_container"><span>Código</span></div><input type="text" placeholder="Código" id ="Plan_codigo">
+                <div class="text_container"><span>Código</span></div><input disabled="true" type="text" placeholder="Código" id ="Plan_codigo">
             </div>
             <div class="container">
-                <div class="text_container"><span>Minutos</span></div><input type="text" placeholder="Minutos" id ="Plan_minutos">
+                <div class="text_container"><span>Minutos</span></div><input disabled="true" type="text" placeholder="Minutos" id ="Plan_minutos">
             </div>
             <div class="container">
-                <div class="text_container"><span>Datos</span></div><input type="text" placeholder="Datos" id ="Plan_datos">
+                <div class="text_container"><span>Datos</span></div><input disabled="true" type="text" placeholder="Datos" id ="Plan_datos">
             </div>
             <div class="container">
-                <div class="text_container"><span>Valor</span></div><input type="text" placeholder="Valor" id ="Plan_valor">
+                <div class="text_container"><span>Valor</span></div><input disabled="true" type="text" placeholder="Valor" id ="Plan_valor">
             </div>
           </div> 
           
-          <div class="contenedor_acciones" id="acciones_buscar_plan">
+          <div class="contenedor_acciones" id="acciones_buscar_plan" style="display:none">
               <button class="btn verde" onClick="crear_plan()">Crear</button>
               <button class="btn azul" onClick="actualizar_plan()">Actualizar</button>
               <button class="btn rojo" onClick="eliminar_plan()">Eliminar</button>

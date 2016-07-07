@@ -38,10 +38,10 @@
 }
 
 #Simcard_cliente, #Simcard_equipo{
-    color:black;
+    color:white;
 }
 #Simcard_cliente:hover, #Simcard_equipo:hover{
-    color:white;
+    color:black;
 }
 
 #categoria{

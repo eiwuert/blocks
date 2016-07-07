@@ -36,7 +36,7 @@ function buscar_simcard(ICC){
                     $("#Simcard_cliente").text(data.cliente.nombre);
                     $("#Simcard_cliente").attr("href", "/cliente?cliente=" + data.cliente.identificacion);
                 }else{
-                    $("#Simcard_cliente").text("Cliente");
+                    $("#Simcard_cliente").text("Sin Cliente");
                     $("#Simcard_cliente").attr("href", "#");
                 }
                 // DATOS Y REDIRECCION A EQUIPO
@@ -44,20 +44,20 @@ function buscar_simcard(ICC){
                     $("#Simcard_equipo").text(data.equipo.IMEI);
                     $("#Simcard_equipo").attr("href", "/equipo?equipo=" + data.equipo.IMEI);
                 }else{
-                    $("#Simcard_equipo").text("Equipo");
+                    $("#Simcard_equipo").text("Sin Equipo");
                     $("#Simcard_equipo").attr("href", "#");
                 }
                 $("#buscar_simcard").find(".text_container").show();
-                $('#Simcard_ICC').text(data.ICC);
-                $('#Simcard_responsable').text(data.responsable_simcard);
+                $('#Simcard_ICC').val(data.ICC);
+                $('#Simcard_responsable').val(data.responsable_simcard);
                 $('#Simcard_numero_linea').val(data.numero_linea);
-                $('#Simcard_categoria').text(data.categoria);
-                $('#Simcard_paquete').text(data.paquete);
-                $('#Simcard_plan').text(data.plan);
+                $('#Simcard_categoria').val(data.categoria);
+                $('#Simcard_paquete').val(data.paquete);
+                $('#Simcard_plan').val(data.plan);
                 if(data.fecha_asignacion == null){
-                    $('#Simcard_fecha_asignacion').text("NO ASIGNADA");
+                    $('#Simcard_fecha_asignacion').val("NO ASIGNADA");
                 }else{
-                    $('#Simcard_fecha_asignacion').text(data.fecha_asignacion);
+                    $('#Simcard_fecha_asignacion').val(data.fecha_asignacion);
                 }
                 if(data.fecha_adjudicacion == null){
                     $('#Simcard_fecha_adjudicacion').val("SIN ADJUDICAR");
@@ -103,18 +103,18 @@ function buscar_simcard(ICC){
                 }
             }else{
                 //BORRAR DATOS DE SECCION SIMCARD
-                $("#Simcard_cliente").text("Cliente");
+                $("#Simcard_cliente").val("");
                 $("#Simcard_cliente").attr("href", "#");
-                $("#Simcard_equipo").text("Equipo");
+                $("#Simcard_equipo").val("");
                 $("#Simcard_equipo").attr("href", "#");
                 $("#buscar_simcard").find(".text_container").hide();
                 $('#buscar_simcard .form :input').val("");
-                $("#Simcard_fecha_asignacion").text("Asignación");
-                $('#Simcard_ICC').text("ICC");
-                $('#Simcard_paquete').text("Paquete");
-                $('#Simcard_responsable').text("Responsable");
-                $('#Simcard_categoria').text("Categoría");
-                $('#Simcard_plan').text("Plan");
+                $("#Simcard_fecha_asignacion").val("");
+                $('#Simcard_ICC').val("");
+                $('#Simcard_paquete').val("");
+                $('#Simcard_responsable').val("");
+                $('#Simcard_categoria').val("");
+                $('#Simcard_plan').val("");
                 $("#buscar_simcard").find(".container").attr('class', 'container');
                 // BORRAR DATOS DE SECCION PLAN
                 $("#Plan_codigo_lbl").text("");
@@ -156,9 +156,9 @@ function actualizar_simcard(){
     
     var inputs = $('#buscar_simcard .form :input');
     var datos_simcard = {};
-    datos_simcard["ICC"] = $('#Simcard_ICC').text();
-    datos_simcard["plan"] = $("#Simcard_plan").text();
-    if($('#Simcard_ICC').text() == "ICC"){
+    datos_simcard["ICC"] = $('#Simcard_ICC').val();
+    datos_simcard["plan"] = $("#Simcard_plan").val();
+    if($('#Simcard_ICC').val() == "ICC"){
         limpiar_modal();
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Busque una simcard antes de actualizar");
@@ -170,7 +170,7 @@ function actualizar_simcard(){
         $.get('/actualizar_simcard', {dato:datos_simcard}, function(resultado){
             limpiar_modal();
             if(resultado == "EXITOSO" ){
-                buscar_simcard($('#Simcard_ICC').text());
+                buscar_simcard($('#Simcard_ICC').val());
                 modal.addClass("modal_exito");
                 $("#titulo_modal").text("EXITO!!");
                 $("#contenido_modal").text("Simcard actualizada satisfactoriamente");
@@ -185,7 +185,7 @@ function actualizar_simcard(){
 }
 
 function eliminar_simcard(){
-    var ICC = $('#Simcard_ICC').text();
+    var ICC = $('#Simcard_ICC').val();
     if(ICC == "ICC"){
         limpiar_modal();
         modal.addClass("modal_error");
@@ -205,9 +205,9 @@ function eliminar_simcard(){
                         $("#Simcard_equipo").attr("href", "#");
                         $("#buscar_simcard").find(".text_container").hide();
                         $('#buscar_simcard .form :input').val("");
-                        $('#Simcard_ICC').text("ICC");
-                        $('#Simcard_responsable').text("Responsable");
-                        $('#Simcard_categoria').text("Categoría");
+                        $('#Simcard_ICC').val("");
+                        $('#Simcard_responsable').val("");
+                        $('#Simcard_categoria').val("");
                         $("#buscar_simcard").find(".container").attr('class', 'container');
                         modal.addClass("modal_exito");
                         $("#titulo_modal").text("EXITO!!");
@@ -309,8 +309,8 @@ function buscar_paquete(paquete){
             });
             contenedor.html(simcards);
             $("#titulo_paquete").fadeIn();
-            $("#acciones_buscar_paquete").fadeIn();
-            if($("#Simcard_ICC").text() != pista && $("#Simcard_numero_linea").val() != pista){
+            //$("#acciones_buscar_paquete").fadeIn();
+            if($("#Simcard_ICC").val() != pista && $("#Simcard_numero_linea").val() != pista){
                 buscar_simcard(pista);
             }
         }else{
@@ -322,7 +322,7 @@ function buscar_paquete(paquete){
             $("#botones_modal").show();
             remodal.open();
             $("#simcards_paquete").html("");
-            $("#numero_paquete").text("");
+            $("#numero_paquete").val("");
             $("#titulo_modal").text("NO SE ENCUENTRA EMPAQUETADA");
             $("#contenido_modal").text("¿Desea crear un nuevo paquete?");
             $("#titulo_paquete").hide();
@@ -434,7 +434,6 @@ function buscar_plan(codigo_plan,color){
             $("#plan_chevron").addClass("fa-chevron-up");
             $("#buscar_plan").find(".text_container").show();
             $("#Plan_codigo").val(codigo);
-            $("#Plan_codigo_lbl").text(codigo);
             $("#Plan_minutos").val(data.cantidad_minutos);
             $("#Plan_datos").val(data.cantidad_datos);
             $("#Plan_valor").val(data.valor);
@@ -449,7 +448,6 @@ function buscar_plan(codigo_plan,color){
             $("#buscar_plan").hide();
             $("#plan_chevron").addClass("fa-chevron-down");
             $("#plan_chevron").removeClass("fa-chevron-up");
-            $("#Plan_codigo_lbl").text("");
             $("#Plan_codigo").val("");
             $("#Plan_minutos").val("");
             $("#Plan_datos").val("");
@@ -473,7 +471,7 @@ function seleccionar_plan(){
 }
 
 function cambiar_plan_buscar_simcard(codigo_plan){
-    var categoria = $("#Simcard_categoria").text();
+    var categoria = $("#Simcard_categoria").val();
     if(categoria == "Prepago"){
         limpiar_modal()
         modal.addClass("modal_error");
@@ -481,7 +479,7 @@ function cambiar_plan_buscar_simcard(codigo_plan){
         $("#contenido_modal").text("No se puede agregar un plan a una simcard prepago");
         remodal.open();
     }else{
-        $("#Simcard_plan").text(codigo_plan);
+        $("#Simcard_plan").val(codigo_plan);
         remodal.close();
     }
 }

@@ -93,7 +93,11 @@ class SimcardController extends Controller
     public function buscar_simcard(Request $request)
     {
         $pista = $request['dato'];
-        $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
+        $simcard = Simcard::whereHas('paquete',function ($query){
+            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+        })->where(function($q) use ($pista) {
+                $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
+            })->whereNull("Cliente_identificacion")->first();
         if($simcard != ""){
             //OBTENER CLIENTE DE LA SIMCARD
             $simcard["cliente"] = $simcard->cliente;

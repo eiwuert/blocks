@@ -2,12 +2,12 @@
 
 
 @media screen and (max-width: 700px) {
-    #grafico_comisiones{
+    #grafico_inventarios{
         min-height: 300px;
     }
 }
 @media screen and (min-width: 700px) {
-    #grafico_comisiones{
+    #grafico_inventarios{
         min-height:490px;
     }
 }

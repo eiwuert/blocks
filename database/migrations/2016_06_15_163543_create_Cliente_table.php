@@ -14,11 +14,11 @@ class CreateClienteTable extends Migration
     {
         Schema::create('Cliente', function (Blueprint $table) {
             $table->string('identificacion')->unique();
-            $table->string('tipo');
+            $table->enum('tipo',["NATURAL","EMPRESA"]);
             $table->string('nombre');
             $table->string('telefono');
-            $table->string('correo');
-            $table->string('direccion');
+            $table->string('correo')->nullable();
+            $table->string('direccion')->nullable();
             $table->integer("Ubicacion_ID")->unsigned();
             $table->foreign('Ubicacion_ID')->references('ID')->on('Ubicacion');
         });

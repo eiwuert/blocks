@@ -225,8 +225,7 @@ tr.verde_claro:hover{
 }
 .x_content>div.formulario_busqueda>.form>div>input:disabled,
 .x_content>div.formulario_busqueda>.form>div>button:disabled{
-    color:black;
-    opacity: 0.65;
+    color:white;
     cursor:text;
 }
 

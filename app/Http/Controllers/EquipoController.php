@@ -32,14 +32,14 @@ class EquipoController extends Controller
         $pista = $request["dato"];
         $descripcion_equipo = Descripcion_Equipo::where('cod_scl',$pista)->orWhere('modelo',$pista)->first();
         if($descripcion_equipo != null){
-            $descripcion_equipo->equipos = $descripcion_equipo->equipos;
+            $descripcion_equipo->equipos = $descripcion_equipo->equipos()->where("Actor_cedula",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->get();
         }
         return $descripcion_equipo;
     }
     
     public function buscar_equipo_especifico(Request $request){
         $pista = $request["dato"];
-        $equipo = Equipo::find($pista);
+        $equipo = Equipo::where("IMEI",$pista)->where("Actor_cedula","=",Auth::user()->actor->cedula)->first();
         if($equipo != null){
             $equipo->descripcion_equipo = $equipo->descripcion_equipo;
             if($equipo->cliente != null){

@@ -16,7 +16,7 @@ class DescripcionEquipo extends Migration
             $table->string('cod_scl')->unique();
             $table->string('marca');
             $table->string('modelo');
-            $table->string('gama');
+            $table->enum('gama',['ALTA','MEDIA','BAJA']);
             $table->float('precio_prepago');
             $table->float('precio_postpago');
             $table->float('precio_3_cuotas');
