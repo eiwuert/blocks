@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('Custom_css')
 <!-- iCheck -->
@@ -111,7 +111,7 @@
 <!-- Modal -->
 
 @section('Custom_js')
-  <script src="/js/cartera.js"></script>
+  <script src="/js/cartera_admin.js"></script>
   
   <!-- Si es peticion de un equipo desde una peticion GET -->
   @if($nombre != null)

@@ -35,10 +35,10 @@ $factory->define(App\Simcard::class, function ($faker) {
         'ICC' => $faker->randomNumber($nbDigits = 9),
         'numero_linea' => $faker->randomNumber($nbDigits = 9),
         'categoria' => $faker->randomElement($array = array ('Prepago','Libre','Postpago')),
-        'fecha_adjudicacion' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '2years', $timezone = date_default_timezone_get()),
-        'fecha_asignacion' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '2years', $timezone = date_default_timezone_get()),
-        'fecha_activacion' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '2years', $timezone = date_default_timezone_get()),
-        'fecha_vencimiento' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '2years', $timezone = date_default_timezone_get())
+        'fecha_adjudicacion' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
+        'fecha_asignacion' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
+        'fecha_activacion' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '0years', $timezone = date_default_timezone_get()),
+        'fecha_vencimiento' => $faker->dateTimeBetween($startDate = '0years', $endDate = '2years', $timezone = date_default_timezone_get())
     ];
 });
 

@@ -8,6 +8,7 @@ use App\Actor;
 use App\Plan;
 use App\Paquete;
 use App\Asignacion_Plan;
+use App\Asignacion_Permiso;
 use DB;
 use Excel;
 use Log;
@@ -30,6 +31,12 @@ class SimcardController extends Controller
         $simcard = $request["simcard"]; 
         $data = array(); 
         $Actor = Auth::user()->actor;
+        $permisos = $Actor->user->permisos;
+        $lista_permisos = [];
+        foreach ($permisos as $permiso) {
+            array_push($lista_permisos,$permiso->permiso);
+        }
+        $Actor->lista_permisos = $lista_permisos;
         $data['Actor'] = $Actor;
         $data['Cantidad_notificaciones'] = 0;
         // OBTENER LOS POSIBLES RESPONSABLES
@@ -51,8 +58,8 @@ class SimcardController extends Controller
         // OBTENER LOS POSIBLES PLANES
         $planes = Plan::all();
         $data['planes'] = $planes;
-        $data["simcard"] = $simcard;        
-        return View('simcard', $data);
+        $data["simcard"] = $simcard;    
+        return View('employee.simcard', $data);
         
         
     }
@@ -93,11 +100,18 @@ class SimcardController extends Controller
     public function buscar_simcard(Request $request)
     {
         $pista = $request['dato'];
-        $simcard = Simcard::whereHas('paquete',function ($query){
-            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-        })->where(function($q) use ($pista) {
-                $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
-            })->whereNull("Cliente_identificacion")->first();
+        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "PAQUETES")->first();
+        if($permiso != null || Auth::user()->actor->jefe_cedula == null){
+            $simcard = Simcard::with('paquete')->where(function($q) use ($pista) {
+                    $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
+                })->whereNull("Cliente_identificacion")->first();
+        }else{
+            $simcard = Simcard::whereHas('paquete',function ($query){
+                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+            })->where(function($q) use ($pista) {
+                    $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
+                })->whereNull("Cliente_identificacion")->first();
+        }
         if($simcard != ""){
             //OBTENER CLIENTE DE LA SIMCARD
             $simcard["cliente"] = $simcard->cliente;
@@ -109,10 +123,10 @@ class SimcardController extends Controller
                 $Cedula_responsable = $paquete->Actor_cedula;
                 $responsable = Actor::find($Cedula_responsable)->nombre;
                 $simcard["responsable_simcard"] = $responsable;
-                $simcard["paquete"] = $paquete->ID;
+                $simcard["paquete_ID"] = $paquete->ID;
             }else{
                 $simcard["responsable_simcard"] = "SIN ASIGNAR";
-                $simcard["paquete"] = "SIN PAQUETE";
+                $simcard["paquete_ID"] = "SIN PAQUETE";
             }
             //OBTENER EL ESTADO DE LA SIMCARD
             $simcard["color"] = Simcard::color_estado($simcard);
@@ -188,6 +202,17 @@ class SimcardController extends Controller
             foreach ($simcards as &$simcard) {
                 $simcard["color"] = Simcard::color_estado($simcard);
             }
+            $paquete = Paquete::find($pista);
+        }
+        if($paquete != null){
+            $data["simcards"] = $simcards;
+            $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "PAQUETES")->first();
+            if($paquete->Actor_cedula == Auth::user()->actor->cedula || $permiso != null || Auth::user()->actor->jefe_cedula == null){
+                $data["acceso"] = "SI";
+            }else{
+                $data["acceso"] = "NO";
+            }
+            return $data;
         }
         return $simcards;
     }

@@ -46,7 +46,7 @@ class ActorController extends Controller
         }
         $data['actores'] = $actores;
         $data["cedula"] = $cedula_buscada;        
-        return View('personal',$data);
+        return View('employee.personal',$data);
     }
 
     public function control_vendedores(Request $request){
@@ -69,11 +69,11 @@ class ActorController extends Controller
             }
         }
         $data['actores'] = $actores; 
-        return View('control_vendedores',$data);    
+        return View('employee.control_vendedores',$data);    
     }
     
     public function control_vendedores_front(Request $request){
-        return View('control_vendedores_front');    
+        return View('employee.control_vendedores_front');    
     }
     
     public function buscar_actor(Request $request){

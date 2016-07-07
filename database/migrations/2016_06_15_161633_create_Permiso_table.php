@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModuloTable extends Migration
+class CreatePermisoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,9 @@ class CreateModuloTable extends Migration
      */
     public function up()
     {
-        Schema::create('Modulo', function (Blueprint $table) {
+        Schema::create('Permiso', function (Blueprint $table) {
             $table->string('nombre')->unique();
             $table->string('descripcion')->nullable();
-            $table->string('Rol_nombre')->nullable();
-            $table->foreign('Rol_nombre')->references('nombre')->on('Rol');
         });
     }
 
@@ -27,6 +25,6 @@ class CreateModuloTable extends Migration
      */
     public function down()
     {
-        Schema::drop('Modulo');
+        Schema::drop('Permiso');
     }
 }

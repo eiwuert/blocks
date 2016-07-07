@@ -37,7 +37,7 @@
   <div class="col-md-8 col-sm-12 col-xs-12">
     <div class="x_panel tile">
       <div class="x_title">
-          <h2>Inventarios / Ventas</h2>
+          <h2>Estado Inventarios</h2>
           <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
             <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -116,11 +116,11 @@
       element: 'grafico_inventarios',
       data: data,
       xkey: 'y',
-      ykeys: ['Inventario', 'Vendidas'],
-      labels: ['Inventario', 'Vendidas'],
+      ykeys: ['Inventario', 'Asignadas', 'Vendidas'],
+      labels: ['Inventario', 'Asignadas', 'Vendidas'],
       hideHover:"auto",
       resize:true,
-      barColors: ["#85C1F5", "#7FCA9F"],
+      barColors: ["grey", "#85C1F5", "#7FCA9F"],
     });
   @endif
   @if($comisiones != null)
@@ -144,29 +144,25 @@
       }
     });
   @endif
-  var paquetes = <?php echo json_encode($Actor->paquetes); ?>;;
-    
-  if(paquetes.length != 0){
-    Morris.Donut({
-      element: 'grafico_estado_prepago',
-      data: [
-        {label: "Vencidas", value: {{$Total_prepago_vencidas}}},
-        {label: "Activas", value: {{$Total_prepago_activas}}},
-        {label: "Disponibles", value: {{$Total_prepago}}}
-      ],
-      colors: ["#DB5466","#7FCA9F", "#85C1F5"],
-      resize:true
-    });
-    Morris.Donut({
-      element: 'grafico_estado_libre',
-      data: [
-        {label: "Vencidas", value: {{$Total_libres_vencidas}}},
-        {label: "Activas", value: {{$Total_libres_activas}}},
-        {label: "Disponibles", value: {{$Total_libres}}}
-      ],
-      colors: ["#DB5466","#7FCA9F", "#85C1F5"],
-      resize:true
-    });
-  }
+  Morris.Donut({
+    element: 'grafico_estado_prepago',
+    data: [
+      {label: "Vencidas", value: {{$Total_prepago_vencidas}}},
+      {label: "Activas", value: {{$Total_prepago_activas}}},
+      {label: "Disponibles", value: {{$Total_prepago}}}
+    ],
+    colors: ["#DB5466","#7FCA9F", "#85C1F5"],
+    resize:true
+  });
+  Morris.Donut({
+    element: 'grafico_estado_libre',
+    data: [
+      {label: "Vencidas", value: {{$Total_libres_vencidas}}},
+      {label: "Activas", value: {{$Total_libres_activas}}},
+      {label: "Disponibles", value: {{$Total_libres}}}
+    ],
+    colors: ["#DB5466","#7FCA9F", "#85C1F5"],
+    resize:true
+  });
 </script>
 @endsection

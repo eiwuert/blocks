@@ -25,7 +25,7 @@ class EquipoController extends Controller
         $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
         $data["equipo"] = $equipo;
-        return View('equipo', $data);
+        return View('employee.equipo', $data);
     }
     
     public function buscar_equipo_general(Request $request){

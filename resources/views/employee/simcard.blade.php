@@ -112,14 +112,14 @@
             <button style="margin:0;padding:0;" class="btn azul" onClick = "buscar_paquete()" type="number" id="Simcard_buscar">Buscar</button>
           </div>
           <h2 id ="titulo_paquete" style="display:none">Paquete #<span id ="numero_paquete"></span></h2>
-          <div id="simcards_paquete">
-            
-          </div> 
+          <div id="simcards_paquete"></div> 
+          @if(in_array("PAQUETES",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
           <div class="contenedor_acciones" id="acciones_buscar_paquete" style="display:none">
               <button class="btn verde" onClick = "empaquetar_simcard()" type="number">Empaquetar</button>
               <button class="btn azul" id="boton_seleccionar_responsable_simcard" onClick="seleccionar_responsable_paquete()">Asignar</button>
               <button class="btn rojo" onClick="eliminar_paquete()">Eliminar</button>
           </div>
+          @ENDIF
         </div>
       </div>
     </div>

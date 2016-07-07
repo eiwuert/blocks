@@ -14,7 +14,7 @@ class CreatePaqueteTable extends Migration
     {
         Schema::create('Paquete', function (Blueprint $table) {
             $table->increments('ID');
-            $table->string('Actor_cedula');
+            $table->string('Actor_cedula')->nullable();
             $table->date('fecha_entrega')->nullable();
             $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
         });

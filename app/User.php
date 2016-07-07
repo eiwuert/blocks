@@ -23,4 +23,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->belongsTo('App\Actor','Actor_cedula','cedula');
     }
+    
+    public function permisos()
+    {
+        return $this->hasMany('App\Asignacion_Permiso','User_email','email');
+    }
+    
 }

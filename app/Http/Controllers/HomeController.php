@@ -28,127 +28,238 @@ class HomeController extends Controller
         $actor = Auth::user()->actor;
         $data['Actor'] = $actor;
         $data['Cantidad_notificaciones'] = 0;
-        
-        // CONTAR LAS SIMCARDS PREPAGO
-        $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
-        
-        $data['Total_prepago_activas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Prepago')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
-        
-        $data['Total_prepago_vencidas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Prepago')->where(function ($query) {
-                $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
-                      ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
-            })->count();
-        // CONTAR LAS SIMCARDS LIBRE
-        $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
-        
-        $data['Total_libres_activas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Libre')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
-        
-        $data['Total_libres_vencidas'] = Simcard::whereHas('paquete', function ($query) {
-            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-        })->where("categoria",'=','Libre')->where(function ($query) {
-                $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
-                      ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<=', 0);
-            })->count();
-        // CONTAR LAS SIMCARDS POSTPAGO
-        $data['Total_postpago'] = Simcard::whereHas('paquete', function ($query) {
-                                        $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-                                    })->where("categoria",'=','Postpago')->count();
-        // OBTENER INVENTARIOS
-        $data_inventarios = [];
-            // PREPAGO
-            $inventario["y"] = "Prepago";
-            $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
-                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-                        })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
-            $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
-                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-                        })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
-        array_push($data_inventarios, $inventario);     
-            // POSTPAGO
-            $inventario["y"] = "Postpago";
-            $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
-                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-                        })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
-            $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
-                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-                        })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
-        array_push($data_inventarios, $inventario);
-            // LIBRE
-            $inventario["y"] = "Libre";
-            $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
-                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-                        })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
-            $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
-                            $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
-                        })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
-        array_push($data_inventarios, $inventario);    
-            // EQUIPOS
-            $inventario["y"] = "Equipos";
-            $inventario["Inventario"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->count();
-            $inventario["Vendidas"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNotNull("Cliente_identificacion")->count();
-        array_push($data_inventarios, $inventario); 
-        // OBTENER COMISIONES POR MES
-        $paquetes = $actor->paquetes;
-        $comisiones = DB::table('Actor')
-            ->join('Paquete', 'Paquete.Actor_cedula', '=', 'Actor.cedula')
-            ->join('Simcard', 'Simcard.Paquete_ID', '=', 'Paquete.ID')
-            ->join('Comision', 'Comision.Simcard_ICC', '=', 'Simcard.ICC')
-            ->select(DB::raw('YEAR(Comision.fecha) as anho'),DB::raw('MONTH(Comision.fecha) as mes'),"Simcard.categoria",DB::raw('sum(Comision.valor) as total'))
-            ->where('Actor_cedula',$actor->cedula)
-            ->groupBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), "Simcard.categoria")
-            ->orderBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), 'desc')
-            ->take(9)
-            ->get();
-        $aux = [];
-        foreach ($comisiones as $comision) {
-            $periodo = $comision->anho . "-" . $comision->mes;
-            $aux[$periodo][$comision->categoria] = $comision->total;
+        if($actor->jefe != null){
+            // CONTAR LAS SIMCARDS PREPAGO
+            $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
+                $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+            })->where("categoria",'=','Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+            
+            $data['Total_prepago_activas'] = Simcard::whereHas('paquete', function ($query) {
+                $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+            })->where("categoria",'=','Prepago')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
+            
+            $data['Total_prepago_vencidas'] = Simcard::whereHas('paquete', function ($query) {
+                $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+            })->where("categoria",'=','Prepago')->where(function ($query) {
+                    $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
+                          ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>=', 0);
+                })->count();
+            // CONTAR LAS SIMCARDS LIBRE
+            $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
+                $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+            })->where("categoria",'=','Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+            
+            $data['Total_libres_activas'] = Simcard::whereHas('paquete', function ($query) {
+                $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+            })->where("categoria",'=','Libre')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
+            
+            $data['Total_libres_vencidas'] = Simcard::whereHas('paquete', function ($query) {
+                $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+            })->where("categoria",'=','Libre')->where(function ($query) {
+                    $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
+                          ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>=', 0);
+                })->count();
+            // CONTAR LAS SIMCARDS POSTPAGO
+            $data['Total_postpago'] = Simcard::whereHas('paquete', function ($query) {
+                                            $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
+                                        })->where("categoria",'=','Postpago')->count();
+            // OBTENER INVENTARIOS
+            $data_inventarios = [];
+                // PREPAGO
+                $inventario["y"] = "Prepago";
+                $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                            })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+            array_push($data_inventarios, $inventario);     
+                // LIBRE
+                $inventario["y"] = "Libre";
+                $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                            })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+            array_push($data_inventarios, $inventario);    
+                // POSTPAGO
+                $inventario["y"] = "Postpago";
+                $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
+                                $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
+                            })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+            array_push($data_inventarios, $inventario);
+                // EQUIPOS
+                $inventario["y"] = "Equipos";
+                $inventario["Inventario"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->count();
+                $inventario["Vendidas"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNotNull("Cliente_identificacion")->count();
+            array_push($data_inventarios, $inventario); 
+            // OBTENER COMISIONES POR MES
+            $paquetes = $actor->paquetes;
+            $comisiones = DB::table('Actor')
+                ->join('Paquete', 'Paquete.Actor_cedula', '=', 'Actor.cedula')
+                ->join('Simcard', 'Simcard.Paquete_ID', '=', 'Paquete.ID')
+                ->join('Comision', 'Comision.Simcard_ICC', '=', 'Simcard.ICC')
+                ->select(DB::raw('YEAR(Comision.fecha) as anho'),DB::raw('MONTH(Comision.fecha) as mes'),"Simcard.categoria",DB::raw('sum(Comision.valor) as total'))
+                ->where('Actor_cedula',$actor->cedula)
+                ->groupBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), "Simcard.categoria")
+                ->orderBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), 'desc')
+                ->take(9)
+                ->get();
+            $aux = [];
+            foreach ($comisiones as $comision) {
+                $periodo = $comision->anho . "-" . $comision->mes;
+                $aux[$periodo][$comision->categoria] = $comision->total;
+            }
+            $data_comisiones = [];
+            $max_comision = 0;
+            while ($raw = current($aux)) {
+                $obj["y"] = key($aux);
+                if(array_key_exists ("Prepago",$raw)){
+                    $obj["prepago"] = $raw["Prepago"]*$actor->porcentaje_prepago;
+                    if($obj["prepago"] > $max_comision)$max_comision = $obj["prepago"];
+                }else{
+                    $obj["prepago"] = 0;
+                }
+                if(array_key_exists ("Libre",$raw)){
+                    $obj["libre"] = $raw["Libre"]*$actor->porcentaje_libre;
+                    if($obj["libre"] > $max_comision)$max_comision = $obj["libre"];
+                }else{
+                    $obj["libre"] = 0;
+                }
+                if(array_key_exists ("Postpago",$raw)){
+                    $obj["postpago"] = $raw["Postpago"]*$actor->porcentaje_postpago;
+                    if($obj["postpago"] > $max_comision)$max_comision = $obj["postpago"];
+                }else{
+                    $obj["postpago"] = 0;
+                }
+                array_push($data_comisiones, $obj);
+                next($aux);
+            }
+            // OBTENER ESTADO FINANCIERO
+            $estado_financiero = Registro_Cartera::where("Actor_cedula", $actor->cedula)->sum(DB::raw("valor_unitario*cantidad"));
+            // RETORNAR VALORES
+            $data['comisiones'] = $data_comisiones;
+            $data['inventarios'] = $data_inventarios;
+            $data["max_comision"] = round ($max_comision,-3);
+            $data['estado_financiero'] = $estado_financiero;
+            $data['Cantidad_notificaciones'] = 0;
+            return View('employee.home', $data);    
+        }else{
+            // OBTENER TORTAS
+                // CONTAR LAS SIMCARDS PREPAGO
+                $data['Total_prepago'] = Simcard::where("categoria",'Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+                
+                $data['Total_prepago_activas'] = Simcard::where("categoria",'Prepago')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
+                
+                $data['Total_prepago_vencidas'] = Simcard::with('paquete')->where("categoria",'=','Prepago')->where(function ($query) {
+                        $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
+                              ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>=', 0);
+                    })->count();
+                // CONTAR LAS SIMCARDS LIBRE
+                $data['Total_libres'] = Simcard::with('paquete')->where("categoria",'Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+                
+                $data['Total_libres_activas'] = Simcard::with('paquete')->where("categoria",'Libre')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
+                
+                $data['Total_libres_vencidas'] = Simcard::with('paquete')->where("categoria",'Libre')->where(function ($query) {
+                        $query->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '>=', 6)
+                              ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>=', 0);
+                    })->count();
+            // CONTAR LAS SIMCARDS POSTPAGO
+            $data['Total_postpago'] = Simcard::with('paquete')->where("categoria",'Postpago')->count();
+            // OBTENER INVENTARIOS
+            $data_inventarios = [];
+                // PREPAGO
+                $inventario["y"] = "Prepago";
+                $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
+                                                $query->whereNull("Actor_cedula");
+                                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
+                                                $query->whereNotNull("Actor_cedula");
+                                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                $inventario["Vendidas"] = Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+            array_push($data_inventarios, $inventario);     
+                // LIBRE
+                $inventario["y"] = "Libre";
+                $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
+                                                $query->whereNull("Actor_cedula");
+                                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
+                                                $query->whereNotNull("Actor_cedula");
+                                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                $inventario["Vendidas"] =  Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+            array_push($data_inventarios, $inventario);    
+                // POSTPAGO
+                $inventario["y"] = "Postpago";
+                $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
+                                                $query->whereNull("Actor_cedula");
+                                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                $inventario["Vendidas"] = $simcard = Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
+                                                $query->whereNotNull("Actor_cedula");
+                                            })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+            array_push($data_inventarios, $inventario);
+                // EQUIPOS
+                $inventario["y"] = "Equipos";
+                $inventario["Inventario"] = Equipo::whereNull("Cliente_identificacion")->count();
+                $inventario["Vendidas"] = Equipo::whereNotNull("Cliente_identificacion")->count();
+            array_push($data_inventarios, $inventario); 
+            // OBTENER COMISIONES POR MES
+            
+            $comisiones = DB::table('Actor')
+                ->join('Paquete', 'Paquete.Actor_cedula', '=', 'Actor.cedula')
+                ->join('Simcard', 'Simcard.Paquete_ID', '=', 'Paquete.ID')
+                ->join('Comision', 'Comision.Simcard_ICC', '=', 'Simcard.ICC')
+                ->select(DB::raw('YEAR(Comision.fecha) as anho'),DB::raw('MONTH(Comision.fecha) as mes'),"Simcard.categoria",DB::raw('sum(Comision.valor) as total'))
+                ->where('Actor_cedula',$actor->cedula)
+                ->groupBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), "Simcard.categoria")
+                ->orderBy(DB::raw('YEAR(Comision.fecha)'),DB::raw('MONTH(Comision.fecha)'), 'desc')
+                ->take(9)
+                ->get();
+            $aux = [];
+            foreach ($comisiones as $comision) {
+                $periodo = $comision->anho . "-" . $comision->mes;
+                $aux[$periodo][$comision->categoria] = $comision->total;
+            }
+            $data_comisiones = [];
+            $max_comision = 0;
+            while ($raw = current($aux)) {
+                $obj["y"] = key($aux);
+                if(array_key_exists ("Prepago",$raw)){
+                    $obj["prepago"] = $raw["Prepago"]*$actor->porcentaje_prepago;
+                    if($obj["prepago"] > $max_comision)$max_comision = $obj["prepago"];
+                }else{
+                    $obj["prepago"] = 0;
+                }
+                if(array_key_exists ("Libre",$raw)){
+                    $obj["libre"] = $raw["Libre"]*$actor->porcentaje_libre;
+                    if($obj["libre"] > $max_comision)$max_comision = $obj["libre"];
+                }else{
+                    $obj["libre"] = 0;
+                }
+                if(array_key_exists ("Postpago",$raw)){
+                    $obj["postpago"] = $raw["Postpago"]*$actor->porcentaje_postpago;
+                    if($obj["postpago"] > $max_comision)$max_comision = $obj["postpago"];
+                }else{
+                    $obj["postpago"] = 0;
+                }
+                array_push($data_comisiones, $obj);
+                next($aux);
+            }
+            // OBTENER ESTADO FINANCIERO
+            $estado_financiero = Registro_Cartera::where("Actor_cedula", $actor->cedula)->sum(DB::raw("valor_unitario*cantidad"));
+            // RETORNAR VALORES
+            $data['comisiones'] = $data_comisiones;
+            $data['inventarios'] = $data_inventarios;
+            $data["max_comision"] = round ($max_comision,-3);
+            $data['estado_financiero'] = $estado_financiero;
+            $data['Cantidad_notificaciones'] = 0;
+            return View('admin.home', $data);    
         }
-        $data_comisiones = [];
-        $max_comision = 0;
-        while ($raw = current($aux)) {
-            $obj["y"] = key($aux);
-            if(array_key_exists ("Prepago",$raw)){
-                $obj["prepago"] = $raw["Prepago"]*$actor->porcentaje_prepago;
-                if($obj["prepago"] > $max_comision)$max_comision = $obj["prepago"];
-            }else{
-                $obj["prepago"] = 0;
-            }
-            if(array_key_exists ("Libre",$raw)){
-                $obj["libre"] = $raw["Libre"]*$actor->porcentaje_libre;
-                if($obj["libre"] > $max_comision)$max_comision = $obj["libre"];
-            }else{
-                $obj["libre"] = 0;
-            }
-            if(array_key_exists ("Postpago",$raw)){
-                $obj["postpago"] = $raw["Postpago"]*$actor->porcentaje_postpago;
-                if($obj["postpago"] > $max_comision)$max_comision = $obj["postpago"];
-            }else{
-                $obj["postpago"] = 0;
-            }
-            array_push($data_comisiones, $obj);
-            next($aux);
-        }
-        // OBTENER ESTADO FINANCIERO
-        $estado_financiero = Registro_Cartera::where("Actor_cedula", $actor->cedula)->sum(DB::raw("valor_unitario*cantidad"));
-        // RETORNAR VALORES
-        $data['comisiones'] = $data_comisiones;
-        $data['inventarios'] = $data_inventarios;
-        $data["max_comision"] = round ($max_comision,-3);
-        $data['estado_financiero'] = $estado_financiero;
-        $data['Cantidad_notificaciones'] = 0;
         
-        return View('home_admin', $data);
     }
 
     /**

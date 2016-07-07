@@ -52,7 +52,7 @@ function buscar_simcard(ICC){
                 $('#Simcard_responsable').val(data.responsable_simcard);
                 $('#Simcard_numero_linea').val(data.numero_linea);
                 $('#Simcard_categoria').val(data.categoria);
-                $('#Simcard_paquete').val(data.paquete);
+                $('#Simcard_paquete').val(data.paquete_ID);
                 $('#Simcard_plan').val(data.plan);
                 if(data.fecha_asignacion == null){
                     $('#Simcard_fecha_asignacion').val("NO ASIGNADA");
@@ -72,7 +72,7 @@ function buscar_simcard(ICC){
                 $('#Simcard_fecha_vencimiento').val(data.fecha_vencimiento);
                 $("#buscar_simcard").find(".container").attr('class', 'container');
                 $("#buscar_simcard").find(".container").addClass(data.color);
-                if(data.paquete != "SIN PAQUETE"){
+                if(data.paquete_ID != "SIN PAQUETE"){
                     buscar_paquete(pista);
                 }else{
                     $("#buscar_paquete").hide();
@@ -298,20 +298,33 @@ function buscar_paquete(paquete){
     }
     $.get('/buscar_paquete', {dato:pista}, function(data){
         if(data != ''){
-            $("#buscar_paquete").show();
-            $("#paquete_chevron").removeClass("fa-chevron-down");
-            $("#paquete_chevron").addClass("fa-chevron-up");
-            var contenedor = $("#simcards_paquete");
-            var simcards = "";
-            data.forEach(function( simcard ) {
-                $("#numero_paquete").text(simcard["Paquete_ID"]);
-                simcards += '<button style="color:white" class="btn ' + simcard["color"] + '" onClick=buscar_simcard("' + simcard["ICC"] + '")>' + simcard["numero_linea"] + '</button>';
-            });
-            contenedor.html(simcards);
-            $("#titulo_paquete").fadeIn();
-            //$("#acciones_buscar_paquete").fadeIn();
-            if($("#Simcard_ICC").val() != pista && $("#Simcard_numero_linea").val() != pista){
-                buscar_simcard(pista);
+            if(data["acceso"] == "SI"){
+                $("#buscar_paquete").show();
+                $("#paquete_chevron").removeClass("fa-chevron-down");
+                $("#paquete_chevron").addClass("fa-chevron-up");
+                var contenedor = $("#simcards_paquete");
+                var simcards = "";
+                data["simcards"].forEach(function( simcard ) {
+                    $("#numero_paquete").text(simcard["Paquete_ID"]);
+                    simcards += '<button style="color:white" class="btn ' + simcard["color"] + '" onClick=buscar_simcard("' + simcard["ICC"] + '")>' + simcard["numero_linea"] + '</button>';
+                });
+                contenedor.html(simcards);
+                $("#titulo_paquete").fadeIn();
+                $("#acciones_buscar_paquete").fadeIn();
+                if($("#Simcard_ICC").val() != pista && $("#Simcard_numero_linea").val() != pista){
+                    buscar_simcard(pista);
+                }
+            }else{
+                $("#buscar_paquete").hide();
+                $("#paquete_chevron").addClass("fa-chevron-down");
+                $("#paquete_chevron").removeClass("fa-chevron-up");
+                $("#simcards_paquete").html("");
+                $("#numero_paquete").val("");
+                limpiar_modal();
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text("No se encuentra el paquete");
+                remodal.open();
             }
         }else{
             $("#buscar_paquete").hide();

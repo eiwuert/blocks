@@ -21,26 +21,30 @@ class CarteraController extends Controller
     {
         $nombre = $request["nombre"];
         $data = array();
-        $data['Actor'] = Auth::user()->actor;
+        $Actor = Auth::user()->actor;
+        $data['Actor'] = $Actor;
         $data['Cantidad_notificaciones'] = 0;
         $data["nombre"] = $nombre;
-        // OBTENER LOS POSIBLES EMPLEADOS
-        $Actor = Auth::user()->actor;
-        $actores_sin_revisar = [$Actor];
-        $actores = array();
-        while(count($actores_sin_revisar) > 0){
-            $actor = array_pop($actores_sin_revisar);
-            if(!empty($actor)){
-                $cedula = $actor["cedula"];
-                array_push($actores,$actor);
-                $empleados = Actor::where("jefe_cedula", '=', $cedula)->get()->toArray();
-                foreach ($empleados as $empleado) {
-                    array_push($actores_sin_revisar, $empleado);
+        if($Actor->jefe != null){
+            return View('employee.cartera', $data);
+        }else{
+            // OBTENER LOS POSIBLES EMPLEADOS
+            $actores_sin_revisar = [$Actor];
+            $actores = array();
+            while(count($actores_sin_revisar) > 0){
+                $actor = array_pop($actores_sin_revisar);
+                if(!empty($actor)){
+                    $cedula = $actor["cedula"];
+                    array_push($actores,$actor);
+                    $empleados = Actor::where("jefe_cedula", '=', $cedula)->get()->toArray();
+                    foreach ($empleados as $empleado) {
+                        array_push($actores_sin_revisar, $empleado);
+                    }
                 }
             }
+            $data['actores'] = $actores;
+            return View('admin.cartera', $data);
         }
-        $data['actores'] = $actores;
-        return View('cartera', $data);
     }
 
     public function buscar_cartera(Request $request){
