@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Actor;
+use App\Notificacion;
 use App\Ubicacion_Empleado;
 use Auth;
 use DateTime;
@@ -25,6 +26,8 @@ class ActorController extends Controller
         $Actor = Auth::user()->actor;
         $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = [];
         $regiones = Ubicacion::select('region')->distinct()->get();
         foreach ($regiones as &$region) {
             $region->ciudades = Ubicacion::select('ciudad')->where('region',$region->region)->get();
@@ -54,6 +57,8 @@ class ActorController extends Controller
         $Actor = Auth::user()->actor;
         $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = [];
         // OBTENER LOS POSIBLES EMPLEADOS
         $actores_sin_revisar = [$Actor];
         $actores = array();
@@ -232,6 +237,17 @@ class ActorController extends Controller
             return "EXITOSO";
         }else{
             return "ERROR";
+        }
+    }
+    
+    public function eliminar_notificacion(Request $request){
+        $id = $request["id"];
+        $notificacion = Notificacion::find($id);
+        if($notificacion != null){
+            $notificacion->delete();
+            return "EXITOSO";
+        }else{
+            return "No se encuentra registrada la cedula";
         }
     }
 }

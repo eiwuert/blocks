@@ -97,4 +97,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/crear_registro', 'CarteraController@crear_registro');
     Route::get('/eliminar_registro', 'CarteraController@eliminar_registro');
     Route::get('/actualizar_registro', 'CarteraController@actualizar_registro');
+    
+    // ACCIONES USUARIO
+    Route::get('/eliminar_notificacion', 'ActorController@eliminar_notificacion');
 });

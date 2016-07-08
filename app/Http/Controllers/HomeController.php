@@ -10,6 +10,7 @@ use DB;
 use App\Simcard;
 use App\Equipo;
 use App\Comision;
+use App\Notificacion;
 use App\Registro_Cartera;
 use Auth;
 use App\Http\Controllers\Controller;
@@ -27,7 +28,8 @@ class HomeController extends Controller
         $data = array();
         $actor = Auth::user()->actor;
         $data['Actor'] = $actor;
-        $data['Cantidad_notificaciones'] = 0;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();;
         if($actor->jefe != null){
             // CONTAR LAS SIMCARDS PREPAGO
             $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {

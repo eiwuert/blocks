@@ -39,6 +39,8 @@ class SimcardController extends Controller
         $Actor->lista_permisos = $lista_permisos;
         $data['Actor'] = $Actor;
         $data['Cantidad_notificaciones'] = 0;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = [];
         // OBTENER LOS POSIBLES RESPONSABLES
         $actores_sin_revisar = [$Actor];
         $actores = array();

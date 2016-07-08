@@ -26,6 +26,8 @@ class ClienteController extends Controller
         $data = array();
         $data['Actor'] = Auth::user()->actor;
         $data['Cantidad_notificaciones'] = 0;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = [];
         $data["cliente"] = $cliente;    
         $regiones = Ubicacion::select('region')->distinct()->get();
         foreach ($regiones as &$region) {
