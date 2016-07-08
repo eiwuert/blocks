@@ -14,7 +14,7 @@ class CreateEquipoTable extends Migration
     {
         Schema::create('Equipo', function (Blueprint $table) {
             $table->string('IMEI')->unique();
-            $table->string('Actor_cedula');
+            $table->string('Actor_cedula')->nullable();
             $table->string('Simcard_ICC')->nullable();
             $table->string('Cliente_identificacion')->nullable();
             $table->date('fecha_venta')->nullable();

@@ -100,7 +100,7 @@ class SimcardController extends Controller
     public function buscar_simcard(Request $request)
     {
         $pista = $request['dato'];
-        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "PAQUETES")->first();
+        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
         if($permiso != null || Auth::user()->actor->jefe_cedula == null){
             $simcard = Simcard::with('paquete')->where(function($q) use ($pista) {
                     $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
@@ -206,7 +206,7 @@ class SimcardController extends Controller
         }
         if($paquete != null){
             $data["simcards"] = $simcards;
-            $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "PAQUETES")->first();
+            $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
             if($paquete->Actor_cedula == Auth::user()->actor->cedula || $permiso != null || Auth::user()->actor->jefe_cedula == null){
                 $data["acceso"] = "SI";
             }else{

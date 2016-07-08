@@ -1,4 +1,4 @@
-@extends('layout.app_admin')
+@extends('layout.app')
 
 @section('Custom_css')
 <!-- iCheck -->

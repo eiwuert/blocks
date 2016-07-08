@@ -14,15 +14,14 @@ class DescripcionEquipo extends Migration
     {
         Schema::create('Descripcion_Equipo', function (Blueprint $table) {
             $table->string('cod_scl')->unique();
-            $table->string('marca');
             $table->string('modelo');
-            $table->enum('gama',['ALTA','MEDIA','BAJA']);
-            $table->float('precio_prepago');
-            $table->float('precio_postpago');
-            $table->float('precio_3_cuotas');
-            $table->float('precio_6_cuotas');
-            $table->float('precio_9_cuotas');
-            $table->float('precio_12_cuotas');
+            $table->string('tecnologia');
+            $table->double('precio_prepago',10,2);
+            $table->double('precio_contado',10,2);
+            $table->double('precio_3_cuotas',10,2);
+            $table->double('precio_6_cuotas',10,2);
+            $table->double('precio_12_cuotas',10,2);
+            $table->double('precio_24_cuotas',10,2);
         });
     }
 

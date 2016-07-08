@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Auth;
 use App\Equipo;
 use App\Simcard;
+use App\Asignacion_Permiso;
 use App\Descripcion_Equipo;
 use App\Http\Controllers\Controller;
 
@@ -30,7 +31,7 @@ class EquipoController extends Controller
     
     public function buscar_equipo_general(Request $request){
         $pista = $request["dato"];
-        $descripcion_equipo = Descripcion_Equipo::where('cod_scl',$pista)->orWhere('modelo',$pista)->first();
+        $descripcion_equipo = Descripcion_Equipo::where('cod_scl',$pista)->orWhere('modelo',"like", "%".$pista."%")->first();
         if($descripcion_equipo != null){
             $descripcion_equipo->equipos = $descripcion_equipo->equipos()->where("Actor_cedula",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->get();
         }
@@ -39,9 +40,15 @@ class EquipoController extends Controller
     
     public function buscar_equipo_especifico(Request $request){
         $pista = $request["dato"];
-        $equipo = Equipo::where("IMEI",$pista)->where("Actor_cedula","=",Auth::user()->actor->cedula)->first();
+        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
+        if($permiso != null || Auth::user()->actor->jefe_cedula == null){
+            $equipo = Equipo::where("IMEI",$pista)->first();
+        }else{
+            $equipo = Equipo::where("IMEI",$pista)->where("Actor_cedula","=",Auth::user()->actor->cedula)->first();
+        }
         if($equipo != null){
             $equipo->descripcion_equipo = $equipo->descripcion_equipo;
+            $equipo->responsable = $equipo->responsable; 
             if($equipo->cliente != null){
                 $equipo->cliente = $equipo->cliente;
             }

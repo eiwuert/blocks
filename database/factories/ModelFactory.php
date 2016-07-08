@@ -63,3 +63,9 @@ $factory->define(App\Registro_Cartera::class, function ($faker) {
         'descripcion' => $faker->realText($maxNbChars = 10, $indexSize = 2)
     ];
 });
+
+$factory->define(App\Equipo::class, function ($faker) {
+    return [
+        'IMEI' => $faker->randomNumber($nbDigits = 8),
+    ];
+});

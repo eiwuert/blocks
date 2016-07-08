@@ -41,15 +41,38 @@ function buscar_equipo_general(cod_scl){
                 $("#buscar_equipo_general").find(".text_container").show();
                 $('#Equipo_cod_scl_copia').text(data.cod_scl);
                 $('#Equipo_cod_scl').val(data.cod_scl);
-                $('#Equipo_gama').val(data.gama);
-                $('#Equipo_marca').val(data.marca);
+                $('#Equipo_tecnologia').val(data.tecnologia);
                 $('#Equipo_modelo').val(data.modelo);
-                $('#Equipo_precio_prepago').val(data.precio_prepago);
-                $('#Equipo_precio_postpago').val(data.precio_postpago);
-                $('#Equipo_precio_3_cuotas').val(data.precio_3_cuotas);
-                $('#Equipo_precio_6_cuotas').val(data.precio_6_cuotas);
-                $('#Equipo_precio_9_cuotas').val(data.precio_9_cuotas);
-                $('#Equipo_precio_12_cuotas').val(data.precio_12_cuotas);
+                if(data.precio_prepago != 0){
+                    $('#Equipo_precio_prepago').val(accounting.formatMoney(data.precio_prepago,"$",0));
+                }else{
+                    $('#Equipo_precio_prepago').val("ND");
+                }
+                if(data.precio_contado != 0){
+                    $('#Equipo_precio_contado').val(accounting.formatMoney(data.precio_contado,"$",0));
+                }else{
+                    $('#Equipo_precio_contado').val("ND");
+                }
+                if(data.precio_3_cuotas != 0){
+                    $('#Equipo_precio_3_cuotas').val(accounting.formatMoney(data.precio_3_cuotas,"$",0));
+                }else{
+                    $('#Equipo_precio_3_cuotas').val("ND");
+                }
+                if(data.precio_6_cuotas != 0){
+                    $('#Equipo_precio_6_cuotas').val(accounting.formatMoney(data.precio_6_cuotas,"$",0));
+                }else{
+                    $('#Equipo_precio_6_cuotas').val("ND");
+                }
+                if(data.precio_12_cuotas != 0){
+                    $('#Equipo_precio_12_cuotas').val(accounting.formatMoney(data.precio_12_cuotas,"$",0));
+                }else{
+                    $('#Equipo_precio_12_cuotas').val("ND");
+                }
+                if(data.precio_24_cuotas != 0){
+                    $('#Equipo_precio_24_cuotas').val(accounting.formatMoney(data.precio_24_cuotas,"$",0));
+                }else{
+                    $('#Equipo_precio_24_cuotas').val("ND");
+                }
                 //LISTAR EQUIPOS ESPECIFICOS
                 if(data.equipos != ""){
                     $("#listado_equipos_container").show();
@@ -103,6 +126,11 @@ function buscar_equipo_especifico(IMEI){
                 $("#buscar_equipo_especifico").find(".text_container").show();
                 $('#Equipo_IMEI_copia').text(data.IMEI);
                 $('#Equipo_IMEI').val(data.IMEI);
+                if(data.responsable != null){
+                    $('#Equipo_responsable').val(data.responsable.nombre);
+                }else{
+                    $('#Equipo_responsable').val("Sin Responsable");
+                }
                 if(data.simcard != null){
                     $('#simcard_container').addClass(data.color);
                     $('#Equipo_simcard').text(data.simcard.numero_linea);
@@ -120,7 +148,11 @@ function buscar_equipo_especifico(IMEI){
                     $('#Equipo_cliente').attr("href","#");
                 }
                 $('#Equipo_modelo').val(data.modelo);
-                $('#Equipo_descripcion_precio').val(data.descripcion_precio);
+                if(data.descripcion_precio != null){
+                    $('#Equipo_descripcion_precio').val(data.descripcion_precio);
+                }else{
+                    $('#Equipo_descripcion_precio').val("NO VENDIDO");
+                }
                 buscar_equipo_general(data.descripcion_equipo.cod_scl);
             }else{
                 $("#Equipo_general_pista").val("");
@@ -325,3 +357,9 @@ function modal_cargar_equipos(){
     $("#cargar_equipo_modal").show();  
     remodal.open();
 }
+
+$("#Equipo_general_pista").keyup(function (e) {
+    if (e.keyCode == 13) {
+        buscar_equipo_general();
+    }
+});

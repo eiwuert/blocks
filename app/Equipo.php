@@ -21,4 +21,7 @@ class Equipo extends Model
     public function descripcion_equipo(){
         return $this->hasOne('App\Descripcion_Equipo','cod_scl','Descripcion_Equipo_cod_scl');
     }
+    public function responsable(){
+        return $this->belongsTo('App\Actor','Actor_cedula','cedula');
+    }
 }

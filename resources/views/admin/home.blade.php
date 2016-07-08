@@ -1,4 +1,4 @@
-@extends('layout.app_admin')
+@extends('layout.app')
 
 @section('Custom_css')
 <!-- iCheck -->
@@ -120,6 +120,7 @@
       labels: ['Inventario', 'Asignadas', 'Vendidas'],
       hideHover:"auto",
       resize:true,
+      ymax: {{$max_inventarios}},
       barColors: ["grey", "#85C1F5", "#7FCA9F"],
     });
   @endif

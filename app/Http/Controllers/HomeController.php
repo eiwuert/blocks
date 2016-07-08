@@ -65,37 +65,46 @@ class HomeController extends Controller
                                         })->where("categoria",'=','Postpago')->count();
             // OBTENER INVENTARIOS
             $data_inventarios = [];
+            $max_inventarios = 0;
                 // PREPAGO
                 $inventario["y"] = "Prepago";
                 $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
                                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
                                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
                             })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario);     
                 // LIBRE
                 $inventario["y"] = "Libre";
                 $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
                                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
                                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
                             })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario);    
                 // POSTPAGO
                 $inventario["y"] = "Postpago";
                 $inventario["Inventario"] = $simcard = Simcard::whereHas('paquete',function ($query){
                                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Vendidas"] = $simcard = Simcard::whereHas('paquete',function ($query){
                                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
                             })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario);
                 // EQUIPOS
                 $inventario["y"] = "Equipos";
                 $inventario["Inventario"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Vendidas"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNotNull("Cliente_identificacion")->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario); 
             // OBTENER COMISIONES POR MES
             $paquetes = $actor->paquetes;
@@ -147,6 +156,7 @@ class HomeController extends Controller
             $data["max_comision"] = round ($max_comision,-3);
             $data['estado_financiero'] = $estado_financiero;
             $data['Cantidad_notificaciones'] = 0;
+            $data["max_inventarios"] = round ($max_inventarios,-3);
             return View('employee.home', $data);    
         }else{
             // OBTENER TORTAS
@@ -172,40 +182,55 @@ class HomeController extends Controller
             $data['Total_postpago'] = Simcard::with('paquete')->where("categoria",'Postpago')->count();
             // OBTENER INVENTARIOS
             $data_inventarios = [];
+            $max_inventarios = 0;
                 // PREPAGO
                 $inventario["y"] = "Prepago";
                 $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNotNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                if($inventario["Asignadas"] > $max_inventarios) $max_inventarios = $inventario["Asignadas"]; 
                 $inventario["Vendidas"] = Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario);     
                 // LIBRE
                 $inventario["y"] = "Libre";
                 $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNotNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                if($inventario["Asignadas"] > $max_inventarios) $max_inventarios = $inventario["Asignadas"]; 
                 $inventario["Vendidas"] =  Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario);    
                 // POSTPAGO
                 $inventario["y"] = "Postpago";
                 $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
-                $inventario["Vendidas"] = $simcard = Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNotNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                if($inventario["Asignadas"] > $max_inventarios) $max_inventarios = $inventario["Asignadas"]; 
+                $inventario["Vendidas"] = $simcard = Simcard::whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
+                
             array_push($data_inventarios, $inventario);
                 // EQUIPOS
                 $inventario["y"] = "Equipos";
-                $inventario["Inventario"] = Equipo::whereNull("Cliente_identificacion")->count();
+                $inventario["Inventario"] = Equipo::whereNull("Actor_cedula")->whereNull("Cliente_identificacion")->count();
+                if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Vendidas"] = Equipo::whereNotNull("Cliente_identificacion")->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"];  
+                $inventario["Asignadas"] = Equipo::whereNotNull("Actor_cedula")->whereNull("Cliente_identificacion")->count();
+                if($inventario["Asignadas"] > $max_inventarios) $max_inventarios = $inventario["Asignadas"];
             array_push($data_inventarios, $inventario); 
             // OBTENER COMISIONES POR MES
             
@@ -257,6 +282,7 @@ class HomeController extends Controller
             $data["max_comision"] = round ($max_comision,-3);
             $data['estado_financiero'] = $estado_financiero;
             $data['Cantidad_notificaciones'] = 0;
+            $data["max_inventarios"] = round ($max_inventarios,-3);
             return View('admin.home', $data);    
         }
         

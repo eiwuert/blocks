@@ -14,7 +14,7 @@ class CreateAsignacionPermisoTable extends Migration
     {
         Schema::create('Asignacion_Permiso', function (Blueprint $table) {
             $table->string('User_email');
-            $table->enum('permiso', ["PAQUETES", "ARCHIVOS"]);
+            $table->enum('permiso', ["INVENTARIOS", "ARCHIVOS"]);
             $table->foreign('User_email')->references('email')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->primary(['User_email', 'permiso']);
         });

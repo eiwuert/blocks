@@ -34,7 +34,7 @@
           <h4>Busque los equipos por cod_scl o marca, Actualice los datos de todos los equipos modificando los valores blancos en los bloques y oprimiendo "Actualizar" o elimine todos los equipo oprimiendo "Eliminar".</h4>
           <div class="contenedor_pista">
               <input type="text" placeholder="Pista" id="Equipo_general_pista">
-              <button style="width:20%" class="btn azul" onClick = "buscar_equipo_general()" type="number" id="Equipo_buscar">Buscar</button>
+              <button style="width:20%" class="btn azul" onClick = "buscar_equipo_general()" type="number" id="Descripcion_Equipo_buscar">Buscar</button>
           </div>
           <div class="form">
               <p id="Equipo_cod_scl_copia" style="display:none"></p>
@@ -42,10 +42,7 @@
                  <div class="text_container"><span>Cod_scl</span></div><input disabled="true" type="text" placeholder="Cod_scl" id ="Equipo_cod_scl">
                </div>
               <div class="container">
-                  <div class="text_container"><span>Gama</span></div><input disabled="true" type="text" placeholder="Gama" id ="Equipo_gama">
-              </div>
-              <div class="container">
-                  <div class="text_container"><span>Marca</span></div><input disabled="true" type="text" placeholder="Marca" id ="Equipo_marca">
+                  <div class="text_container"><span>Tecnología</span></div><input disabled="true" type="text" placeholder="Tecnología" id ="Equipo_tecnologia">
               </div>
               <div class="container">
                   <div class="text_container"><span>Modelo</span></div><input disabled="true" type="text" placeholder="Modelo" id ="Equipo_modelo">
@@ -54,7 +51,7 @@
                   <div class="text_container"><span>Precio Prepago</span></div><input disabled="true" type="text" placeholder="Precio Prepago" id ="Equipo_precio_prepago">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Precio Postpago</span></div><input disabled="true" type="text" placeholder="Precio Postpago" id ="Equipo_precio_postpago">
+                  <div class="text_container"><span>Precio Contado</span></div><input disabled="true" type="text" placeholder="Precio Contado" id ="Equipo_precio_contado">
               </div>
               <div class="container">
                   <div class="text_container"><span>Precio 3 Cuotas</span></div><input disabled="true" type="text" placeholder="Precio 3 Cuotas" id ="Equipo_precio_3_cuotas">
@@ -63,10 +60,10 @@
                   <div class="text_container"><span>Precio 6 Cuotas</span></div><input disabled="true" type="text" placeholder="Precio 6 Cuotas" id ="Equipo_precio_6_cuotas">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Precio 9 Cuotas</span></div><input disabled="true" type="text" placeholder="Precio 9 Cuotas" id ="Equipo_precio_9_cuotas">
+                  <div class="text_container"><span>Precio 12 Cuotas</span></div><input disabled="true" type="text" placeholder="Precio 12 Cuotas" id ="Equipo_precio_12_cuotas">
               </div>
               <div class="container">
-                  <div class="text_container"><span>Precio 12 Cuotas</span></div><input disabled="true" type="text" placeholder="Precio 12 Cuotas" id ="Equipo_precio_12_cuotas">
+                  <div class="text_container"><span>Precio 24 Cuotas</span></div><input disabled="true" type="text" placeholder="Precio 24 Cuotas" id ="Equipo_precio_24_cuotas">
               </div>
             </div> 
           <div class="contenedor_acciones" style="display:none">
@@ -103,6 +100,9 @@
               <p id="Equipo_IMEI_copia" style="display:none"></p>
               <div class="container">
                  <div class="text_container"><span>IMEI</span></div><input disabled="true" type="text" placeholder="IMEI" id ="Equipo_IMEI">
+              </div>
+              <div class="container">
+                 <div class="text_container"><span>Responsable</span></div><input disabled="true" type="text" placeholder="Responsable" id ="Equipo_responsable">
               </div>
               <div class="container" id ="simcard_container">
                 <div class="text_container"><span>Simcard</span></div><a id ="Equipo_simcard" class="btn transparente">Simcard</a>
