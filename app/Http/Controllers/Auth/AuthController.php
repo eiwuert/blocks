@@ -46,7 +46,7 @@ class AuthController extends Controller
         $validator = Validator::make($data, [
             'Actor_cedula' => 'required|integer',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
         ]);
         
         $validator->after(function($validator) {

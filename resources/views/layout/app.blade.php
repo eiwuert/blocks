@@ -18,6 +18,8 @@
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     @if($Actor->jefe_cedula == null)
@@ -69,6 +71,7 @@
                       <li id="link_simcards"><a href="/simcard">Simcards</a></li>
                       <li id="link_equipos"><a href="/equipo">Equipos</a></li>
                       <li><a href="index3.html">Servicios</a></li>
+                      <li id="link_reportes_inventario"><a href="/reportes_inventario">Reportes</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i> Gestión <span class="fa fa-chevron-down"></span></a>
@@ -76,7 +79,7 @@
                       <li id="link_clientes"><a href="/cliente">Clientes</a></li>
                       <li id="link_personal"><a href="/personal">Personal</a></li>
                       <li id="link_control_vendedores"><a href="/control_vendedores">Control Vendedores</a></li>
-                      <li id="link_control_vendedores"><a href="/reportes">Reportes</a></li>
+                      <li id="link_reportes_personal"><a href="/reportes_personal">Reportes</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
@@ -239,6 +242,10 @@
     <script src="/js/morris.min.js"></script>
     <!-- Background Image Script -->
     <script src="/js/backstretch.min.js"></script>
+    <!-- Datatables Script -->
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="/js/dataTables.bootstrap.min.js"></script>
+    
     <script type="text/javascript">
       $.confirm.options = {
           title: "",

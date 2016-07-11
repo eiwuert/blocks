@@ -33,6 +33,7 @@ function buscar_equipo_general(cod_scl){
                 $('#simcard_container').attr("class","container");
                 $('#Equipo_cliente').text("Cliente");
                 $('#Equipo_cliente').attr("href","#");
+                $("#acciones_equipo_especifico").hide();
             }
             
             //LIMPIAR LISTADO DE EQUIPOS
@@ -131,6 +132,11 @@ function buscar_equipo_especifico(IMEI){
                 }else{
                     $('#Equipo_responsable').val("Sin Responsable");
                 }
+                if(data.fecha_asignacion != null){
+                    $('#Equipo_fecha_asignacion').val(data.fecha_asignacion);
+                }else{
+                    $('#Equipo_fecha_asignacion').val("No Asignada");
+                }
                 if(data.simcard != null){
                     $('#simcard_container').addClass(data.color);
                     $('#Equipo_simcard').text(data.simcard.numero_linea);
@@ -154,6 +160,7 @@ function buscar_equipo_especifico(IMEI){
                     $('#Equipo_descripcion_precio').val("NO VENDIDO");
                 }
                 buscar_equipo_general(data.descripcion_equipo.cod_scl);
+                $("#acciones_equipo_especifico").show();
             }else{
                 $("#Equipo_general_pista").val("");
                 //BORRAR DATOS DE SECCION EQUIPO ESPECIFICO
@@ -174,9 +181,36 @@ function buscar_equipo_especifico(IMEI){
                 $("#titulo_modal").text("ERROR!!");
                 $("#contenido_modal").text("Equipo no encontrado");
                 remodal.open();
+                $("#acciones_equipo_especifico").hide();
             }
         });
     }
+}
+
+function asignar_equipo(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("ASIGNAR RESPONSABLE");
+    $("#responsables_equipo").show();
+    remodal.open();    
+}
+
+function asignar_responsable_equipo(cedula){
+    var datos_equipo = {};
+    datos_equipo["imei"] = $("#Equipo_IMEI").val();
+    datos_equipo["responsable"] = cedula;
+    $.get('/asignar_responsable_equipo', {dato:datos_equipo}, function(resultado){
+        if(resultado == "EXITOSO" ){
+            remodal.close();
+            buscar_equipo_especifico($("#Equipo_IMEI").val());
+        }else{
+            limpiar_modal();
+            modal.addClass("modal_error");
+            $("#titulo_modal").text("ERROR!!");
+            $("#contenido_modal").text(resultado);
+            remodal.open();
+        }
+    }); 
 }
 
 function actualizar_descripcion_equipo(){

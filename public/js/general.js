@@ -16,6 +16,7 @@ function limpiar_modal(){
    $("#planes_simcard_buscar_simcard").hide();
    $("#tipos_cliente").hide();
    $("#responsables_simcards").hide();
+   $("#responsables_equipo").hide();
    $("#regiones").hide();
    $("#jefes").hide();
    $("#ciudades").hide();

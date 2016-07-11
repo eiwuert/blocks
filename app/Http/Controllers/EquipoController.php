@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 use App\Equipo;
+use DateTime;
+use App\Actor;
 use App\Simcard;
 use App\Asignacion_Permiso;
 use App\Descripcion_Equipo;
@@ -28,14 +30,29 @@ class EquipoController extends Controller
         // CARGAR NOTIFICACIONES
         $data['notificaciones'] = [];
         $data["equipo"] = $equipo;
-        return View('employee.equipo', $data);
+        // OBTENER POSIBLES RESPONSABLES
+        $responsables = Actor::all();
+        $data["responsables"] = $responsables;
+        // OBTENER PERMISO
+        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
+        if($permiso != null || Auth::user()->actor->jefe_cedula == null){
+            $data["permiso_inventarios"] = true;
+        }else{
+            $data["permiso_inventarios"] = false;
+        }
+        return View('general.equipo', $data);
     }
     
     public function buscar_equipo_general(Request $request){
         $pista = $request["dato"];
         $descripcion_equipo = Descripcion_Equipo::where('cod_scl',$pista)->orWhere('modelo',"like", "%".$pista."%")->first();
         if($descripcion_equipo != null){
-            $descripcion_equipo->equipos = $descripcion_equipo->equipos()->where("Actor_cedula",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->get();
+            $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
+            if($permiso != null || Auth::user()->actor->jefe_cedula == null){
+                $descripcion_equipo->equipos = $descripcion_equipo->equipos()->whereNull("Cliente_identificacion")->get();
+            }else{
+                $descripcion_equipo->equipos = $descripcion_equipo->equipos()->where("Actor_cedula",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->get();
+            }
         }
         return $descripcion_equipo;
     }
@@ -157,6 +174,23 @@ class EquipoController extends Controller
             }
         }else{
             return "Equipo no encontrado";
+        }
+    }
+    
+    public function asignar_responsable_equipo(Request $request){
+        $datos_equipo = $request['dato'];
+        $equipo = Equipo::find($datos_equipo["imei"]);
+        if($equipo != ""){
+            $hoy = new DateTime();
+            $equipo->Actor_cedula = $datos_equipo["responsable"];
+            $equipo->fecha_asignacion = $hoy;
+            if($equipo->save() == true){
+                return "EXITOSO";
+            }else{
+                return "FALLIDO";
+            }
+        }else{
+            return "FALLIDO";
         }
     }
     

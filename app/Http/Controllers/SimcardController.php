@@ -61,7 +61,7 @@ class SimcardController extends Controller
         $planes = Plan::all();
         $data['planes'] = $planes;
         $data["simcard"] = $simcard;    
-        return View('employee.simcard', $data);
+        return View('general.simcard', $data);
         
         
     }

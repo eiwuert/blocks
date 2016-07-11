@@ -104,6 +104,9 @@
               <div class="container">
                  <div class="text_container"><span>Responsable</span></div><input disabled="true" type="text" placeholder="Responsable" id ="Equipo_responsable">
               </div>
+              <div class="container">
+                 <div class="text_container"><span>Asignada</span></div><input disabled="true" type="text" placeholder="Fecha Asignación" id ="Equipo_fecha_asignacion">
+              </div>
               <div class="container" id ="simcard_container">
                 <div class="text_container"><span>Simcard</span></div><a id ="Equipo_simcard" class="btn transparente">Simcard</a>
               </div>
@@ -114,10 +117,11 @@
                   <div class="text_container"><span>Valor Pagado</span></div><input disabled="true" type="text" placeholder="Valor Pagado" id ="Equipo_descripcion_precio">
               </div>
             </div> 
-          <div class="contenedor_acciones" style="display:none">
-              <button class="btn azul" onClick="actualizar_equipo()">Actualizar</button>
-              <button class="btn rojo" onClick="eliminar_equipo()">Eliminar</button>
+          @if($permiso_inventarios)
+          <div class="contenedor_acciones" id="acciones_equipo_especifico" style="display:none">
+              <button class="btn verde" onClick="asignar_equipo()">Asignar</button>
           </div>
+          @endif
         </div>
       </div>
     </div>
@@ -156,6 +160,11 @@
 @section('contenido_modal')
 <p id ="contenido_modal"></p>
 
+<div id="responsables_equipo" style="display:none">
+  @foreach ($responsables as $responsable)
+    <button class="btn transparente" id='{{$responsable["cedula"]}}' onClick="asignar_responsable_equipo(this.id)">{{$responsable["nombre"]}}</button>
+  @endforeach
+</div>
 <div class="flex_filas" id="cargar_descripcion_equipo_modal">
   {!! Form::open(
       array(

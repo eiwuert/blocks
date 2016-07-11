@@ -49,7 +49,7 @@ class ActorController extends Controller
         }
         $data['actores'] = $actores;
         $data["cedula"] = $cedula_buscada;        
-        return View('employee.personal',$data);
+        return View('general.personal',$data);
     }
 
     public function control_vendedores(Request $request){
@@ -74,11 +74,11 @@ class ActorController extends Controller
             }
         }
         $data['actores'] = $actores; 
-        return View('employee.control_vendedores',$data);    
+        return View('general.control_vendedores',$data);    
     }
     
     public function control_vendedores_front(Request $request){
-        return View('employee.control_vendedores_front');    
+        return View('general.control_vendedores_front');    
     }
     
     public function buscar_actor(Request $request){
@@ -174,8 +174,10 @@ class ActorController extends Controller
             if($datos_actor["Actor_cedula_copia"] != $datos_actor["Actor_cedula"]){
                 $actor_aux = Actor::find($datos_actor["Actor_cedula_copia"]);
                 $user = $actor_aux->user;
-                $user->Actor_cedula = $datos_actor["Actor_cedula"];
-                $user->save();
+                if($user != null){
+                    $user->Actor_cedula = $datos_actor["Actor_cedula"];
+                    $user->save();
+                }
                 $empleados = Actor::where("jefe_cedula", $actor_aux->cedula)->get();
                 foreach ($empleados as $empleado) {
                     $empleado->jefe_cedula = $datos_actor["Actor_cedula"];
@@ -183,8 +185,18 @@ class ActorController extends Controller
                 }
                 $paquetes = $actor_aux->paquetes;
                 foreach ($paquetes as $paquete) {
-                    $paquete->Actor_cedula = null;
+                    $paquete->Actor_cedula = $datos_actor["Actor_cedula"];
                     $paquete->save();
+                }
+                $equipos = $actor_aux->equipos;
+                foreach ($equipos as $equipo) {
+                    $equipo->Actor_cedula = $datos_actor["Actor_cedula"];
+                    $equipo->save();
+                }
+                $registros_cartera = $actor_aux->registros_cartera;
+                foreach ($registros_cartera as $registro) {
+                    $registro->Actor_cedula = $datos_actor["Actor_cedula"];
+                    $registro->save();
                 }
                 $actor_aux->delete();
             }
@@ -199,14 +211,27 @@ class ActorController extends Controller
         $actor = Actor::find($cedula);
         if($actor != null){
             $empleados = Actor::where("jefe_cedula", $cedula)->get();
+            $user = $actor->user;
+            if($user != null){
+                $user->delete();
+            }
             foreach ($empleados as $empleado) {
                 $empleado->jefe_cedula = Auth::user()->actor->cedula;
                 $empleado->save();
             }
-            $paquete = $actor->paquetes;
+            $paquetes = $actor->paquetes;
             foreach ($paquetes as $paquete) {
                 $paquete->Actor_cedula = null;
                 $paquete->save();
+            }
+            $equipos = $actor->equipos;
+            foreach ($equipos as $equipo) {
+                $equipo->Actor_cedula = null;
+                $equipo->save();
+            }
+            $registros_cartera = $actor->registros_cartera;
+            foreach ($registros_cartera as $registro) {
+                $registro->delete();
             }
             $actor->delete();
             return "EXITOSO";

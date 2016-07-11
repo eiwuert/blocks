@@ -94,13 +94,16 @@
                 <input type="password" name="password" class="form-control" placeholder="Password" required="" />
               </div>
               <div>
+                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmación Password" required="" />
+              </div>
+              <div>
                 <button type="submit" class="btn btn-default submit" href="index.html">Crear</button>
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">¿Ya eres miembre?
+                <p class="change_link">¿Ya eres miembro?
                   <a href="#signin" class="to_register"> Ingresar </a>
                 </p>
 

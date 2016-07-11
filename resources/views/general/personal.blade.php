@@ -62,7 +62,8 @@
               <div class="container">
                   <div class="text_container"><span>Sueldo</span></div><input type="text" placeholder="Sueldo" id ="Actor_sueldo">
               </div>
-              <!--h4>Porcentaje comisiones</h4>
+          @if($Actor->jefe_cedula == null)              
+              <h4>Porcentaje comisiones</h4>
               <div class="container">
                   <div class="text_container"><span>Prepago</span></div><input type="text" placeholder="Prepago" id ="Actor_porcentaje_prepago">
               </div>
@@ -77,13 +78,14 @@
               </div>
               <div class="container">
                   <div class="text_container"><span>Servicios</span></div><input type="text" placeholder="Servicios" id ="Actor_porcentaje_servicio">
-              </div-->
+              </div>
             </div>
           <div class="contenedor_acciones">
               <button class="btn verde" onClick="crear_empleado()">Crear</button>
               <button class="btn azul" onClick="actualizar_empleado()">Actualizar</button>
               <button class="btn rojo" id="btn_eliminar_empleado" onClick="eliminar_empleado()">Eliminar</button>
           </div>
+          @endif
         </div>
       </div>
     </div>

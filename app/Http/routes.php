@@ -81,6 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/eliminar_equipo_general', 'EquipoController@eliminar_equipo_general');
     Route::post('/subir_archivo_descripcion_equipos', ['as' => 'subirArchivoDescripcionEquipo', 'uses' => 'EquipoController@subir_archivo_descripcion']);
     Route::post('/subir_archivo_equipos', ['as' => 'subirArchivoEquipo', 'uses' => 'EquipoController@subir_archivo_equipo']);
+    Route::get('/asignar_responsable_equipo', 'EquipoController@asignar_responsable_equipo');
     
     // ACCIONES EMPLEADOS
     Route::get('/buscar_actor', 'ActorController@buscar_actor');
@@ -100,4 +101,9 @@ Route::group(['middleware' => 'auth'], function () {
     
     // ACCIONES USUARIO
     Route::get('/eliminar_notificacion', 'ActorController@eliminar_notificacion');
+    
+    // ACCIONES REPORTES
+    Route::get('/reportes_inventario', 'ReporteController@reportes_inventario');
+    Route::get('/reportes_personal', 'ReporteController@reportes_personal');
+    
 });

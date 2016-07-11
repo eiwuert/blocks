@@ -34,7 +34,7 @@ class ClienteController extends Controller
             $region->ciudades = Ubicacion::select('ciudad')->where('region',$region->region)->get();
         }
         $data["regiones"] = $regiones;
-        return View('employee.cliente',$data);
+        return View('general.cliente',$data);
     }
 
     public function buscar_cliente(Request $request){
