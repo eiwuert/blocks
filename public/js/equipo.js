@@ -128,9 +128,11 @@ function buscar_equipo_especifico(IMEI){
                 $('#Equipo_IMEI_copia').text(data.IMEI);
                 $('#Equipo_IMEI').val(data.IMEI);
                 if(data.responsable != null){
-                    $('#Equipo_responsable').val(data.responsable.nombre);
+                    $('#Equipo_responsable').text(data.responsable.nombre);
+                    $('#Equipo_responsable').attr("href","/personal?cedula=" + data.responsable.cedula);
                 }else{
-                    $('#Equipo_responsable').val("Sin Responsable");
+                    $('#Equipo_responsable').text("Sin Responsable");
+                    $('#Equipo_responsable').attr("href","#");
                 }
                 if(data.fecha_asignacion != null){
                     $('#Equipo_fecha_asignacion').val(data.fecha_asignacion);
@@ -171,6 +173,8 @@ function buscar_equipo_especifico(IMEI){
                 $('#simcard_container').attr("class","container");
                 $('#Equipo_cliente').text("Cliente");
                 $('#Equipo_cliente').attr("href","#");
+                $('#Equipo_responsable').text("Responsable");
+                $('#Equipo_responsable').attr("href","#");
                 $('#buscar_equipo_general .form :input').val("");
                 $("#buscar_equipo_general").find(".text_container").hide();
                 $('#Equipo_gama').val("");

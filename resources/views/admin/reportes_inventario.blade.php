@@ -53,11 +53,10 @@
 @section('Custom_js')
 <script src="/js/reportes_inventario.js"></script>
 <!-- Datatables -->
-    <script>
-      $(document).ready(function() {
-        $('#datatable').dataTable();
-      });
-    </script>
-    <!-- /Datatables -->
-
+<script>
+  $(document).ready(function() {
+    $('#datatable').dataTable();
+  });
+</script>
+<!-- /Datatables -->
 @endsection

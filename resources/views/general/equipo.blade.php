@@ -102,7 +102,7 @@
                  <div class="text_container"><span>IMEI</span></div><input disabled="true" type="text" placeholder="IMEI" id ="Equipo_IMEI">
               </div>
               <div class="container">
-                 <div class="text_container"><span>Responsable</span></div><input disabled="true" type="text" placeholder="Responsable" id ="Equipo_responsable">
+                 <div class="text_container"><span>Responsable</span></div><a id ="Equipo_responsable">Responsable</a>
               </div>
               <div class="container">
                  <div class="text_container"><span>Asignada</span></div><input disabled="true" type="text" placeholder="Fecha Asignación" id ="Equipo_fecha_asignacion">

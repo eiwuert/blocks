@@ -106,4 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/reportes_inventario', 'ReporteController@reportes_inventario');
     Route::get('/reportes_personal', 'ReporteController@reportes_personal');
     
+    // ACCIONES SEGURIDAD
+    Route::get('/permisos', 'SeguridadController@permisos');
+    Route::get('/guardar_permisos', 'SeguridadController@guardar_permisos');
 });
