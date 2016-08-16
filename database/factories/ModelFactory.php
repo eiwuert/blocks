@@ -69,3 +69,15 @@ $factory->define(App\Equipo::class, function ($faker) {
         'IMEI' => $faker->randomNumber($nbDigits = 8),
     ];
 });
+
+$factory->define(App\Cliente::class, function ($faker) {
+    return [
+        'identificacion' => $faker->randomNumber($nbDigits = 9),
+        'tipo' => $faker->randomElement($array = array ('NATURAL','EMPRESA')),
+        'nombre' => $faker->name,
+        'correo' => $faker->email,
+        'telefono' => $faker->randomNumber($nbDigits = 9),
+        'direccion' => "falta",
+        'ubicacion_ID' => 1,
+    ];
+});

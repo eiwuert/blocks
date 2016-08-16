@@ -81,7 +81,7 @@ function buscar_cliente(cliente){
                     $("#listado_simcards").show();
                     $("#listado_simcards>div").html("");
                     $.each(data.simcards, function( index, simcard ) { 
-                        $("#listado_simcards>div").append('<a href="/simcard?simcard='+ simcard.ICC +'" style="margin:5px" class="btn ' + simcard.color + '">' + simcard.numero_linea + '</a>');  
+                        $("#listado_simcards>div").append('<a href="/simcard?simcard='+ simcard.ICC +'" style="margin:5px;flex-grow:2" class="btn ' + simcard.color + '">' + simcard.numero_linea + '</a>');  
                     });
                 }else{
                     $("#listado_simcards>div").html("");

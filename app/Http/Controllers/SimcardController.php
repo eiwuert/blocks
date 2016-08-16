@@ -106,13 +106,13 @@ class SimcardController extends Controller
         if($permiso != null || Auth::user()->actor->jefe_cedula == null){
             $simcard = Simcard::with('paquete')->where(function($q) use ($pista) {
                     $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
-                })->whereNull("Cliente_identificacion")->first();
+                })->first();
         }else{
             $simcard = Simcard::whereHas('paquete',function ($query){
                 $query->where("Actor_cedula","=",Auth::user()->actor->cedula);
             })->where(function($q) use ($pista) {
                     $q->where("ICC",$pista)->orWhere("numero_linea",$pista);
-                })->whereNull("Cliente_identificacion")->first();
+                })->first();
         }
         if($simcard != ""){
             //OBTENER CLIENTE DE LA SIMCARD

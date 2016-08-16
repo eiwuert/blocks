@@ -17,8 +17,19 @@ class SimcardSeeder extends Seeder
         for ($i = 1; $i <= 100; $i++) {
             factory(App\Simcard::class, 20)->create(["Paquete_ID" => $i]);     
         }
+        
+        factory(App\Cliente::class,5)->create();
+        
         for ($i = 0; $i < 100; $i++) {
             factory(App\Comision::class,5)->create(["Simcard_ICC" => App\Simcard::orderByRaw("RAND()")->first()->ICC]);     
+        }
+        $comisiones = App\Comision::get();
+        foreach($comisiones as $comision){
+            $simcard = App\Simcard::find($comision->Simcard_ICC);
+            if($simcard != null){
+                $simcard->Cliente_identificacion = App\Cliente::orderByRaw("RAND()")->first()->identificacion;
+            }
+            $simcard->save();
         }
     }
 }

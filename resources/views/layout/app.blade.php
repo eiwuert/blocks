@@ -85,7 +85,7 @@
                   </li>
                   <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li id="link_clientes"><a href="/cliente">Comisiones</a></li>
+                      <li id="link_comision"><a href="/comision">Comisiones</a></li>
                       <li id="link_cartera"><a href="/cartera">Cartera</a></li>
                     </ul>
                   </li>
@@ -114,7 +114,7 @@
                     </li>
                     <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li id="link_clientes"><a href="/cliente">Comisiones</a></li>
+                        <li id="link_comision"><a href="/comision">Comisiones</a></li>
                         <li id="link_cartera"><a href="/cartera">Cartera</a></li>
                       </ul>
                     </li>
@@ -185,17 +185,10 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" role="main">
+        <div class="right_col" role="main" style="min-height:782px">
           @yield('Content')
         </div>
         <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-          
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
       </div>
     </div>
     

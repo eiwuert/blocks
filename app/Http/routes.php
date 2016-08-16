@@ -35,6 +35,7 @@ Route::get('/guardar_ubicacion', 'ActorController@guardar_ubicacion');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index');
+    Route::get('/home', 'HomeController@index');
     
     //PAGINAS PRINCIPALES
     
@@ -44,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/personal', 'ActorController@index');
     Route::get('/control_vendedores', 'ActorController@control_vendedores');    
     Route::get('/cartera', 'CarteraController@index');
+    Route::get('/comision', 'ComisionController@index');
     
     // ACCIONES SIMCARDS
     
@@ -109,4 +111,10 @@ Route::group(['middleware' => 'auth'], function () {
     // ACCIONES SEGURIDAD
     Route::get('/permisos', 'SeguridadController@permisos');
     Route::get('/guardar_permisos', 'SeguridadController@guardar_permisos');
+    
+    // ACCIONES COMISIONES
+    Route::get('/buscar_comision', 'ComisionController@buscar_comision');
+    Route::get('/detalle_comision_prepago', 'ComisionController@detalle_comision_prepago');
+    Route::get('/detalle_comision_libre', 'ComisionController@detalle_comision_libre');
+    Route::get('/detalle_comision_postpago', 'ComisionController@detalle_comision_postpago');
 });

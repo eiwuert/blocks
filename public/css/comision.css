@@ -1,0 +1,100 @@
+
+.data{
+    height: 40px;
+    border:solid black 1px;
+    border-radius: 6px;
+    background:none;
+}
+
+.dropdown-menu{
+    max-height: 200px !important;
+}
+
+#Comision_buscar{
+    height: 40px;
+}
+
+.contenedor_pista{
+    text-align: center;
+}
+
+#contenedor_reporte{
+    margin-top: 15px;
+    text-align: center;
+}
+#contenedor_reporte h2{
+    text-align: center;
+    color:black;
+    font-size: 20px;
+    
+}
+
+#contenedor_reporte hr{
+    border: 0;
+    border-top: 1px solid #000;
+    border-top-style: dashed;
+    margin: 8px 0;
+}
+
+#contenedor_factura{
+    text-align: center;
+}
+#contenedor_factura h3,p{
+    text-align: center;
+    color:black;
+    font-size: 15px;
+    display: inline;
+    width: 50%;
+}
+
+#contenedor_factura>div>button{
+    min-width: 50%;
+    background-color: white;
+    border-radius: 10px;
+    min-height: 35px;
+    margin:0;
+    font-weight: bold;
+    color:black;
+}
+
+#contenedor_reporte p{
+    font-size: 15px;
+    margin:0;
+}
+
+#contenedor_factura>div{
+    text-align: center;
+    max-width: 300px;
+    margin:auto;
+    padding: 2px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+#total{
+    font-weight: bold;
+    font-size: 25px !important;
+}
+
+#detalle_comisiones_empleado>div{
+    display: flex;
+    flex-wrap:nowrap;
+    justify-content:center;
+    margin-bottom: 5px;
+}
+
+#detalle_comisiones_empleado>div>div{
+    background-color: white;
+    color: black;
+    width: 30%;
+    font-size: 15px;
+    text-align: center;
+}
+
+#detalle_comisiones_empleado h3{
+    text-align: center;
+    color: black;
+}

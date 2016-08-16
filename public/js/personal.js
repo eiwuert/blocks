@@ -71,7 +71,7 @@ function buscar_empleado(cedula){
                $("#Actor_porcentaje_equipo").val(data.porcentaje_equipo);
                $("#buscar_empleado").find(".text_container").show();
                //REVISAR SI SOY YO MISMO
-               if($("#user_cedula").text() == data.cedula){
+               if($("#user_cedula").text() == data.cedula && data.jefe != null){
                   $("#Actor_porcentaje_prepago").prop('disabled', true);
                   $("#Actor_porcentaje_postpago").prop('disabled', true);
                   $("#Actor_porcentaje_libre").prop('disabled', true);

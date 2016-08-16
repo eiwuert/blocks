@@ -24,7 +24,7 @@
             <tr>
               <th>Nombre</th>
               <th>Usuario</th>
-              <th>Inventarios</th>
+              <th>Asignaciones</th>
               <th>Archivos</th>
             </tr>
           </thead>

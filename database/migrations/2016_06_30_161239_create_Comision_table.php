@@ -15,9 +15,13 @@ class CreateComisionTable extends Migration
         Schema::create('Comision', function (Blueprint $table) {
             $table->increments('ID')->unique();
             $table->date('fecha');
-            $table->string('Simcard_ICC');
             $table->float('valor');
+            $table->string('Simcard_ICC')->nullable();
+            $table->string('Equipo_IMEI')->nullable();
+            $table->string('Servicio_peticion')->nullable();
             $table->foreign('Simcard_ICC')->references('ICC')->on('Simcard');
+            $table->foreign('Equipo_IMEI')->references('IMEI')->on('Equipo');
+            $table->foreign('Servicio_peticion')->references('peticion')->on('Servicio');
         });
     }
 

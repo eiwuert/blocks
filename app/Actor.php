@@ -27,8 +27,8 @@ class Actor extends Model
         return $this->hasMany('App\Registro_Cartera','Actor_cedula','cedula');
     }
     
-    public function jefe()
-    {
+    public function jefe() 
+    { 
         return $this->belongsTo('App\Actor', 'jefe_cedula','cedula');
     }
     public function ubicacion(){
