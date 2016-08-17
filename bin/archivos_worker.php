@@ -2,7 +2,7 @@
 <?php
 
     namespace App;
-    require('vendor/autoload.php');
+    
     use App\Http\Controllers\Worker;
     use PhpAmqpLib\Connection\AMQPConnection;
     use PhpAmqpLib\Message\AMQPMessage;
