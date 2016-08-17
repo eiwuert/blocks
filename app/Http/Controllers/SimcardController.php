@@ -276,7 +276,7 @@ class SimcardController extends Controller
             $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
             $ch = $conn->channel();
             $exchange = 'amq.direct';
-            $msg_body = 'the body';
+            $msg_body = 'simcard';
             $msg = new AMQPMessage($msg_body, array('content_type' => 'text/plain', 'delivery_mode' => 2));
             $ch->basic_publish($msg, $exchange);
             $ch->close();

@@ -1,23 +1,13 @@
 
 <?php
     require('vendor/autoload.php');
-    use PhpAmqpLib\Connection\AMQPConnection;
-    use PhpAmqpLib\Message\AMQPMessage;
-
-    $url = parse_url(getenv('CLOUDAMQP_URL'));
-    $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
-    $ch = $conn->channel();
-    $exchange = 'amq.direct';
-    $queue = 'basic_get_queue';
-    $ch->queue_declare($queue, false, true, false, false);
-    $ch->exchange_declare($exchange, 'direct', true, true, false);
-    $ch->queue_bind($queue, $exchange);
-    while(true){
-        $retrived_msg = $ch->basic_get($queue);
-        if($retrived_msg->body != null){
-            var_dump($retrived_msg->body);
-        }
-    }
+    use App\Worker;
+    
+    $worker = new WorkerReceiver();
+    
+    $worker->listen();
+    
+    
 /*
 $files = scandir("files/simcards",1);
 $files = array_diff($files, array('.', '..'));
