@@ -46,7 +46,7 @@ class Worker
           
             
         while(true) {
-            $retrived_msg = $ch->basic_get($queue);
+            $retrived_msg = $ch->basic_get($queue_name);
             if($retrived_msg->body != null){
                 var_dump($retrived_msg->body);
             }
