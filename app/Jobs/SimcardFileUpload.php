@@ -18,7 +18,8 @@ class SimcardFileUpload extends Job implements SelfHandling
     public function __construct($path)
     {
         $this->path = $path;
-        var_dump(getcwd() . " -> " . scandir(getcwd()));
+        var_dump(getcwd());
+        var_dump(scandir(getcwd()));
     }
 
     /**
