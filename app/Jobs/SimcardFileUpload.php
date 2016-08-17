@@ -62,7 +62,7 @@ class SimcardFileUpload extends Job implements SelfHandling
         });
         var_dump("Filas buenas: " . $filas_buenas);
         var_dump("Errores: " . $errores);
-        $notificacion = Notificacion();
+        $notificacion = new Notificacion();
         $notificacion->actor_cedula ="1015439593";
         if($filas_malas == 0){
             $notificacion->descripcion = "Filas buenas: " . $filas_buenas;
