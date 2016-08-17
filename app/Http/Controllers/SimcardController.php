@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request; 
  
 use App\Actor;
+use App\Jobs\FileUploadJob;
 use App\Plan;
 use App\Paquete;
 use App\Asignacion_Plan;
@@ -271,17 +272,7 @@ class SimcardController extends Controller
         if ($request->hasFile('archivo_simcard'))
         {
             $request->file('archivo_simcard')->move("files/simcards/","temp.xlsx"); 
-            $url = parse_url(getenv('CLOUDAMQP_URL'));
-            $queue_name = "basic_get_queue";
-            $exchange = 'amq.direct';
-            $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
-            $ch = $conn->channel();
-            $ch->exchange_declare($exchange, 'direct', true, true, false);
-            $msg_body = "Simcard";
-            $msg = new AMQPMessage($msg_body, array('content_type' => 'text/plain', 'delivery_mode' => 2));
-            $ch->basic_publish($msg, $exchange);
-            $ch->close();
-            $conn->close();
+            $this->dispatch(new FileUploadJob());
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
         }
     }

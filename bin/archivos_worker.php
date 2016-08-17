@@ -1,11 +1,9 @@
 <?php
 namespace App;
 
-use Excel;
 //use PhpAmqpLib\Connection\AMQPConnection;
 //use PhpAmqpLib\Message\AMQPMessage;
 
-$rows = Excel::selectSheetsByIndex(0)->load("", function($reader) {})->get();
 
 $url = parse_url(getenv('CLOUDAMQP_URL'));
 $queue_name = "basic_get_queue";

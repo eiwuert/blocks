@@ -1,2 +1,2 @@
 web: vendor/bin/heroku-php-apache2 public/
-worker: php bin/archivos_worker.php
+worker: php artisan queue:listen
