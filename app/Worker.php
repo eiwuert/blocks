@@ -1,10 +1,11 @@
 <?php
-namespace Acme\AmqpWrapper;
+
+namespace App;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class WorkerReceiver
+class Worker
 {
     /* ... SOME OTHER CODE HERE ... */
     

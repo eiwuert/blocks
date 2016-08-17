@@ -3,7 +3,7 @@
     require('vendor/autoload.php');
     use App\Worker;
     
-    $worker = new WorkerReceiver();
+    $worker = new Worker();
     
     $worker->listen();
     
