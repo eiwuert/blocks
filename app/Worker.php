@@ -28,9 +28,14 @@ class Worker
             
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
-            var_dump("Folder: " . getcwd());
+            
             if($retrived_msg != null){
-                switch($retrived_msg){
+                $file = $retrived_msg->body;
+                $rows = Excel::selectSheetsByIndex(0)->load($file, function($reader) {})->get();
+                $rows->each(function($row) {
+                    var_dump($row);
+                });
+                /*switch($retrived_msg){
                     case "simcard":
                         $path = "../files/simcards";
                         $files = scandir($path,1);
@@ -72,7 +77,7 @@ class Worker
                             unlink("files/simcards/" . $file);
                         });
                     break;
-                }
+                }*/
             }
             
         }
