@@ -60,11 +60,11 @@ class Worker
             null    #global - global=null to mean that the QoS settings should apply per-consumer, global=true to mean that the QoS settings should apply per-channel
         );    
             
-        while(count($channel->callbacks)) {
+        while(true) {
             var_dump('Waiting for incoming messages');
             $channel->wait();
         }
-        
+        var_dump('Stoping worker');
         $channel->close();
         $connection->close();
     }

@@ -288,7 +288,7 @@ class SimcardController extends Controller
             $ch->basic_publish(
                 $msg,               #message 
                 '',                 #exchange
-                $queue_name     #routing key (queue)
+                $queue_name         #routing key (queue)
             );
             $ch->close();
             $conn->close();
