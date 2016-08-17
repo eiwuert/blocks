@@ -29,15 +29,15 @@ class Worker
             );
             
         while(true) {
-            var_dump("Folder: " . getcwd() );
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
                 switch($retrived_msg){
                     case "simcard":
-                        $files = scandir("public/files/simcards",1);
+                        $path = "app/public/files/simcards";
+                        $files = scandir($path,1);
                         $files = array_diff($files, array('.', '..'));
                         $files->each(function($file) {
-                            $rows = Excel::selectSheetsByIndex(0)->load("public/files/simcards/" . $file, function($reader) {})->get();
+                            $rows = Excel::selectSheetsByIndex(0)->load($path . "/" . $file, function($reader) {})->get();
                             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
                             $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
                             $rows->each(function($row) {
