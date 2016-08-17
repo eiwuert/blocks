@@ -14,7 +14,9 @@
     $ch->queue_bind($queue, $exchange);
     while(true){
         $retrived_msg = $ch->basic_get($queue);
-        var_dump($retrived_msg->body);
+        if($retrived_msg->body != null){
+            var_dump($retrived_msg->body);
+        }
     }
 /*
 $files = scandir("files/simcards",1);
