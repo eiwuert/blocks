@@ -17,7 +17,7 @@ class SimcardFileUpload extends Job implements SelfHandling
      */
     public function __construct($path)
     {
-        $this->path = "public/" . $path;
+        $this->path = $path;
     }
 
     /**
@@ -62,5 +62,10 @@ class SimcardFileUpload extends Job implements SelfHandling
         var_dump("Filas buenas: " . $filas_buenas);
         var_dump("Errores: " . $errores);
         unlink($this->path);
+    }
+    
+    public function failed()
+    {
+        var_dump("FAILED");
     }
 }
