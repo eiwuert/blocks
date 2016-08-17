@@ -1,7 +1,7 @@
 
 <?php
     require('vendor/autoload.php');
-    use App\Worker;
+    use App\Http\Controllers\Worker;
     
     $worker = new Worker();
     

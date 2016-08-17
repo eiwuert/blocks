@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Http\Controllers;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use Excel;
 
-class Worker
+class Worker extends Controller
 {
     
     public function listen()
