@@ -28,11 +28,14 @@ class Worker
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
             
-        var_dump('Starting worker');
+        $callback = function($msg){
+          var_dump($msg->body);
+        };
+        $channel->basic_consume($queue_name, '', false, false, false, false, $callback);
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name);
             if($retrived_msg->body != null){
-                var_dump($retrived_msg->body);
+                var_dump("No vale: " . $retrived_msg->body);
             }
             
         }
