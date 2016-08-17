@@ -5,19 +5,20 @@ namespace App\Jobs;
 use App\Jobs\Job;
 use App\Simcard;
 use Excel;
+use App\File;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 class SimcardFileUpload extends Job implements SelfHandling
 {
-    protected $file;
+    protected $id;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file)
+    public function __construct($id)
     {
-        $this->file = $file;
+        $this->id = $id;
     }
 
     /**
@@ -27,8 +28,8 @@ class SimcardFileUpload extends Job implements SelfHandling
      */
     public function handle()
     {   
-        
-        var_dump(scandir("public/files"));
+        $file = File::find($this->id);
+        var_dump($file->id);
         
         /*$rows = Excel::selectSheetsByIndex(0)->load($this->file, function($reader) {})->get();
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
