@@ -10,7 +10,6 @@ use App\Paquete;
 use App\Asignacion_Plan;
 use App\Asignacion_Permiso;
 use DB;
-use Excel;
 use Log;
 use Input;
 use App\Simcard;

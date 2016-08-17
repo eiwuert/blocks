@@ -4,6 +4,7 @@ namespace App;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use Excel;
 
 class Worker
 {
@@ -30,6 +31,7 @@ class Worker
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
+                var_dump($retrived_msg);
                 switch($retrived_msg){ 
                     case "simcard":
                         $path = "public/files/simcards/temp.xlsx" . $retrived_msg->path;
