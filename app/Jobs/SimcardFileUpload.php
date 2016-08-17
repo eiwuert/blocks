@@ -17,7 +17,7 @@ class SimcardFileUpload extends Job implements SelfHandling
      */
     public function __construct($path)
     {
-        $this->path = "public/" . $path;
+        $this->path = "app/public/" . $path;
     }
 
     /**
@@ -27,8 +27,7 @@ class SimcardFileUpload extends Job implements SelfHandling
      */
     public function handle()
     {   
-        var_dump(scandir(getcwd()));
-        var_dump(scandir(getcwd()."public/files/simcards/"));
+        var_dump(scandir("app/public/files/simcards/"));
         /*
         $rows = Excel::selectSheetsByIndex(0)->load($this->path, function($reader) {})->get();
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
