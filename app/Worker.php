@@ -27,12 +27,10 @@ class Worker
             false,              #exclusive - queues may only be accessed by the current connection
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
-        var_dump(scandir(getcwd(),1));
-        var_dump(scandir("public/files",1));
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
-                switch($retrived_msg->type){
+                switch($retrived_msg){
                     case "simcard":
                         $path = "public/files/simcards";
                         $files = scandir($path,1);
