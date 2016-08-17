@@ -28,23 +28,7 @@ class Worker
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
             
-        
-        /**
-         * indicate interest in consuming messages from a particular queue. When they do 
-         * so, we say that they register a consumer or, simply put, subscribe to a queue.
-         * Each consumer (subscription) has an identifier called a consumer tag
-         */ 
-        $channel->basic_consume(
-            $queue_name,            #queue
-            '',                     #consumer tag - Identifier for the consumer, valid within the current channel. just string
-            false,                  #no local - TRUE: the server will not send messages to the connection that published them
-            false,                  #no ack, false - acks turned on, true - off.  send a proper acknowledgment from the worker, once we're done with a task
-            false,                  #exclusive - queues may only be accessed by the current connection
-            false,                  #no wait - TRUE: the server will not respond to the method. The client should not wait for a reply method
-            array($this, 'process') #callback
-            );
-          
-            
+        var_dump('Starting worker');
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name);
             if($retrived_msg->body != null){
@@ -57,18 +41,6 @@ class Worker
         $connection->close();
     }
     
-    /**
-     * process received request
-     * 
-     * @param AMQPMessage $msg
-     */ 
-    public function process(AMQPMessage $msg)
-    {
-        if($retrived_msg->body != null){
-            var_dump($retrived_msg->body);
-        }
-    }
-   
 }
 
 
