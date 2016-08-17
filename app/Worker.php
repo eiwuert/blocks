@@ -4,16 +4,11 @@ namespace App;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Maatwebsite\Excel;
+use Excel;
 
 class Worker
 {
-    /* ... SOME OTHER CODE HERE ... */
     
-    /**
-     * Process incoming request to generate pdf invoices and send them through 
-     * email.
-     */ 
     public function listen()
     {
         $url = parse_url(getenv('CLOUDAMQP_URL'));
@@ -34,7 +29,7 @@ class Worker
                 var_dump($retrived_msg);
                 switch($retrived_msg){ 
                     case "simcard":
-                        $path = "public/files/simcards/temp.xlsx" . $retrived_msg->path;
+                        /*$path = "public/files/simcards/temp.xlsx" . $retrived_msg->path;
                         $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
                         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
                         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
@@ -69,6 +64,7 @@ class Worker
                         var_dump("Filas buenas: " . $filas_buenas);
                         var_dump("Errores: " . $errores);
                         unlink("files/simcards/" . $file);
+                        */
                     break;
                 }
             }
