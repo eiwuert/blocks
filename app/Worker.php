@@ -61,7 +61,7 @@ class Worker
         );    
             
         while(count($channel->callbacks)) {
-            $this->log->addInfo('Waiting for incoming messages');
+            var_dump('Waiting for incoming messages');
             $channel->wait();
         }
         
