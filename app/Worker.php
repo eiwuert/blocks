@@ -19,7 +19,7 @@ class Worker
         $channel->queue_declare(
             $queue_name,        #queue
             false,              #passive
-            true,               #durable, make sure that RabbitMQ will never lose our queue if a crash occurs
+            false,               #durable, make sure that RabbitMQ will never lose our queue if a crash occurs
             false,              #exclusive - queues may only be accessed by the current connection
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
@@ -29,7 +29,7 @@ class Worker
                 var_dump($retrived_msg);
                 switch($retrived_msg){ 
                     case "simcard":
-                        /*$path = "public/files/simcards/temp.xlsx" . $retrived_msg->path;
+                        $path = "public/files/simcards/temp.xlsx" . $retrived_msg->path;
                         $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
                         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
                         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
@@ -64,7 +64,6 @@ class Worker
                         var_dump("Filas buenas: " . $filas_buenas);
                         var_dump("Errores: " . $errores);
                         unlink("files/simcards/" . $file);
-                        */
                     break;
                 }
             }
