@@ -274,6 +274,7 @@ class SimcardController extends Controller
         {
             $file = $request->file('archivo_simcard')->move("files/simcards/"); 
             scandir("files/simcards/");
+            var_dump($file->getPathname());
             Queue::push(new SimcardFileUpload($file->getPathname()));
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
         }
