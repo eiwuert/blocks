@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -25,17 +27,12 @@ class Worker
             false,              #exclusive - queues may only be accessed by the current connection
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
-            
+        
+        var_dump(scandir(getcwd(),1));
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
-            
             if($retrived_msg != null){
-                $file = $retrived_msg->body;
-                $rows = Excel::selectSheetsByIndex(0)->load($file, function($reader) {})->get();
-                $rows->each(function($row) {
-                    var_dump($row);
-                });
-                /*switch($retrived_msg){
+                switch($retrived_msg->type){
                     case "simcard":
                         $path = "../files/simcards";
                         $files = scandir($path,1);
@@ -77,7 +74,7 @@ class Worker
                             unlink("files/simcards/" . $file);
                         });
                     break;
-                }*/
+                }
             }
             
         }

@@ -1,7 +1,7 @@
 
 <?php
     require('vendor/autoload.php');
-    use Worker;
+    use App\Worker;
     
     $worker = new Worker();
     
