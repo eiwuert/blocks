@@ -9,15 +9,15 @@ use Illuminate\Contracts\Bus\SelfHandling;
 
 class SimcardFileUpload extends Job implements SelfHandling
 {
-    protected $path;
+    protected $file;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($path)
+    public function __construct($file)
     {
-        $this->path = "public/" . $path;
+        $this->file = $file;
     }
 
     /**
@@ -28,9 +28,9 @@ class SimcardFileUpload extends Job implements SelfHandling
     public function handle()
     {   
         
-        var_dump(scandir("public/files"));
-        /*
-        $rows = Excel::selectSheetsByIndex(0)->load($this->path, function($reader) {})->get();
+        var_dump($this->file->getPathname());
+        
+        $rows = Excel::selectSheetsByIndex(0)->load($this->file, function($reader) {})->get();
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
         $rows->each(function($row) {
@@ -63,7 +63,7 @@ class SimcardFileUpload extends Job implements SelfHandling
         });
         var_dump("Filas buenas: " . $filas_buenas);
         var_dump("Errores: " . $errores);
-        unlink($this->path);*/
+        unlink($this->file);
     }
     
     public function failed()
