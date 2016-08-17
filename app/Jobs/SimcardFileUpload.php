@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Jobs\Job;
 use App\Simcard;
+use App\Notificacion;
 use Excel;
 use App\File;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -61,10 +62,15 @@ class SimcardFileUpload extends Job implements SelfHandling
         });
         var_dump("Filas buenas: " . $filas_buenas);
         var_dump("Errores: " . $errores);
-        $notificacion = Noticacion();
+        $notificacion = Notificacion();
         $notificacion->actor_cedula ="1015439593";
-        $notificacion->descripcion = "Filas buenas: " . $filas_buenas;
-        $notificacion->exito = true;
+        if($filas_malas == 0){
+            $notificacion->descripcion = "Filas buenas: " . $filas_buenas;
+            $notificacion->exito = true;
+        }else{
+            $notificacion->descripcion = "Errores: " . $errores;
+            $notificacion->exito = false;
+        }
         $notificacion->save();
     }
     
