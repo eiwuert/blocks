@@ -29,6 +29,7 @@ class Worker
             );
             
         while(true) {
+            var_dump("Folder: " . getcwd() );
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
                 switch($retrived_msg){
