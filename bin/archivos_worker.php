@@ -1,4 +1,9 @@
+
 <?php
+
+    use PhpAmqpLib\Connection\AMQPConnection;
+    use PhpAmqpLib\Message\AMQPMessage;
+
     $url = parse_url(getenv('CLOUDAMQP_URL'));
     $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
     $ch = $conn->channel();
