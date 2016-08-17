@@ -274,15 +274,13 @@ class SimcardController extends Controller
             //$request->file('archivo_simcard')->move("files/simcards"); 
             $url = parse_url(getenv('CLOUDAMQP_URL'));
             $queue_name = "basic_get_queue";
+            $exchange = 'amq.direct';
             $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
             $ch = $conn->channel();
+            $ch->exchange_declare($exchange, 'direct', true, true, false);
             $msg_body = 'simcard';
             $msg = new AMQPMessage($msg_body, array('content_type' => 'text/plain', 'delivery_mode' => 2));
-            $ch->basic_publish(
-                $msg,               #message 
-                '',                 #exchange
-                $queue_name         #routing key (queue)
-            );
+            $ch->basic_publish($msg, $exchange);
             $ch->close();
             $conn->close();
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);

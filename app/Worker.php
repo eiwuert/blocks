@@ -28,16 +28,6 @@ class Worker
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
             
-        /**
-         * don't dispatch a new message to a worker until it has processed and 
-         * acknowledged the previous one. Instead, it will dispatch it to the 
-         * next worker that is not still busy.
-         */
-        $channel->basic_qos(
-            null,   #prefetch size - prefetch window size in octets, null meaning "no specific limit"
-            1,      #prefetch count - prefetch window in terms of whole messages
-            null    #global - global=null to mean that the QoS settings should apply per-consumer, global=true to mean that the QoS settings should apply per-channel
-            );
         
         /**
          * indicate interest in consuming messages from a particular queue. When they do 
@@ -55,9 +45,12 @@ class Worker
             );
           
             
-        while(count($channel->callbacks)) {
-            var_dump('Waiting for incoming messages');
-            $channel->wait();
+        while(true) {
+            $retrived_msg = $ch->basic_get($queue);
+            if($retrived_msg->body != null){
+                var_dump($retrived_msg->body);
+            }
+            
         }
         var_dump('Stoping worker');
         $channel->close();
