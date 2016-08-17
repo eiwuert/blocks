@@ -273,12 +273,23 @@ class SimcardController extends Controller
         {
             //$request->file('archivo_simcard')->move("files/simcards"); 
             $url = parse_url(getenv('CLOUDAMQP_URL'));
+            $queue_name = "basic_get_queue";
             $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
             $ch = $conn->channel();
-            $exchange = 'amq.direct';
+            $channel->queue_declare(
+                $queue_name,        #queue - Queue names may be up to 255 bytes of UTF-8 characters
+                false,              #passive - can use this to check whether an exchange exists without modifying the server state
+                true,               #durable, make sure that RabbitMQ will never lose our queue if a crash occurs - the queue will survive a broker restart
+                false,              #exclusive - used by only one connection and the queue will be deleted when that connection closes
+                false               #auto delete - queue is deleted when last consumer unsubscribes
+            );
             $msg_body = 'simcard';
             $msg = new AMQPMessage($msg_body, array('content_type' => 'text/plain', 'delivery_mode' => 2));
-            $ch->basic_publish($msg, $exchange);
+            $ch->basic_publish(
+                $msg,               #message 
+                '',                 #exchange
+                $queue_name     #routing key (queue)
+            );
             $ch->close();
             $conn->close();
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
