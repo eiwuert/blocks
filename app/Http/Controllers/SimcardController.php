@@ -45,7 +45,7 @@ class SimcardController extends Controller
         $Actor->lista_permisos = $lista_permisos;
         $data['Actor'] = $Actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
         // OBTENER LOS POSIBLES RESPONSABLES
         $actores_sin_revisar = [$Actor];
         $actores = array();
