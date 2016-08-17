@@ -53,14 +53,9 @@ class Worker
             false,                  #no wait - TRUE: the server will not respond to the method. The client should not wait for a reply method
             array($this, 'process') #callback
             );
-        
-        $channel->basic_qos(
-            null,   #prefetch size - prefetch window size in octets, null meaning "no specific limit"
-            1,      #prefetch count - prefetch window in terms of whole messages
-            null    #global - global=null to mean that the QoS settings should apply per-consumer, global=true to mean that the QoS settings should apply per-channel
-        );    
+          
             
-        while(true) {
+        while(count($channel->callbacks)) {
             var_dump('Waiting for incoming messages');
             $channel->wait();
         }
