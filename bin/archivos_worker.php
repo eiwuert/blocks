@@ -1,5 +1,8 @@
 <?php
-    
+    $url = parse_url(getenv('CLOUDAMQP_URL'));
+    $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
+    $ch = $conn->channel();
+    $queue = 'basic_get_queue';
     while(true){
         $retrived_msg = $ch->basic_get($queue);
         var_dump($retrived_msg->body);
