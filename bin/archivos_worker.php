@@ -1,10 +1,9 @@
 <?php
 namespace App;
 
-use App\Http\Controllers\Worker;
+use Excel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Excel;
 
 $url = parse_url(getenv('CLOUDAMQP_URL'));
 $queue_name = "basic_get_queue";
