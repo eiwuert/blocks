@@ -8,6 +8,7 @@ use App\Actor;
 use App\Jobs\SimcardFileUpload;
 use App\Plan;
 use App\Paquete;
+use App\Notificacion;
 use App\Asignacion_Plan;
 use App\Asignacion_Permiso;
 use DB;
