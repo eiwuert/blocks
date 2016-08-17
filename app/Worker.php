@@ -4,7 +4,7 @@ namespace App;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel;
 
 class Worker
 {
