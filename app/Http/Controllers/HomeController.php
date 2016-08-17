@@ -204,6 +204,7 @@ class HomeController extends Controller
                 $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+                $inventario["Inventario"] += Simcard::whereNull("paquete_ID")->whereNull("Cliente_identificacion"                            )->where("categoria",'=','Libre')->count();
                 if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNotNull("Actor_cedula");
@@ -217,6 +218,7 @@ class HomeController extends Controller
                 $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+                $inventario["Inventario"] += Simcard::whereNull("paquete_ID")->whereNull("Cliente_identificacion"                            )->where("categoria",'=','Postpago')->count();
                 if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNotNull("Actor_cedula");
