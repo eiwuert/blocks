@@ -19,7 +19,7 @@ class Worker
         $channel->queue_declare(
             $queue_name,        #queue
             false,              #passive
-            false,               #durable, make sure that RabbitMQ will never lose our queue if a crash occurs
+            true,               #durable, make sure that RabbitMQ will never lose our queue if a crash occurs
             false,              #exclusive - queues may only be accessed by the current connection
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
