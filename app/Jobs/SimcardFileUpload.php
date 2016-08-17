@@ -27,7 +27,8 @@ class SimcardFileUpload extends Job implements SelfHandling
      */
     public function handle()
     {
-        
+        var_dump(scandir("public/files/simcards/"));
+        /*
         $rows = Excel::selectSheetsByIndex(0)->load($this->path, function($reader) {})->get();
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
@@ -61,7 +62,7 @@ class SimcardFileUpload extends Job implements SelfHandling
         });
         var_dump("Filas buenas: " . $filas_buenas);
         var_dump("Errores: " . $errores);
-        unlink($this->path);
+        unlink($this->path);*/
     }
     
     public function failed()
