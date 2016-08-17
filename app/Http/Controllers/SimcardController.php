@@ -271,7 +271,8 @@ class SimcardController extends Controller
     public function subir_archivo(Request $request){
         if ($request->hasFile('archivo_simcard'))
         {
-            $request->file('archivo_simcard')->move("files/simcards/","temp.xlsx"); 
+            $request->file('archivo_simcard')->move("files/simcards","temp.xlsx"); 
+            var_dump("cambiado");
             $this->dispatch(new FileUploadJob());
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
         }
