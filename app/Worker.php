@@ -1,7 +1,5 @@
 <?php
 
-namespace App;
-
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -30,6 +28,7 @@ class Worker
             
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
+            var_dump("Folder: " . getcwd());
             if($retrived_msg != null){
                 switch($retrived_msg){
                     case "simcard":
