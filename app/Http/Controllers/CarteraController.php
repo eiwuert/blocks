@@ -23,9 +23,8 @@ class CarteraController extends Controller
         $data = array();
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         $data["nombre"] = $nombre;
         if($Actor->jefe != null){
             return View('employee.cartera', $data);

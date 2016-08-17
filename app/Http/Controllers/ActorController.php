@@ -25,9 +25,8 @@ class ActorController extends Controller
         $data = array();
         $Actor = Auth::user()->actor;
         $data['Actor'] = Auth::user()->actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         $regiones = Ubicacion::select('region')->distinct()->get();
         foreach ($regiones as &$region) {
             $region->ciudades = Ubicacion::select('ciudad')->where('region',$region->region)->get();

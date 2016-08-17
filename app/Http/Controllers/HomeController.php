@@ -29,7 +29,7 @@ class HomeController extends Controller
         $actor = Auth::user()->actor;
         $data['Actor'] = $actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();;
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         if($actor->jefe != null){
             // CONTAR LAS SIMCARDS PREPAGO
             $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
@@ -190,6 +190,7 @@ class HomeController extends Controller
                 $inventario["Inventario"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNull("Actor_cedula");
                                             })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+                $inventario["Inventario"] += Simcard::whereNull("paquete_ID")->whereNull("Cliente_identificacion"                            )->where("categoria",'=','Prepago')->count();
                 if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Asignadas"] = Simcard::whereHas('paquete',function ($query){
                                                 $query->whereNotNull("Actor_cedula");

@@ -43,9 +43,8 @@ class SimcardController extends Controller
         }
         $Actor->lista_permisos = $lista_permisos;
         $data['Actor'] = $Actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         // OBTENER LOS POSIBLES RESPONSABLES
         $actores_sin_revisar = [$Actor];
         $actores = array();
@@ -274,9 +273,10 @@ class SimcardController extends Controller
     public function subir_archivo(Request $request){
         if ($request->hasFile('archivo_simcard'))
         {
+            $Actor = Auth::user()->actor;
             $path = $request->file('archivo_simcard');
             $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
-            Queue::push(new SimcardFileUpload($rows));
+            Queue::push(new SimcardFileUpload($rows,$Actor->cedula));
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
         }
     }

@@ -26,9 +26,8 @@ class EquipoController extends Controller
         $equipo = $request["equipo"];
         $data = array();
         $data['Actor'] = Auth::user()->actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         $data["equipo"] = $equipo;
         // OBTENER POSIBLES RESPONSABLES
         $responsables = Actor::all();

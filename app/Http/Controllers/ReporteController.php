@@ -18,9 +18,8 @@ class ReporteController extends Controller
     {
         $data = array();
         $data['Actor'] = Auth::user()->actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         // OBTENER INFORMACIÓN ASIGNACIONES
         $actores = Actor::all();
         foreach ($actores as $actor) {

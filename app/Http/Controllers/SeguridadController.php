@@ -15,9 +15,8 @@ class SeguridadController extends Controller
     public function permisos(Request $request){
         $data = array();
         $data['Actor'] = Auth::user()->actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         // OBTENER POSIBLES RESPONSABLES
         $actores = Actor::has("user")->whereNotNull("jefe_cedula")->get();
         foreach ($actores as $actor) {

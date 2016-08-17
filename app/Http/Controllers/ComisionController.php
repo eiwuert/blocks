@@ -26,9 +26,8 @@ class ComisionController extends Controller
         $data = array();
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
-        $data['Cantidad_notificaciones'] = 0;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = [];
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
         if($Actor->jefe != null){
             $data['periodos'] = DB::table('Comision')->select(DB::raw('extract(year_month FROM fecha) as periodo'))->distinct()->orderBy('fecha','desc')->get();
             return View('employee.comision',$data);

@@ -17,6 +17,7 @@ class CreateNotificacionTable extends Migration
             $table->string('Actor_cedula');
             $table->boolean('exito');
             $table->string('descripcion');
+            $table->string('errores')->nullable();
             $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
         });
     }

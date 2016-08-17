@@ -29,7 +29,6 @@ class EquipoTableSeeder extends Seeder
                 $equipo->precio_12_cuotas = trim($row->cuotas_12_con_iva);
                 $equipo->precio_24_cuotas = trim($row->cuotas_24_con_iva);
                 $equipo->save();
-                factory(App\Equipo::class,2)->create(["Descripcion_Equipo_cod_scl" => $row->cod_scl]);
             }catch(\Exception $e){
                 $this->command->info($e->getMessage());
             }
