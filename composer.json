@@ -8,7 +8,9 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "maatwebsite/excel": "~2.1.0",
-        "laravelcollective/html": "~5.0"
+        "laravelcollective/html": "~5.0",
+        "videlalvaro/php-amqplib": "2.2.*",
+        "ext-bcmath": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
