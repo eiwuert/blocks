@@ -34,10 +34,10 @@ class Worker
             if($retrived_msg != null){
                 switch($retrived_msg){
                     case "simcard":
-                        $files = scandir("files/simcards",1);
+                        $files = scandir("public/files/simcards",1);
                         $files = array_diff($files, array('.', '..'));
                         $files->each(function($file) {
-                            $rows = Excel::selectSheetsByIndex(0)->load("files/simcards/" . $file, function($reader) {})->get();
+                            $rows = Excel::selectSheetsByIndex(0)->load("public/files/simcards/" . $file, function($reader) {})->get();
                             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
                             $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
                             $rows->each(function($row) {

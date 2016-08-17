@@ -271,7 +271,6 @@ class SimcardController extends Controller
     public function subir_archivo(Request $request){
         if ($request->hasFile('archivo_simcard'))
         {
-            return getcwd();
             $request->file('archivo_simcard')->move("files/simcards"); 
             $url = parse_url(getenv('CLOUDAMQP_URL'));
             $queue_name = "basic_get_queue";
