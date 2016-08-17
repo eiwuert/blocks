@@ -60,6 +60,7 @@ function buscar_cliente(cliente){
                     $('#Responsable_nombre').val("");
                     $('#Responsable_telefono').val("");
                     $('#Responsable_correo').val("");
+                    //
                 }else{
                     $('#Cliente_identificacion_lbl').text("NIT");
                     $("#region").text("Región");
