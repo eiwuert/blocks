@@ -4,10 +4,8 @@
     use App\Http\Controllers\Worker;
     use PhpAmqpLib\Connection\AMQPConnection;
     use PhpAmqpLib\Message\AMQPMessage;
-    use Excel;
-    use Auth;
+    use \Illuminate\Support\Facades\Excel;
     
-    $Actor = Auth::user()->actor;
     $url = parse_url(getenv('CLOUDAMQP_URL'));
     $queue_name = "basic_get_queue";
     $connection = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
