@@ -17,6 +17,7 @@ use Input;
 use App\Simcard;
 use App\File;
 use DateTime;
+use Excel;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -273,10 +274,9 @@ class SimcardController extends Controller
     public function subir_archivo(Request $request){
         if ($request->hasFile('archivo_simcard'))
         {
-            $file = new File();
-            $file->file = $request->file('archivo_simcard');
-            $file->save();
-            Queue::push(new SimcardFileUpload($file->id));
+            $path = $request->file('archivo_simcard');
+            $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
+            Queue::push(new SimcardFileUpload($rows));
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
         }
     }

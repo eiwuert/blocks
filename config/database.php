@@ -54,10 +54,14 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', '173.194.80.10'),
-            'database'  => env('DB_DATABASE', 'blocks'),
-            'username'  => env('DB_USERNAME', 'colphone'),
-            'password'  => env('DB_PASSWORD', 'plinio1234'),
+            //'host'      => env('DB_HOST', '173.194.80.10'),
+            //'database'  => env('DB_DATABASE', 'blocks'),
+            //'username'  => env('DB_USERNAME', 'colphone'),
+            //'password'  => env('DB_PASSWORD', 'plinio1234'),
+            'host'      => env('DB_HOST', 'localhost'),
+            'database'  => env('DB_DATABASE', 'c9'),
+            'username'  => env('DB_USERNAME', 'lespoir'),
+            'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
