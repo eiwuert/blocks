@@ -30,10 +30,9 @@ class Worker
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
-                var_dump("PRUEBA: " . $retrived_msg->type);
-                switch($retrived_msg->type){ 
+                switch($retrived_msg){ 
                     case "simcard":
-                        $path = "public/files/simcards/" . $retrived_msg->path;
+                        $path = "public/files/simcards/temp.xlsx" . $retrived_msg->path;
                         $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
                         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
                         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
