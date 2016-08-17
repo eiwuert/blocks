@@ -33,7 +33,7 @@ class Worker
             if($retrived_msg != null){
                 switch($retrived_msg){
                     case "simcard":
-                        $path = "/app/public/files/simcards";
+                        $path = "../files/simcards";
                         $files = scandir($path,1);
                         $files = array_diff($files, array('.', '..'));
                         $files->each(function($file) {
