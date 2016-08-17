@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_DRIVER', 'sync'),
+    'default' => env('QUEUE_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +36,7 @@ return [
         ],
 
         'database' => [
+            'connection' => 'mysql',
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default',

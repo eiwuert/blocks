@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request; 
  
 use App\Actor;
-use App\Jobs\FileUploadJob;
+use App\Jobs\SimcardFileUpload;
 use App\Plan;
 use App\Paquete;
 use App\Asignacion_Plan;
 use App\Asignacion_Permiso;
 use DB;
+use Queue;
 use Log;
 use Input;
 use App\Simcard;
@@ -269,12 +270,11 @@ class SimcardController extends Controller
     }
     
     public function subir_archivo(Request $request){
-        var_dump("PRUEBAAAA");
         if ($request->hasFile('archivo_simcard'))
         {
-            $request->file('archivo_simcard')->move("files/simcards/"); 
-            var_dump("cambiado");
-            $this->dispatch(new FileUploadJob());
+            $file = $request->file('archivo_simcard')->move("files/simcards/"); 
+            scandir("files/simcards/");
+            Queue::push(new SimcardFileUpload($file->getPathname()));
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
         }
     }
