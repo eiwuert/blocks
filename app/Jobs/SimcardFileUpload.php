@@ -27,7 +27,8 @@ class SimcardFileUpload extends Job implements SelfHandling
      * @return void
      */
     public function handle()
-    {   
+    {
+        var_dump("PROCESANDO");
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
         $this->rows->each(function($row) {
