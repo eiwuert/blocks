@@ -28,13 +28,13 @@ class Worker
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
         var_dump(scandir(getcwd(),1));
-        var_dump(scandir("public",1));
+        var_dump(scandir("public/files",1));
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
                 switch($retrived_msg->type){
                     case "simcard":
-                        $path = "/public/files/simcards";
+                        $path = "public/files/simcards";
                         $files = scandir($path,1);
                         $files = array_diff($files, array('.', '..'));
                         $files->each(function($file) {
