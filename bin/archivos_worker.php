@@ -4,7 +4,7 @@
     use App\Http\Controllers\Worker;
     use PhpAmqpLib\Connection\AMQPConnection;
     use PhpAmqpLib\Message\AMQPMessage;
-    use \Illuminate\Support\Facades\Excel;
+    use \Maatwebsite\Excel\Facades\Excel;
     
     $url = parse_url(getenv('CLOUDAMQP_URL'));
     $queue_name = "basic_get_queue";
