@@ -276,7 +276,7 @@ class SimcardController extends Controller
             $queue_name = "basic_get_queue";
             $conn = new AMQPConnection($url['host'], 5672, $url['user'], $url['pass'], substr($url['path'], 1));
             $ch = $conn->channel();
-            $channel->queue_declare(
+            $ch->queue_declare(
                 $queue_name,        #queue - Queue names may be up to 255 bytes of UTF-8 characters
                 false,              #passive - can use this to check whether an exchange exists without modifying the server state
                 true,               #durable, make sure that RabbitMQ will never lose our queue if a crash occurs - the queue will survive a broker restart
