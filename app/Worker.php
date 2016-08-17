@@ -4,7 +4,7 @@ namespace App;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Worker
 {
@@ -23,6 +23,7 @@ class Worker
             false,              #exclusive - queues may only be accessed by the current connection
             false               #auto delete - the queue is deleted when all consumers have finished using it
             );
+            
         while(true) {
             $retrived_msg = $channel->basic_get($queue_name)->body;
             if($retrived_msg != null){
