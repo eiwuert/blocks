@@ -160,7 +160,7 @@
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     @foreach($notificaciones as $notificacion)
                       <li>
-                        <a>
+                        <a href="/ver_notificacion">
                           <p>
                             @if($notificacion->exito)
                               <strong>EXITO</strong>
