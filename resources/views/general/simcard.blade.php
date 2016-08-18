@@ -196,7 +196,7 @@
   @endforeach
     <button class="btn transparente" id='SIN PLAN' onClick="cambiar_plan_buscar_simcard(this.id)">SIN PLAN</button>
 </div>
-<div class="flex_filas" id="cargar_simcard_modal">
+<div class="flex_filas" style="justify-content:center" id="cargar_simcard_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoSimcards', 

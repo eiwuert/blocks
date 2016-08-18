@@ -60,7 +60,19 @@ class SimcardFileUpload extends Job implements SelfHandling
                 if($fecha_asignacion != null){
                     $fecha_asignacion = $fecha_asignacion->format('Y-m-d');
                 }
-                $simcard = new Simcard(array("ICC" => $row->icc, "numero_linea" => $row->numero_linea,"categoria" => $row->tipo ,"fecha_adjudicacion" => $fecha_adjudicacion,"fecha_activacion" => $fecha_activacion,"fecha_asignacion" => $fecha_asignacion,"paquete_ID" => $row->paquete_id,"Cliente_identificacion" => $row->cliente_identificacion, "fecha_vencimiento" => $fecha_vencimiento));
+                $simcard = Simcard::find($row->icc);
+                if($simcard == null){
+                    $simcard = new Simcard();
+                    $simcard->ICC = $row->icc;
+                }
+                $simcard->numero_linea = $row->numero_linea;
+                $simcard->tipo = $row->tipo;
+                $simcard->fecha_adjudicacion = $fecha_adjudicacion;
+                $simcard->fecha_activacion = $fecha_activacion;
+                $simcard->fecha_asignacion = $fecha_asignacion;
+                $simcard->paquete_id = $row->paquete_id;
+                $simcard->cliente_identificacion = $row->cliente_identificacion;
+                $simcard->fecha_vencimiento = $fecha_vencimiento;
                 $simcard->save();
                 $cod_plan = $row->plan;
                 if($cod_plan != null){
