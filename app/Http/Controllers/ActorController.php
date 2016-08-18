@@ -280,6 +280,7 @@ class ActorController extends Controller
         $notificacion = Notificacion::find($id);
         $Actor = Auth::user()->actor;
         $data['notificacion'] = $notificacion;
+        $data['errores'] = $notificacion->errores;
         $data['Actor'] = Auth::user()->actor;
         // CARGAR NOTIFICACIONES
         $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
