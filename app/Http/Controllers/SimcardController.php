@@ -231,6 +231,8 @@ class SimcardController extends Controller
         $simcard = Simcard::where("ICC",'=',$pista)->orWhere("numero_linea","=",$pista)->first();
         if($simcard != ""){
             $simcard->Paquete_ID = $dato["numero_paquete"];
+            $hoy = new DateTime();
+            $simcard->fecha_asignacion = $hoy;
             $simcard->save();
             return "EXITOSO";
         }else{
