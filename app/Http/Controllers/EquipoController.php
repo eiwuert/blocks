@@ -10,6 +10,7 @@ use App\Equipo;
 use DateTime;
 use App\Actor;
 use Excel;
+use Queue;
 use App\Simcard;
 use App\Asignacion_Permiso;
 use App\Descripcion_Equipo;
