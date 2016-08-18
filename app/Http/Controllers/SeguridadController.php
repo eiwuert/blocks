@@ -18,7 +18,7 @@ class SeguridadController extends Controller
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->whereNotNull("descripcion")->get();
         // OBTENER POSIBLES RESPONSABLES
         $actores = Actor::has("user")->whereNotNull("jefe_cedula")->get();
         foreach ($actores as $actor) {

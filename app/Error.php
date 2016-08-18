@@ -11,5 +11,7 @@ class Error extends Model
     public $timestamps = false;
     protected $fillable = ['ID','descripcion', 'Notificacion_ID'];
     
-    
+    public function notificacion(){
+        return $this->hasOne('App\Notificacion','ID','Notificacion_ID');
+    }
 }

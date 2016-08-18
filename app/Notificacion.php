@@ -12,7 +12,7 @@ class Notificacion extends Model
     protected $fillable = ['ID','Actor_cedula', 'descripcion','exito', 'resultado'];
 
 
-    public function comisiones()
+    public function errores()
     {
         return $this->hasMany('App\Error', "Notificacion_ID", 'ID');
     }

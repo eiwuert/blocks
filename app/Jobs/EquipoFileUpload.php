@@ -37,7 +37,6 @@ class EquipoFileUpload extends Job implements SelfHandling
         $notificacion->actor_cedula = $this->cedula;
         $notificacion->save();
         $notificacion_ID = $notificacion->ID;
-        var_dump($notificacion_ID);
         global $request,$counter_filas,$filas_buenas,$filas_malas,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
         $this->rows->each(function($row) use ($notificacion_ID) {
@@ -58,11 +57,7 @@ class EquipoFileUpload extends Job implements SelfHandling
             }catch(\Exception $e){
                 $error = new Error();
                 $error->Notificacion_ID = $notificacion_ID;
-                if($e->getCode() == 23000){
-                    $error->descripcion = $counter_filas . ":  IMEI ya registrado";
-                }else{
-                    $error->descripcion = $counter_filas . ":" .  $e->getMessage();   
-                }
+                $error->descripcion = $counter_filas . ":" .  $e->getMessage();  
                 $error->save();
                 $filas_malas++;
             }

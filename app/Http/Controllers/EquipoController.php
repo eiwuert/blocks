@@ -27,12 +27,12 @@ class EquipoController extends Controller
      */
     public function index(Request $request)
     {
-        $equipo = $request["equipo"];
+        return Equipo::all();
         $data = array();
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->whereNotNull("descripcion")->get();
         $data["equipo"] = $equipo;
         // OBTENER POSIBLES RESPONSABLES
         $responsables = Actor::all();

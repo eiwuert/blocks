@@ -34,8 +34,8 @@
             @else
               <h4>FALLO</h4>            
               <p>{{$notificacion->descripcion}}</p>  
-              @foreach($$errores as $error)
-                <p>$error->descripcion</p>
+              @foreach($errores as $error)
+                <p>{{$error->descripcion}}</p>
               @endforeach
             @endif
         </div>

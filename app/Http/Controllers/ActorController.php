@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Actor;
 use App\Notificacion;
+use App\Error;
 use App\Ubicacion_Empleado;
 use Auth;
 use DateTime;
@@ -26,7 +27,7 @@ class ActorController extends Controller
         $Actor = Auth::user()->actor;
         $data['Actor'] = Auth::user()->actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->whereNotNull("descripcion")->get();
         $regiones = Ubicacion::select('region')->distinct()->get();
         foreach ($regiones as &$region) {
             $region->ciudades = Ubicacion::select('ciudad')->where('region',$region->region)->get();
@@ -280,11 +281,10 @@ class ActorController extends Controller
         $notificacion = Notificacion::find($id);
         $Actor = Auth::user()->actor;
         $data['notificacion'] = $notificacion;
-        $data['errores'] = $notificacion->errores;
+        $data['errores'] = Error::where("Notificacion_ID", $notificacion->ID)->get();
         $data['Actor'] = Auth::user()->actor;
         // CARGAR NOTIFICACIONES
         $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
-        return $data;
         return View('general.notificacion',$data);    
     }
 }

@@ -29,7 +29,7 @@ class HomeController extends Controller
         $actor = Auth::user()->actor;
         $data['Actor'] = $actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->whereNotNull("descripcion")->get();
         if($actor->jefe != null){
             // CONTAR LAS SIMCARDS PREPAGO
             $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
