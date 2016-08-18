@@ -32,7 +32,10 @@ class EquipoFileUpload extends Job implements SelfHandling
      */
     public function handle()
     {
-        global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
+        $notificacion = new Notificacion();
+        $notificacion->actor_cedula = $this->cedula;
+        $notificacion->save();
+        global $request,$counter_filas,$filas_buenas,$filas_malas,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
         $this->rows->each(function($row) {
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
@@ -50,16 +53,18 @@ class EquipoFileUpload extends Job implements SelfHandling
                 $equipo->save();
                 $filas_buenas++;
             }catch(\Exception $e){
+                $error = new Error();
+                $error->Notificacion_ID = $notificacion->ID;
                 if($e->getCode() == 23000){
-                    $errores = $errores . $counter_filas . ";  IMEI ya registrado\n"; 
+                    $error->descripcion_precio = $counter_filas . ":  IMEI ya registrado";
                 }else{
-                    $errores = $errores . $counter_filas . "; " . $e->getMessage() ."\n";    
+                    $error->descripcion_precio = $counter_filas . ":" .  $e->getMessage();   
                 }
+                $error->save();
                 $filas_malas++;
             }
         });
-        $notificacion = new Notificacion();
-        $notificacion->actor_cedula = $this->cedula;
+        
         $notificacion->resultado = $errores;
         if($filas_malas == 0){
             $notificacion->descripcion = "Se añadieron " . $filas_buenas . "equipos";
