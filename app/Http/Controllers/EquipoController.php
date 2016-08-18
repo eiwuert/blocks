@@ -27,7 +27,6 @@ class EquipoController extends Controller
      */
     public function index(Request $request)
     {
-        return Equipo::all();
         $data = array();
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
