@@ -57,9 +57,9 @@ class EquipoFileUpload extends Job implements SelfHandling
                 $error = new Error();
                 $error->Notificacion_ID = $notificacion->ID;
                 if($e->getCode() == 23000){
-                    $error->descripcion_precio = $counter_filas . ":  IMEI ya registrado";
+                    $error->descripcion = $counter_filas . ":  IMEI ya registrado";
                 }else{
-                    $error->descripcion_precio = $counter_filas . ":" .  $e->getMessage();   
+                    $error->descripcion = $counter_filas . ":" .  $e->getMessage();   
                 }
                 $error->save();
                 $filas_malas++;
