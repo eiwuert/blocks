@@ -9,6 +9,7 @@ use App\Actor;
 use App\Responsable_Empresa;
 use App\Simcard;
 use App\Cliente;
+use App\Notificacion;
 use App\Ubicacion;
 use Auth;
 use App\Http\Controllers\Controller;

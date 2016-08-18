@@ -10,6 +10,7 @@ use Auth;
 use App\Equipo;
 use DateTime;
 use App\Actor;
+use App\Notificacion;
 use App\Simcard;
 
 class ReporteController extends Controller

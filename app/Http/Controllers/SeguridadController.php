@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 use App\Actor;
+use App\Notificacion;
 use App\Asignacion_Permiso;
 use App\Http\Controllers\Controller;
 

@@ -9,7 +9,7 @@ class Equipo extends Model
     protected $table = 'Equipo';
     protected $primaryKey = 'IMEI';
     public $timestamps = false;
-    protected $fillable = ['IMEI','Simcard_ICC', 'Cliente_identificacion','fecha_venta','Descripcion_Equipo_cod_scl','descripcion_precio','fecha_asignacion'];
+    protected $fillable = ['IMEI','Actor_cedula','Simcard_ICC', 'Cliente_identificacion','fecha_venta','Descripcion_Equipo_cod_scl','descripcion_precio','fecha_asignacion'];
 
     
     public function cliente(){

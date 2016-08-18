@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Actor;
+use App\Notificacion;
 use App\Registro_Cartera;
 
 class CarteraController extends Controller
