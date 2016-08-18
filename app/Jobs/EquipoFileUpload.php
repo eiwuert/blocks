@@ -76,7 +76,7 @@ class EquipoFileUpload extends Job implements SelfHandling
         
         $notificacion->resultado = $errores;
         if($filas_malas == 0){
-            $notificacion->descripcion = "Se añadieron " . $filas_buenas . "equipos";
+            $notificacion->descripcion = "Se añadieron " . $filas_buenas . " equipos";
             $notificacion->exito = true;
         }else{
             $notificacion->descripcion = "Se encontraron " . $filas_malas . " errores añadiendo equipos";

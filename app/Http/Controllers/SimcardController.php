@@ -210,17 +210,18 @@ class SimcardController extends Controller
                 $simcard["color"] = Simcard::color_estado($simcard);
             }
             $paquete = Paquete::find($pista);
-        }
-        if($paquete != null){
-            $data["simcards"] = $simcards;
-            $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
-            if($paquete->Actor_cedula == Auth::user()->actor->cedula || $permiso != null || Auth::user()->actor->jefe_cedula == null){
-                $data["acceso"] = "SI";
-            }else{
-                $data["acceso"] = "NO";
+            if($paquete != null){
+                $data["simcards"] = $simcards;
+                $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
+                if($paquete->Actor_cedula == Auth::user()->actor->cedula || $permiso != null || Auth::user()->actor->jefe_cedula == null){
+                    $data["acceso"] = "SI";
+                }else{
+                    $data["acceso"] = "NO";
+                }
+                return $data;
             }
-            return $data;
         }
+        
         return $simcards;
     }
 

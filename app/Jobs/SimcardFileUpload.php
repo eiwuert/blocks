@@ -91,7 +91,7 @@ class SimcardFileUpload extends Job implements SelfHandling
             }
         });
         if($filas_malas == 0){
-            $notificacion->descripcion = "Se añadieron " . $filas_buenas . "simcards";
+            $notificacion->descripcion = "Se añadieron " . $filas_buenas . " simcards";
             $notificacion->exito = true;
         }else{
             $notificacion->descripcion = "Se encontraron " . $filas_malas . " errores añadiendo simcards";
