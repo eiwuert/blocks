@@ -163,8 +163,7 @@ class HomeController extends Controller
         }else{
             // OBTENER TORTAS
                 // CONTAR LAS SIMCARDS PREPAGO
-                $data['Total_prepago'] = Simcard::where("categoria",'Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
-                
+                $data['Total_prepago'] = Simcard::where("categoria",'Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<', 0)->count();
                 $data['Total_prepago_activas'] = Simcard::where("categoria",'Prepago')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
                 
                 $data['Total_prepago_vencidas'] = Simcard::with('paquete')->where("categoria",'=','Prepago')->where(function ($query) {
