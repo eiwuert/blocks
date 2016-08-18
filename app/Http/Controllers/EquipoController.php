@@ -15,6 +15,7 @@ use App\Simcard;
 use App\Asignacion_Permiso;
 use App\Descripcion_Equipo;
 use App\Notificacion;
+use App\Jobs\EquipoFileUpload;
 use App\Http\Controllers\Controller;
 
 class EquipoController extends Controller
