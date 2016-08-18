@@ -38,7 +38,7 @@ class EquipoFileUpload extends Job implements SelfHandling
         $notificacion->save();
         global $request,$counter_filas,$filas_buenas,$filas_malas,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
-        $this->rows->each(function($row) {
+        $this->rows->each(function($row) use ($notificacion) {
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
                 $counter_filas++;
