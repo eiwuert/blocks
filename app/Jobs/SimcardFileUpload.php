@@ -66,7 +66,7 @@ class SimcardFileUpload extends Job implements SelfHandling
                     $simcard->ICC = $row->icc;
                 }
                 $simcard->numero_linea = $row->numero_linea;
-                $simcard->tipo = $row->tipo;
+                $simcard->categoria = $row->tipo;
                 $simcard->fecha_adjudicacion = $fecha_adjudicacion;
                 $simcard->fecha_activacion = $fecha_activacion;
                 $simcard->fecha_asignacion = $fecha_asignacion;

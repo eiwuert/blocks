@@ -172,7 +172,7 @@
           'class' => 'flex_filas', 
           'novalidate' => 'novalidate', 
           'files' => true,
-          'style' => 'text-align:center')) !!}
+          'style' => 'text-align:center; justify-content:center')) !!}
   	
 		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_descripcion" id="file-2" class="inputfile inputfile-2"/>
   	<label class="transparente" for="file-2"><span>Escoje un archivo&hellip;</span></label>
@@ -180,14 +180,14 @@
 	{!! Form::close() !!}     
 </div>
 
-<div class="flex_filas" style="justify-content:center" id="cargar_equipo_modal">
+<div class="flex_filas" id="cargar_equipo_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoEquipo', 
           'class' => 'flex_filas', 
           'novalidate' => 'novalidate', 
           'files' => true,
-          'style' => 'text-align:center')) !!}
+          'style' => 'text-align:center; justify-content:center')) !!}
   	
 		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_equipo" id="file-3" class="inputfile inputfile-2"/>
   	<label class="transparente" for="file-3"><span>Escoje un archivo&hellip;</span></label>

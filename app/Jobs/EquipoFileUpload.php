@@ -56,12 +56,12 @@ class EquipoFileUpload extends Job implements SelfHandling
                     $equipo = new Equipo();
                     $equipo->IMEI = $row->equipo_imei;
                 }
-                $equipo->responsable_cedula = $row->responsable_cedula;
+                $equipo->Actor_cedula = $row->responsable_cedula;
                 $equipo->simcard_ICC = $row->simcard_ICC;
                 $equipo->cliente_identificacion = $row->cliente_identificacion;
                 $equipo->fecha_venta = $row->$fecha_venta;
-                $equipo->cod_scl = $row->cod_scl;
-                $equipo->precio = $row->precio;
+                $equipo->Descripcion_Equipo_cod_scl = $row->cod_scl;
+                $equipo->descripcion_precio = $row->precio;
                 $equipo->fecha_asignacion = $fecha_asignacion;
                 $equipo->save();
                 $filas_buenas++;

@@ -196,14 +196,14 @@
   @endforeach
     <button class="btn transparente" id='SIN PLAN' onClick="cambiar_plan_buscar_simcard(this.id)">SIN PLAN</button>
 </div>
-<div class="flex_filas" style="justify-content:center" id="cargar_simcard_modal">
+<div class="flex_filas"id="cargar_simcard_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoSimcards', 
           'class' => 'flex_filas', 
           'novalidate' => 'novalidate', 
           'files' => true,
-          'style' => 'text-align:center')) !!}
+          'style' => 'text-align:center; justify-content:center')) !!}
   	
 		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_simcard" id="file-2" class="inputfile inputfile-2"/>
   	<label class="transparente" for="file-2"><span>Escoje un archivo&hellip;</span></label>
@@ -211,14 +211,14 @@
 	{!! Form::close() !!}     
 </div>
 
-<div class="flex_filas" style="justify-content:center" id="cargar_plan_modal">
+<div class="flex_filas" id="cargar_plan_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoPlanes', 
           'class' => 'flex_filas', 
           'novalidate' => 'novalidate', 
           'files' => true,
-          'style' => 'text-align:center')) !!}
+          'style' => 'text-align:center; justify-content:center')) !!}
   	<input type="file" accept=".xlsx,.csv,.xls" name="archivo_plan" id="file-3" class="inputfile inputfile-2"/>
   	<label class="transparente" for="file-3"><span>Escoje un archivo&hellip;</span></label>
   	<input type="submit" class="btn transparente" value="Subir">
