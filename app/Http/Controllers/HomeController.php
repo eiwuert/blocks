@@ -34,7 +34,7 @@ class HomeController extends Controller
             // CONTAR LAS SIMCARDS PREPAGO
             $data['Total_prepago'] = Simcard::whereHas('paquete', function ($query) {
                 $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-            })->where("categoria",'=','Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+            })->where("categoria",'=','Prepago')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<', 0)->count();
             
             $data['Total_prepago_activas'] = Simcard::whereHas('paquete', function ($query) {
                 $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
@@ -49,7 +49,7 @@ class HomeController extends Controller
             // CONTAR LAS SIMCARDS LIBRE
             $data['Total_libres'] = Simcard::whereHas('paquete', function ($query) {
                 $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
-            })->where("categoria",'=','Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+            })->where("categoria",'=','Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<', 0)->count();
             
             $data['Total_libres_activas'] = Simcard::whereHas('paquete', function ($query) {
                 $query->where('Actor_cedula', '=', Auth::user()->Actor_cedula);
