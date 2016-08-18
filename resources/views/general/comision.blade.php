@@ -28,12 +28,23 @@
       
       <div class="x_content" id="comisiones_empleado">  
         <div class="contenedor_pista">
+          @if($Actor->jefe == null)
+          <select class="selectpicker" data-width="71%" data-style="data" id ="actor_comision" style="min-width:320px;">
+              @foreach ($actores as $actor)
+                  <option>{{$actor->nombre}}</option>
+              @endforeach
+          </select>
+          @endif
           <select class="selectpicker" data-width="50%" data-style="data" id ="periodo_comision" style="min-width:220px">
               @foreach ($periodos as $periodo)
                   <option>{{$periodo->periodo}}</option>
               @endforeach
           </select>
-          <button style="width:20%;margin:0;padding:0;" class="btn azul" onClick = "buscar_comision()" type="number" id="Comision_buscar">Ver</button>
+          @if($Actor->jefe == null)
+            <button style="width:20%;margin:0;padding:0;" class="btn azul" onClick = "buscar_comision('admin')" type="number" id="Comision_buscar">Ver</button>
+          @else
+            <button style="width:20%;margin:0;padding:0;" class="btn azul" onClick = "buscar_comision('employee')" type="number" id="Comision_buscar">Ver</button>
+          @endif
         </div>
         <div id="contenedor_reporte">
           <h2>GANANCIAS <span id="periodo_lbl"></span></h2>
@@ -41,15 +52,27 @@
           <div id ="contenedor_factura">
             <div style="background:#C1DAD6">
               <h3>Simcards Prepago </h3>
-              <button onClick="detalle_comision_prepago()" id="total_simcards_prepago"></button>
+              @if($Actor->jefe != null)
+                <button onClick="detalle_comision_prepago('employee')" id="total_simcards_prepago"></button>
+              @else
+                <button onClick="detalle_comision_prepago('admin')" id="total_simcards_prepago"></button>
+              @endif
             </div>
             <div style="background:#C1DAD6">
               <h3>Simcards Libre</h3>
-              <button onClick="detalle_comision_libre()" id="total_simcards_libre"></button>
+              @if($Actor->jefe != null)
+                <button onClick="detalle_comision_libre('employee')" id="total_simcards_libre"></button>
+              @else
+                <button onClick="detalle_comision_libre('admin)" id="total_simcards_libre"></button>
+              @endif
             </div>
             <div style="background:#C1DAD6">
               <h3>Simcards Postpago</h3>
-              <button onClick="detalle_comision_postpago()" id="total_simcards_postpago"></button>
+              @if($Actor->jefe != null)
+                <button onClick="detalle_comision_postpago('employee)" id="total_simcards_postpago"></button>
+              @else
+                <button onClick="detalle_comision_postpago('admin')" id="total_simcards_postpago"></button>
+              @endif
             </div>
             <div style="background:#89E894">
               <h3>Equipos</h3>

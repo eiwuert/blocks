@@ -5,14 +5,18 @@ $( document ).ready(function() {
    $("#link_comision").addClass("current-page"); 
 });
 
-function buscar_comision(){
-    var periodo = $('[data-id="periodo_comision"]').text();
+function buscar_comision(type){
+    var datos = [];
+    if(type == "admin"){
+        datos['actor'] = $('[data-id="actor_comision"]').text();    
+    }
+    datos['periodo'] = $('[data-id="periodo_comision"]').text();
     $.ajax({
         url:'/buscar_comision',
-        data:{periodo:periodo},
+        data:{datos:datos},
         type:'GET',
         success: function(data){  
-            $("#periodo_lbl").text(periodo);
+            $("#periodo_lbl").text(datos['periodo']);
             $("#total_simcards_prepago").text("$" + addCommas(Math.floor(data["simcards_prepago"])));
             $("#total_simcards_libre").text("$" + addCommas(Math.floor(data["simcards_libre"])));
             $("#total_simcards_postpago").text("$" + addCommas(Math.floor(data["simcards_postpago"])));
@@ -27,12 +31,16 @@ function buscar_comision(){
     });
 }
 
-function detalle_comision_prepago(){
+function detalle_comision_prepago(type){
     if($("#periodo_lbl").text() != ""){
-        var periodo = $('#periodo_lbl').text();
+        var datos = [];
+        if(type == "admin"){
+            datos['actor'] = $('[data-id="actor_comision"]').text();    
+        }
+        datos['periodo'] = $('[data-id="periodo_comision"]').text();
         $.ajax({
             url:'/detalle_comision_prepago',
-            data:{periodo:periodo},
+            data:{datos:datos},
             type:'GET',
             success: function(data){  
                 if(data != null){
@@ -53,12 +61,16 @@ function detalle_comision_prepago(){
     }
 }
 
-function detalle_comision_libre(){
+function detalle_comision_libre(type){
     if($("#periodo_lbl").text() != ""){
-        var periodo = $('#periodo_lbl').text();
+        var datos = [];
+        if(type == "admin"){
+            datos['actor'] = $('[data-id="actor_comision"]').text();    
+        }
+        datos['periodo'] = $('[data-id="periodo_comision"]').text();
         $.ajax({
             url:'/detalle_comision_libre',
-            data:{periodo:periodo},
+            data:{datos:datos},
             type:'GET',
             success: function(data){  
                 if(data != null){
@@ -79,12 +91,16 @@ function detalle_comision_libre(){
     }
 }
 
-function detalle_comision_postpago(){
+function detalle_comision_postpago(type){
     if($("#periodo_lbl").text() != ""){
-        var periodo = $('#periodo_lbl').text();
+        var datos = [];
+        if(type == "admin"){
+            datos['actor'] = $('[data-id="actor_comision"]').text();    
+        }
+        datos['periodo'] = $('[data-id="periodo_comision"]').text();
         $.ajax({
             url:'/detalle_comision_postpago',
-            data:{periodo:periodo},
+            data:{datos:datos},
             type:'GET',
             success: function(data){  
                 if(data != null){
