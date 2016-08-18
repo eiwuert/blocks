@@ -249,6 +249,8 @@ class SimcardController extends Controller
             $paquete->Actor_cedula = $datos_simcard["responsable"];
             if($paquete->save()){
                 $simcard->Paquete_ID = $paquete->ID;
+                $hoy = new DateTime();
+                $simcard->fecha_asignacion = $hoy;
                 if($simcard->save()){
                     return "EXITOSO";
                 }else{
