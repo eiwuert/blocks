@@ -39,6 +39,10 @@ class SimcardFileUpload extends Job implements SelfHandling
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
                 $counter_filas++;
+                $fecha_vencimiento = $row->fecha_vencimiento;
+                if($fecha_vencimiento != null){
+                    $fecha_vencimiento = $fecha_vencimiento->format('Y-m-d');
+                }
                 $fecha_adjudicacion = $row->fecha_adjudicacion;
                 if($fecha_adjudicacion != null){
                     $fecha_adjudicacion = $fecha_adjudicacion->format('Y-m-d');
@@ -51,7 +55,7 @@ class SimcardFileUpload extends Job implements SelfHandling
                 if($fecha_asignacion != null){
                     $fecha_asignacion = $fecha_asignacion->format('Y-m-d');
                 }
-                $simcard = new Simcard(array("ICC" => $row->icc, "numero_linea" => $row->numero_linea,"categoria" => $row->tipo ,"fecha_adjudicacion" => $fecha_adjudicacion,"fecha_activacion" => $fecha_activacion,"fecha_asignacion" => $fecha_asignacion,"paquete_ID" => $row->paquete_id,"Cliente_identificacion" => $row->cliente_identificacion));
+                $simcard = new Simcard(array("ICC" => $row->icc, "numero_linea" => $row->numero_linea,"categoria" => $row->tipo ,"fecha_adjudicacion" => $fecha_adjudicacion,"fecha_activacion" => $fecha_activacion,"fecha_asignacion" => $fecha_asignacion,"paquete_ID" => $row->paquete_id,"Cliente_identificacion" => $row->cliente_identificacion, "fecha_vencimiento" => $fecha_vencimiento));
                 $simcard->save();
                 $cod_plan = $row->plan;
                 if($cod_plan != null){

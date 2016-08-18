@@ -17,9 +17,10 @@ class ReporteController extends Controller
     public function reportes_inventario(Request $request)
     {
         $data = array();
-        $data['Actor'] = Auth::user()->actor;
+        $Actor = Auth::user()->actor;
+        $data['Actor'] = $Actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$actor->cedula)->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
         // OBTENER INFORMACIÓN ASIGNACIONES
         $actores = Actor::all();
         foreach ($actores as $actor) {
