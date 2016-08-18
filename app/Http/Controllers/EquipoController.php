@@ -32,7 +32,7 @@ class EquipoController extends Controller
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->whereNotNull("descripcion")->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->where("descripcion","<>","")->get();
         $data["equipo"] = $equipo;
         // OBTENER POSIBLES RESPONSABLES
         $responsables = Actor::all();

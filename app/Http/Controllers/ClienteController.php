@@ -28,7 +28,7 @@ class ClienteController extends Controller
         $Actor = Auth::user()->actor;
         $data['Actor'] = $Actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->whereNotNull("descripcion")->get();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->where("descripcion","<>","")->get();
         $data["cliente"] = $cliente;    
         $regiones = Ubicacion::select('region')->distinct()->get();
         foreach ($regiones as &$region) {

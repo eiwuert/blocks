@@ -51,8 +51,7 @@ class EquipoFileUpload extends Job implements SelfHandling
                 if($fecha_venta != null){
                     $fecha_venta = $fecha_venta->format('Y-m-d');
                 }
-                var_dump($row->Equipo_imei);
-                $equipo = new Equipo(array('IMEI' => $row->Equipo_imei,'Actor_cedula' => $row->responsable_cedula,'Simcard_ICC' => $row->Simcard_ICC, 'Cliente_identificacion' => $row->Cliente_identificacion,'fecha_venta' => $fecha_venta,'Descripcion_Equipo_cod_scl' => $row->cod_scl,'descripcion_precio' => $row->precio,'fecha_asignacion' => $fecha_asignacion));
+                $equipo = new Equipo(array('IMEI' => $row->equipo_imei,'Actor_cedula' => $row->responsable_cedula,'Simcard_ICC' => $row->simcard_ICC, 'Cliente_identificacion' => $row->cliente_identificacion,'fecha_venta' => $fecha_venta,'Descripcion_Equipo_cod_scl' => $row->cod_scl,'descripcion_precio' => $row->precio,'fecha_asignacion' => $fecha_asignacion));
                 $equipo->save();
                 $filas_buenas++;
             }catch(\Exception $e){

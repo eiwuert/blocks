@@ -33,9 +33,13 @@ class SimcardFileUpload extends Job implements SelfHandling
      */
     public function handle()
     {
+        $notificacion = new Notificacion();
+        $notificacion->actor_cedula = $this->cedula;
+        $notificacion->save;
+        $notificacion_ID = $notificacion->ID;
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
-        $this->rows->each(function($row) {
+        $this->rows->each(function($row)  use ($notificacion_ID){
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
                 $counter_filas++;
@@ -66,17 +70,13 @@ class SimcardFileUpload extends Job implements SelfHandling
                 }
                 $filas_buenas++;
             }catch(\Exception $e){
-                if($e->getCode() == 23000){
-                    $errores = $errores . $counter_filas . ";  ICC ya registrada\n"; 
-                }else{
-                    $errores = $errores . $counter_filas . "; " . $e->getMessage() ."\n";    
-                }
+                $error = new Error();
+                $error->Notificacion_ID = $notificacion_ID;
+                $error->descripcion = $counter_filas . ":" .  $e->getMessage();  
+                $error->save();
                 $filas_malas++;
             }
         });
-        $notificacion = new Notificacion();
-        $notificacion->actor_cedula = $this->cedula;
-        $notificacion->resultado = $errores;
         if($filas_malas == 0){
             $notificacion->descripcion = "Se añadieron " . $filas_buenas . "simcards";
             $notificacion->exito = true;
