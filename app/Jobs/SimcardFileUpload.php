@@ -7,6 +7,7 @@ use App\Simcard;
 use App\Plan;
 use App\Asignacion_Plan;
 use App\Notificacion;
+use App\Error;
 use Excel;
 use App\File;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -35,7 +36,7 @@ class SimcardFileUpload extends Job implements SelfHandling
     {
         $notificacion = new Notificacion();
         $notificacion->actor_cedula = $this->cedula;
-        $notificacion->save;
+        $notificacion->save();
         $notificacion_ID = $notificacion->ID;
         global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
         $counter_filas = 0; $filas_buenas = 0; $filas_malas=0; $msg = ""; $errores = "";
