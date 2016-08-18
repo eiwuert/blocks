@@ -9,6 +9,7 @@ use Auth;
 use App\Equipo;
 use DateTime;
 use App\Actor;
+use Excel;
 use App\Simcard;
 use App\Asignacion_Permiso;
 use App\Descripcion_Equipo;
