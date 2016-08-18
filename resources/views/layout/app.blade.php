@@ -80,7 +80,6 @@
                       <li id="link_personal"><a href="/personal">Personal</a></li>
                       <li id="link_permisos"><a href="/permisos">Permisos</a></li>
                       <li id="link_control_vendedores"><a href="/control_vendedores">Control Vendedores</a></li>
-                      <li id="link_reportes_personal"><a href="/reportes_personal">Reportes</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
