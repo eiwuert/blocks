@@ -171,7 +171,7 @@ class HomeController extends Controller
                               ->orWhere(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>=', 0);
                     })->count();
                 // CONTAR LAS SIMCARDS LIBRE
-                $data['Total_libres'] = Simcard::with('paquete')->where("categoria",'Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '>', 0)->count();
+                $data['Total_libres'] = Simcard::with('paquete')->where("categoria",'Libre')->whereNull('fecha_activacion')->where(DB::raw("DATEDIFF(CURRENT_DATE,fecha_vencimiento)"), '<', 0)->count();
                 
                 $data['Total_libres_activas'] = Simcard::with('paquete')->where("categoria",'Libre')->where(DB::raw("ROUND(DATEDIFF(CURRENT_DATE,fecha_activacion)/30)"), '<', 6)->count();
                 

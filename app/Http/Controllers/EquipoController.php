@@ -206,7 +206,10 @@ class EquipoController extends Controller
     public function subir_archivo_equipo(Request $request){
         if ($request->hasFile('archivo_equipo'))
         {
-            $request->file('archivo_equipo')->move("files/equipo/equipo"); 
+            $Actor = Auth::user()->actor;
+            $path = $request->file('archivo_equipo');
+            $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
+            Queue::push(new EquipoFileUpload($rows,$Actor->cedula));
             return \Redirect::route('equipo')->with('subiendo_archivo' ,true);
         }
     }
