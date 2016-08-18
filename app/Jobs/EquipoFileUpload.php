@@ -7,6 +7,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use App\Notificacion;
 use Excel;
 use App\File;
+use App\Error;
 use App\Equipo;
 
 class EquipoFileUpload extends Job implements SelfHandling
