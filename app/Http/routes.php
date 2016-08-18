@@ -103,6 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     // ACCIONES USUARIO
     Route::get('/eliminar_notificacion', 'ActorController@eliminar_notificacion');
+    Route::get('/ver_notificacion', 'ActorController@ver_notificacion');
     
     // ACCIONES REPORTES
     Route::get('/reportes_inventario', 'ReporteController@reportes_inventario');

@@ -9,6 +9,6 @@ class Notificacion extends Model
     protected $table = 'Notificacion';
     protected $primaryKey = 'ID';
     public $timestamps = false;
-    protected $fillable = ['ID','Actor_cedula', 'descripcion','exito'];
+    protected $fillable = ['ID','Actor_cedula', 'descripcion','exito', 'resultado'];
 
 }

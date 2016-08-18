@@ -274,4 +274,15 @@ class ActorController extends Controller
             return "No se encuentra registrada la cedula";
         }
     }
+    
+    public function ver_notificacion(Request $request){
+        $id = $request["id"];
+        $notificacion = Notificacion::find($id);
+        $Actor = Auth::user()->actor;
+        $data['notificacion'] = $notificacion;
+        $data['Actor'] = Auth::user()->actor;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
+        return View('general.notificacion',$data);    
+    }
 }
