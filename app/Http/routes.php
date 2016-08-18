@@ -102,7 +102,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/actualizar_registro', 'CarteraController@actualizar_registro');
     
     // ACCIONES USUARIO
-    Route::get('/eliminar_notificacion', 'ActorController@eliminar_notificacion');
     Route::get('/ver_notificacion', 'ActorController@ver_notificacion');
     
     // ACCIONES REPORTES

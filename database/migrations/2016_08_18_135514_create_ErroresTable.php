@@ -16,7 +16,7 @@ class CreateErroresTable extends Migration
             $table->increments('ID')->unique();
             $table->string('descripcion');
             $table->integer('Notificacion_ID')->unsigned();
-            $table->foreign('Notificacion_ID')->references('ID')->on('Notificacion');
+            $table->foreign('Notificacion_ID')->references('ID')->on('Notificacion')->onDelete('cascade');
         });
     }
 

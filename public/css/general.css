@@ -100,7 +100,7 @@ tr.verde_claro:hover{
     justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
-    
+    width:100%;
 }
 
 .contenedor_acciones{

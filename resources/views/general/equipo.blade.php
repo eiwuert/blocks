@@ -165,7 +165,7 @@
     <button class="btn transparente" id='{{$responsable["cedula"]}}' onClick="asignar_responsable_equipo(this.id)">{{$responsable["nombre"]}}</button>
   @endforeach
 </div>
-<div class="flex_filas" id="cargar_descripcion_equipo_modal">
+<div class="flex_filas" style="justify-content:center" id="cargar_descripcion_equipo_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoDescripcionEquipo', 
@@ -180,7 +180,7 @@
 	{!! Form::close() !!}     
 </div>
 
-<div class="flex_filas" id="cargar_equipo_modal">
+<div class="flex_filas" style="justify-content:center" id="cargar_equipo_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoEquipo', 
@@ -217,7 +217,7 @@
       limpiar_modal();
       modal.addClass("modal_info");
       $("#titulo_modal").text("CARGANDO ARCHIVO EQUIPOS");
-      $("#contenido_modal").text("Se le enviará un correo con el resultado");
+      $("#contenido_modal").text("Se le notificará cuando haya un resultado");
       remodal.open();
     </script>
   @endif

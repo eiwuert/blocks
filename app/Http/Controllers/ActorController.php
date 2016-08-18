@@ -265,17 +265,6 @@ class ActorController extends Controller
         }
     }
     
-    public function eliminar_notificacion(Request $request){
-        $id = $request["id"];
-        $notificacion = Notificacion::find($id);
-        if($notificacion != null){
-            $notificacion->delete();
-            return "EXITOSO";
-        }else{
-            return "No se encuentra registrada la cedula";
-        }
-    }
-    
     public function ver_notificacion(Request $request){
         $id = $request["id"];
         $notificacion = Notificacion::find($id);
@@ -284,7 +273,8 @@ class ActorController extends Controller
         $data['errores'] = Error::where("Notificacion_ID", $notificacion->ID)->get();
         $data['Actor'] = Auth::user()->actor;
         // CARGAR NOTIFICACIONES
-        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->get();
+        $notificacion->delete();
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->where("descripcion","<>","")->get();
         return View('general.notificacion',$data);    
     }
 }

@@ -167,9 +167,6 @@
                             @else
                               <strong>FALLA</strong>
                             @endif
-                            <span>
-                              <i class="fa fa-close" id="{{$notificacion->ID}}" style="float:right" onclick='borrar_notificacion(this.id)'></i>
-                            </span>
                           </p>
                           <span>{{$notificacion->descripcion}}</span>
                         </a>

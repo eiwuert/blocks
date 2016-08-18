@@ -58,17 +58,3 @@ function seleccionar_ciudad(){
     $("#ciudades").show();
     remodal.open();
 }
-
-function borrar_notificacion(id){
-     $.get('/eliminar_notificacion', {id:id}, function(resultado){
-        if(resultado == "EXITOSO"){
-            $("#"+id).closest("li").hide();
-            var numero = $("#numero_notificaciones").text();
-            numero--;
-            $("#numero_notificaciones").text(numero);
-            if(numero == 0){
-                $("#numero_notificaciones_container").hide();
-            }
-        }    
-     });
-}

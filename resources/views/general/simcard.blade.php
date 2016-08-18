@@ -216,7 +216,7 @@
 	{!! Form::close() !!}     
 </div>
 
-<div class="flex_filas" id="cargar_plan_modal">
+<div class="flex_filas" style="justify-content:center" id="cargar_plan_modal">
   {!! Form::open(
       array(
           'route' => 'subirArchivoPlanes', 
@@ -252,7 +252,7 @@
       limpiar_modal();
       modal.addClass("modal_info");
       $("#titulo_modal").text("CARGANDO ARCHIVO SIMCARDS");
-      $("#contenido_modal").text("Se le enviará un correo con el resultado");
+      $("#contenido_modal").text("Se le notificará cuando haya un resultado");
       remodal.open();
     </script>
   @endif
