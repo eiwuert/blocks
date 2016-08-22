@@ -8,7 +8,7 @@ use App\Notificacion;
 use Excel;
 use App\File;
 use App\Error;
-use App\DescripcionEquipo;
+use App\Descripcion_Equipo;
 
 class DescripcionEquipoFileUpload extends Job implements SelfHandling
 {
@@ -50,9 +50,9 @@ class DescripcionEquipoFileUpload extends Job implements SelfHandling
                     return false;
                 }else{
                     $counter_filas++;
-                    $descripcion = DescripcionEquipo::find($row->cod_scl);
+                    $descripcion = Descripcion_Equipo::find($row->cod_scl);
                     if($descripcion == null){
-                        $descripcion = new DescripcionEquipo();
+                        $descripcion = new Descripcion_Equipo();
                         $descripcion->cod_scl = $row->cod_scl;
                     }
                     $descripcion->tecnologia = $row->tecnologia;
