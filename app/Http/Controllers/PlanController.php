@@ -88,7 +88,7 @@ class PlanController extends Controller
         {
             $tipo = $request->tipo_archivo;
             $Actor = Auth::user()->actor;
-            $path = $request->file('archivo_simcard');
+            $path = $request->file('archivo_plan');
             $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
             Queue::push(new PlanFileUpload($rows,$Actor->cedula));
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);   
