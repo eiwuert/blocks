@@ -117,4 +117,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/detalle_comision_prepago', 'ComisionController@detalle_comision_prepago');
     Route::get('/detalle_comision_libre', 'ComisionController@detalle_comision_libre');
     Route::get('/detalle_comision_postpago', 'ComisionController@detalle_comision_postpago');
+    Route::post('/subir_archivo_equipos', ['as' => 'subirComisiones', 'uses' => 'ComisionController@subir_archivo']);
 });

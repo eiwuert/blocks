@@ -13,6 +13,9 @@ use App\Notificacion;
 use Auth;
 use DB;
 use DateTime;
+use Excel;
+use Queue;
+use App\Jobs\ComisionFileUpload;
 
 class ComisionController extends Controller
 {
@@ -100,5 +103,16 @@ class ComisionController extends Controller
         })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
         $data["porcentaje"] = $Actor->porcentaje_postpago;
         return $data;
+    }
+    
+    public function subir_archivo(Request $request){
+        if ($request->hasFile('archivo_comision'))
+        {
+            $Actor = Auth::user()->actor;
+            $path = $request->file('archivo_comision');
+            $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
+            Queue::push(new ComisionFileUpload($rows,$Actor->cedula));
+            return \Redirect::route('comision')->with('subiendo_archivo' ,true);
+        }
     }
 }

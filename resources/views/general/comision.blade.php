@@ -20,6 +20,9 @@
       <div class="x_title">
         <h2>Comisiones</h2>
         <ul class="nav navbar-right panel_toolbox">
+          @if($Actor->jefe != null)
+          <li><a onClick="modal_cargar_comisiones()"><i class="fa fa-cloud-upload"></i></a></li>
+          @endif
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
           <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
@@ -127,6 +130,20 @@
 @section('contenido_modal')
 <p id ="contenido_modal"></p>
 
+<div class="flex_filas" id="cargar_comisiones_modal">
+  {!! Form::open(
+      array(
+          'route' => 'subirComisiones', 
+          'class' => 'flex_filas', 
+          'novalidate' => 'novalidate', 
+          'files' => true,
+          'style' => 'text-align:center; justify-content:center')) !!}
+  	
+		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_comision" id="file-3" class="inputfile inputfile-2"/>
+  	<label class="transparente" for="file-3"><span>Escoje un archivo&hellip;</span></label>
+  	<input type="submit" class="btn transparente" value="Subir">
+	{!! Form::close() !!}     
+</div>
 @endsection
 
 @section('botones_modal')

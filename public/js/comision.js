@@ -121,6 +121,15 @@ function detalle_comision_postpago(type){
     }
 }
 
+function modal_cargar_comisiones(){
+    limpiar_modal();
+    modal.addClass("modal_info");
+    $("#titulo_modal").text("CARGAR ARCHIVO DE COMISIONES");
+    $("#contenido_modal").text('Selecciona el archivo y oprime "subir"');
+    $("#cargar_comisiones_modal").show();  
+    remodal.open();
+}
+
 function addCommas(nStr)
 {
     nStr += '';

@@ -24,7 +24,8 @@ function limpiar_modal(){
    $("#cargar_simcard_modal").hide();
    $("#cargar_plan_modal").hide();   
    $("#cargar_descripcion_equipo_modal").hide();   
-   $("#cargar_equipo_modal").hide();   
+   $("#cargar_equipo_modal").hide(); 
+   $("#cargar_comisiones_modal").hide(); 
    $("#contenedor_registro_cartera").hide();   
    $("#titulo_modal").text("");
    $("#contenido_modal").text("");
