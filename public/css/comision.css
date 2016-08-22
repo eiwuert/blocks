@@ -39,7 +39,7 @@
 #contenedor_factura{
     text-align: center;
 }
-#contenedor_factura h3,p{
+#contenedor_factura h3,#contenedor_factura p{
     text-align: center;
     color:black;
     font-size: 15px;
