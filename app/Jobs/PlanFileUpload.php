@@ -9,6 +9,9 @@ use App\Error;
 use Excel;
 use App\File;
 use Illuminate\Contracts\Bus\SelfHandling;
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+use Queue;
 
 class PlanFileUpload extends Job implements SelfHandling
 {
