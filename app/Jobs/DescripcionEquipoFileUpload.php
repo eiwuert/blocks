@@ -8,11 +8,10 @@ use App\Notificacion;
 use Excel;
 use App\File;
 use App\Error;
-use App\Equipo;
+use App\DescripcionEquipo;
 
-class EquipoFileUpload extends Job implements SelfHandling
+class DescripcionEquipoFileUpload extends Job implements SelfHandling
 {
-    
     protected $rows;
     protected $cedula;
     /**
@@ -42,7 +41,7 @@ class EquipoFileUpload extends Job implements SelfHandling
         $this->rows->each(function($row) use ($notificacion_ID) {
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
-                if($row->equipo_imei == null){
+                if($row->cod_scl == null){
                     $error = new Error();
                     $error->Notificacion_ID = $notificacion_ID;
                     $error->descripcion = "archivo invalido";  
@@ -51,27 +50,20 @@ class EquipoFileUpload extends Job implements SelfHandling
                     return false;
                 }else{
                     $counter_filas++;
-                    $fecha_asignacion = $row->fecha_asignacion;
-                    if($fecha_asignacion != null){
-                        $fecha_asignacion = $fecha_asignacion->format('Y-m-d');
+                    $descripcion = DescripcionEquipo::find($row->cod_scl);
+                    if($descripcion == null){
+                        $descripcion = new DescripcionEquipo();
+                        $descripcion->cod_scl = $row->cod_scl;
                     }
-                    $fecha_venta = $row->fecha_venta;
-                    if($fecha_venta != null){
-                        $fecha_venta = $fecha_venta->format('Y-m-d');
-                    }
-                    $equipo = Equipo::find($row->equipo_imei);
-                    if($equipo == null){
-                        $equipo = new Equipo();
-                        $equipo->IMEI = $row->equipo_imei;
-                    }
-                    $equipo->Actor_cedula = $row->responsable_cedula;
-                    $equipo->simcard_ICC = $row->simcard_ICC;
-                    $equipo->cliente_identificacion = $row->cliente_identificacion;
-                    $equipo->fecha_venta = $row->$fecha_venta;
-                    $equipo->Descripcion_Equipo_cod_scl = $row->cod_scl;
-                    $equipo->descripcion_precio = $row->precio;
-                    $equipo->fecha_asignacion = $fecha_asignacion;
-                    $equipo->save();
+                    $descripcion->tecnologia = $row->tecnologia;
+                    $descripcion->modelo = $row->modelo;
+                    $descripcion->precio_prepago = $row->precio_prepago;
+                    $descripcion->precio_contado = $row->precio_contado;
+                    $descripcion->precio_3_cuotas = $row->precio_3_cuotas;
+                    $descripcion->precio_6_cuotas = $row->precio_6_cuotas;
+                    $descripcion->precio_12_cuotas = $row->precio_12_cuotas;
+                    $descripcion->precio_24_cuotas = $row->precio_24_cuotas;
+                    $descripcion->save();
                     $filas_buenas++;
                 }
             }catch(\Exception $e){
@@ -85,10 +77,10 @@ class EquipoFileUpload extends Job implements SelfHandling
         
         $notificacion->resultado = $errores;
         if($filas_malas == 0){
-            $notificacion->descripcion = "Se añadieron " . $filas_buenas . " equipos";
+            $notificacion->descripcion = "Se añadieron " . $filas_buenas . " descripciones de equipos";
             $notificacion->exito = true;
         }else{
-            $notificacion->descripcion = "Se encontraron " . $filas_malas . " errores añadiendo equipos";
+            $notificacion->descripcion = "Se encontraron " . $filas_malas . " errores añadiendo descripciones de equipos";
             $notificacion->exito = false;
         }
         $notificacion->save();
