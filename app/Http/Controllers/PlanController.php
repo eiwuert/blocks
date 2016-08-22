@@ -82,7 +82,7 @@ class PlanController extends Controller
     }
     
     public function subir_archivo(Request $request){
-        if ($request->hasFile('archivo_simcard'))
+        if ($request->hasFile('archivo_plan'))
         {
             $tipo = $request->tipo_archivo;
             $Actor = Auth::user()->actor;
