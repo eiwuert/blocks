@@ -49,7 +49,7 @@ class SimcardFileUpload extends Job implements SelfHandling
                     $error->descripcion = "Archivo no valido";  
                     $error->save();
                     $filas_malas++; 
-                    break;
+                    return false;
                 }else{
                     $counter_filas++;
                     $fecha_vencimiento = $row->fecha_vencimiento;
