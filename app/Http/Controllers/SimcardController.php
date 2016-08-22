@@ -284,7 +284,7 @@ class SimcardController extends Controller
             $Actor = Auth::user()->actor;
             $path = $request->file('archivo_simcard');
             $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
-            if($tipo = "Agregar"){
+            if($tipo == "Agregar"){
                 Queue::push(new SimcardFileUpload($rows,$Actor->cedula));
             }else{
                 Queue::push(new SimcardActivationFileUpload($rows,$Actor->cedula));
