@@ -82,15 +82,14 @@ class PlanController extends Controller
     }
     
     public function subir_archivo(Request $request){
-        if ($request->hasFile('archivo_plan'))
+        if ($request->hasFile('archivo_simcard'))
         {
-            try{
-            $request->file('archivo_plan')->move("files/planes");
-            }catch(\Exception $e){
-                return \Redirect::route('simcard')->with('error_archivo' ,$e);
-            }
-            return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
+            $tipo = $request->tipo_archivo;
+            $Actor = Auth::user()->actor;
+            $path = $request->file('archivo_simcard');
+            $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
+            Queue::push(new PlanFileUpload($rows,$Actor->cedula));
+            return \Redirect::route('simcard')->with('subiendo_archivo' ,true);   
         }
-        return \Redirect::route('simcard')->with('error_archivo' ,"");
     }
 }
