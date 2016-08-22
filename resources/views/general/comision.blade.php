@@ -20,7 +20,7 @@
       <div class="x_title">
         <h2>Comisiones</h2>
         <ul class="nav navbar-right panel_toolbox">
-          @if($Actor->jefe != null)
+          @if($Actor->jefe == null)
           <li><a onClick="modal_cargar_comisiones()"><i class="fa fa-cloud-upload"></i></a></li>
           @endif
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
