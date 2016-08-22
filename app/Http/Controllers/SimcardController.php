@@ -269,7 +269,7 @@ class SimcardController extends Controller
         $numero_paquete = $request['dato'];
         $simcards = Simcard::where("Paquete_ID",'=',$numero_paquete)->get();
         foreach($simcards as $simcard){
-            $simcard->Paquete_ID = null;
+            $simcard->Paquete_ID = null; 
             $simcard->save();
         }
         $paquete = Paquete::find($numero_paquete);

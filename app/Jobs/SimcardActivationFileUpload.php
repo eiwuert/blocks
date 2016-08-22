@@ -3,6 +3,11 @@
 namespace App\Jobs;
 
 use App\Jobs\Job;
+use App\Simcard;
+use App\Notificacion;
+use App\Error;
+use Excel;
+use App\File;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 class SimcardActivationFileUpload extends Job implements SelfHandling

@@ -43,45 +43,54 @@ class SimcardFileUpload extends Job implements SelfHandling
         $this->rows->each(function($row)  use ($notificacion_ID){
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
-                $counter_filas++;
-                $fecha_vencimiento = $row->fecha_vencimiento;
-                if($fecha_vencimiento != null){
-                    $fecha_vencimiento = $fecha_vencimiento->format('Y-m-d');
+                if($simcard->numero_linea == null){
+                   $error = new Error();
+                    $error->Notificacion_ID = $notificacion_ID;
+                    $error->descripcion = "Archivo no valido";  
+                    $error->save();
+                    $filas_malas++; 
+                    break;
+                }else{
+                    $counter_filas++;
+                    $fecha_vencimiento = $row->fecha_vencimiento;
+                    if($fecha_vencimiento != null){
+                        $fecha_vencimiento = $fecha_vencimiento->format('Y-m-d');
+                    }
+                    $fecha_adjudicacion = $row->fecha_adjudicacion;
+                    if($fecha_adjudicacion != null){
+                        $fecha_adjudicacion = $fecha_adjudicacion->format('Y-m-d');
+                    }
+                    $fecha_activacion = $row->fecha_activacion;
+                    if($fecha_activacion != null){
+                        $fecha_activacion = $fecha_activacion->format('Y-m-d');
+                    }
+                    $fecha_asignacion = $row->fecha_asignacion;
+                    if($fecha_asignacion != null){
+                        $fecha_asignacion = $fecha_asignacion->format('Y-m-d');
+                    }
+                    $simcard = Simcard::find($row->icc);
+                    if($simcard == null){
+                        $simcard = new Simcard();
+                        $simcard->ICC = $row->icc;
+                    }
+                    $simcard->numero_linea = $row->numero_linea;
+                    $simcard->categoria = $row->tipo;
+                    $simcard->fecha_adjudicacion = $fecha_adjudicacion;
+                    $simcard->fecha_activacion = $fecha_activacion;
+                    $simcard->fecha_asignacion = $fecha_asignacion;
+                    $simcard->paquete_id = $row->paquete_id;
+                    $simcard->cliente_identificacion = $row->cliente_identificacion;
+                    $simcard->fecha_vencimiento = $fecha_vencimiento;
+                    $simcard->save();
+                    $cod_plan = $row->plan;
+                    if($cod_plan != null){
+                        $asignacion = new Asignacion_Plan();
+                        $asignacion->Simcard_ICC = $row->icc;
+                        $asignacion->Plan_codigo = $cod_plan;
+                        $asignacion->save();
+                    }
+                    $filas_buenas++;
                 }
-                $fecha_adjudicacion = $row->fecha_adjudicacion;
-                if($fecha_adjudicacion != null){
-                    $fecha_adjudicacion = $fecha_adjudicacion->format('Y-m-d');
-                }
-                $fecha_activacion = $row->fecha_activacion;
-                if($fecha_activacion != null){
-                    $fecha_activacion = $fecha_activacion->format('Y-m-d');
-                }
-                $fecha_asignacion = $row->fecha_asignacion;
-                if($fecha_asignacion != null){
-                    $fecha_asignacion = $fecha_asignacion->format('Y-m-d');
-                }
-                $simcard = Simcard::find($row->icc);
-                if($simcard == null){
-                    $simcard = new Simcard();
-                    $simcard->ICC = $row->icc;
-                }
-                $simcard->numero_linea = $row->numero_linea;
-                $simcard->categoria = $row->tipo;
-                $simcard->fecha_adjudicacion = $fecha_adjudicacion;
-                $simcard->fecha_activacion = $fecha_activacion;
-                $simcard->fecha_asignacion = $fecha_asignacion;
-                $simcard->paquete_id = $row->paquete_id;
-                $simcard->cliente_identificacion = $row->cliente_identificacion;
-                $simcard->fecha_vencimiento = $fecha_vencimiento;
-                $simcard->save();
-                $cod_plan = $row->plan;
-                if($cod_plan != null){
-                    $asignacion = new Asignacion_Plan();
-                    $asignacion->Simcard_ICC = $row->icc;
-                    $asignacion->Plan_codigo = $cod_plan;
-                    $asignacion->save();
-                }
-                $filas_buenas++;
             }catch(\Exception $e){
                 $error = new Error();
                 $error->Notificacion_ID = $notificacion_ID;
