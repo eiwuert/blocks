@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Plan;
+use Queue;
 use Auth;
 use Excel;
 use App\Asignacion_Plan;
