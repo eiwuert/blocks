@@ -43,8 +43,8 @@ class SimcardFileUpload extends Job implements SelfHandling
         $this->rows->each(function($row)  use ($notificacion_ID){
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
-                if($simcard->numero_linea == null){
-                   $error = new Error();
+                if($row->numero_linea == null){
+                    $error = new Error();
                     $error->Notificacion_ID = $notificacion_ID;
                     $error->descripcion = "Archivo no valido";  
                     $error->save();
