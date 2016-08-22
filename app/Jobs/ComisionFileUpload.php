@@ -49,6 +49,7 @@ class ComisionFileUpload extends Job implements SelfHandling
                 
                 $comision = new Comision();
                 $comision->valor = $row->valor;
+                $comision->fecha = $fecha;
                 $comision->Simcard_ICC = $row->icc;
                 $comision->Equipo_IMEI = $row->imei;
                 $comision->Servicio_peticion = $row->peticion;

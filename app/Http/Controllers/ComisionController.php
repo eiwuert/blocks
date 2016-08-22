@@ -112,7 +112,7 @@ class ComisionController extends Controller
             $path = $request->file('archivo_comision');
             $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
             Queue::push(new ComisionFileUpload($rows,$Actor->cedula));
-            return \Redirect::route('comision')->with('subiendo_archivo' ,true);
+            return \Redirect::route('general.comision')->with('subiendo_archivo' ,true);
         }
     }
 }
