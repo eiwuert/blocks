@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $this->call(EquipoTableSeeder::class);
         $this->call(ActorSeeder::class);
+        //$this->call(EquipoTableSeeder::class);
         //$this->call(SimcardSeeder::class);
         //$this->call(ComisionSeeder::class);
         Model::reguard();
