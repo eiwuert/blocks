@@ -207,6 +207,10 @@
   	
 		<input type="file" accept=".xlsx,.csv,.xls" name="archivo_simcard" id="file-2" class="inputfile inputfile-2"/>
   	<label class="transparente" for="file-2"><span>Escoje un archivo&hellip;</span></label>
+  	<select style="background: #85C1F5;border: solid 2px;margin-right: 10px;height:34px" name="tipo_archivo">
+		  <option>Agregar</option>
+		  <option>Activar</option>
+		</select>
   	<input type="submit" class="btn transparente" value="Subir">
 	{!! Form::close() !!}     
 </div>

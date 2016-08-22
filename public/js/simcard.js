@@ -606,7 +606,7 @@ function modal_cargar_simcards(){
     limpiar_modal();
     modal.addClass("modal_info");
     $("#titulo_modal").text("CARGAR ARCHIVO DE SIMCARDS");
-    $("#contenido_modal").text('Selecciona el archivo, el tipo de simcard y oprime "subir"');
+    $("#contenido_modal").text('Selecciona el archivo y oprime "subir"');
     $("#cargar_simcard_modal").show();  
     remodal.open();
 }

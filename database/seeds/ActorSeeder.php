@@ -19,9 +19,5 @@ class ActorSeeder extends Seeder
         factory(App\Actor::class, 1)->create([
             'cedula' => '1015439593',
         ]);
-        factory(App\Actor::class, 5)->create(["jefe_cedula" => App\Actor::orderByRaw("RAND()")->first()->cedula]);
-        for ($i = 1; $i <= 200; $i++) {
-            factory(App\Registro_Cartera::class)->create(["Actor_cedula" => App\Actor::orderByRaw("RAND()")->first()->cedula]);
-        }
     }
 }

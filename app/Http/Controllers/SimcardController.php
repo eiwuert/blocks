@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
  
 use App\Actor;
 use App\Jobs\SimcardFileUpload;
+use App\Jobs\SimcardActivationFileUpload;
 use App\Plan;
 use App\Paquete;
 use App\Notificacion;
@@ -279,11 +280,17 @@ class SimcardController extends Controller
     public function subir_archivo(Request $request){
         if ($request->hasFile('archivo_simcard'))
         {
+            $tipo = $request->tipo_archivo;
             $Actor = Auth::user()->actor;
             $path = $request->file('archivo_simcard');
             $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
-            Queue::push(new SimcardFileUpload($rows,$Actor->cedula));
+            if($tipo = "Agregar"){
+                Queue::push(new SimcardFileUpload($rows,$Actor->cedula));
+            }else{
+                Queue::push(new SimcardActivationFileUpload($rows,$Actor->cedula));
+            }
             return \Redirect::route('simcard')->with('subiendo_archivo' ,true);
+            
         }
     }
 }

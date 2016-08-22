@@ -11,7 +11,7 @@ class EquipoTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() 
     {
         $rows = Excel::selectSheetsByIndex(0)->load("public/files/equipo/descripcion/descripcion_equipos.csv",false,'ISO-8859-1', function($reader) {})->get();
         $rows->each(function($row) {
