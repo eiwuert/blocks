@@ -86,7 +86,7 @@ class ComisionFileUpload extends Job implements SelfHandling
                 }else{
                     $error = new Error();
                     $error->Notificacion_ID = $notificacion_ID;
-                    $error->descripcion = $counter_filas . ":" .  $e->getMessage();  
+                    $error->descripcion = $counter_filas . ": Simcard no encontrada";  
                     $error->save();
                     $filas_malas++;
                 }
@@ -95,7 +95,7 @@ class ComisionFileUpload extends Job implements SelfHandling
             }catch(\Exception $e){
                 $error = new Error();
                 $error->Notificacion_ID = $notificacion_ID;
-                $error->descripcion = $counter_filas . ": Simcard no encontrada";  
+                $error->descripcion = $counter_filas . $e->getMessage();  
                 $error->save();
                 $filas_malas++;
             }
