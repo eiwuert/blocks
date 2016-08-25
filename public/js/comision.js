@@ -13,7 +13,7 @@ function buscar_comision(type){
     datos['periodo'] = $('[data-id="periodo_comision"]').text();
     $.ajax({
         url:'/buscar_comision',
-        data:{datos:datos},
+        data:datos,
         type:'GET',
         success: function(data){  
             $("#periodo_lbl").text(datos['periodo']);

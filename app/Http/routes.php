@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/personal', 'ActorController@index');
     Route::get('/control_vendedores', 'ActorController@control_vendedores');    
     Route::get('/cartera', 'CarteraController@index');
-    Route::get('/comision', 'ComisionController@index');
+    Route::get('/comision', ['as' => 'comision', 'uses' => 'ComisionController@index']);
     
     // ACCIONES SIMCARDS
     
