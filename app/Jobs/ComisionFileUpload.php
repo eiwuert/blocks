@@ -54,7 +54,6 @@ class ComisionFileUpload extends Job implements SelfHandling
                 $comision->valor = $row->valor;
                 $comision->fecha = $fecha;
                 $simcard = Simcard::where("numero_linea",$row->numero_telefono)->first();
-                var_dump("prueba:" . Simcard::where("numero_linea",$row->numero_telefono)->first());
                 if($simcard != null){
                     $comision->Simcard_ICC = $simcard->icc;        
                     $cliente = Cliente::find($row->cliente_identificacion);
@@ -66,10 +65,15 @@ class ComisionFileUpload extends Job implements SelfHandling
                         $cliente->telefono = $row->cliente_telefono;
                         $cliente->correo = $row->cliente_correo;
                         $cliente->direccion = $row->cliente_direccion;
-                        $ubicacion = Ubicacion::where("ciudad",$row->cliente_ubicacion)->first();
-                        if($ubicacion != null){
-                            $cliente->ubicacion_ID = $ubicacion->ID;
+                        $ubicacion = Ubicacion::where("ciudad",$row->cliente_ciudad)->first();
+                        if($ubicacion == null){
+                            $ubicacion = new Ubicacion();
+                            $ubicacion->region = $row->region;
+                            $ubicacion->ciudad = $row->ciudad;
+                            $ubicacion->save();
                         }
+                        $ubicacion = Ubicacion::where("ciudad",$row->cliente_ciudad)->first();
+                        $cliente->ubicacion_ID = $ubicacion->ID;
                         $cliente->save();
                     }
                     $simcard->cliente_identificacion = $row->cliente_identificacion;
