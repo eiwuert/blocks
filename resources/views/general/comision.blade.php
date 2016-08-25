@@ -152,4 +152,13 @@
 
 @section('Custom_js')
   <script src="/js/comision.js"></script>
+  @if(Session::get('subiendo_archivo') == true)
+    <script>
+      limpiar_modal();
+      modal.addClass("modal_info");
+      $("#titulo_modal").text("CARGANDO ARCHIVO COMISIONES");
+      $("#contenido_modal").text("Se le notificará cuando haya un resultado");
+      remodal.open();
+    </script>
+  @endif
 @endsection
