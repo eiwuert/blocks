@@ -9,6 +9,10 @@ use Excel;
 use App\File;
 use App\Error;
 use App\Comision;
+use App\Simcard;
+use App\Cliente;
+use App\Ubicacion;
+use App\Equipo;
 
 class ComisionFileUpload extends Job implements SelfHandling
 {
