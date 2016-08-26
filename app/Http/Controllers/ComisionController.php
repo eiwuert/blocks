@@ -43,35 +43,37 @@ class ComisionController extends Controller
     public function buscar_comision(Request $request){
         $periodo = $request['periodo'];
         $Actor = $request['actor'];
+        $data = [];
         if($Actor == null){
             $Actor = Auth::user()->actor;
         }else{
             $Actor = Actor::where("nombre", $Actor)->first();
         }
         if($Actor != null){
-            $data["simcards_prepago"] = Comision::with(['simcard' => function ($query){
+            
+            $data["simcards_prepago"] = Comision::whereHas('simcard' , function ($query){
                                     $query->where('categoria', 'Prepago');
-                                }])
-                                ->with(['simcard.paquete' => function ($query) use ($Actor)  {
+                                })
+                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
                                     $query->where("Actor_cedula","=", $Actor->cedula);
-                                }])
+                                })
                                 ->where(DB::raw('extract(year_month FROM fecha)'),$periodo)
                                 ->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_prepago;
-                                
-            $data["simcards_libre"] = Comision::with(['simcard' => function ($query){
+            
+            $data["simcards_libre"] = Comision::whereHas('simcard' , function ($query){
                                     $query->where('categoria', 'Libre');
-                                }])
-                                ->with(['simcard.paquete' => function ($query) use ($Actor)  {
+                                })
+                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
                                     $query->where("Actor_cedula","=", $Actor->cedula);
-                                }])
+                                })
                                 ->where(DB::raw('extract(year_month FROM fecha)'),$periodo)
                                 ->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_libre;
-            $data["simcards_postpago"] = Comision::with(['simcard' => function ($query){
+            $data["simcards_postpago"] = Comision::whereHas('simcard' , function ($query){
                                     $query->where('categoria', 'Postpago');
-                                }])
-                                ->with(['simcard.paquete' => function ($query) use ($Actor)  {
+                                })
+                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
                                     $query->where("Actor_cedula","=", $Actor->cedula);
-                                }])
+                                })
                                 ->where(DB::raw('extract(year_month FROM fecha)'),$periodo)
                                 ->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_postpago;
             $data["equipos"] = Comision::where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Equipo_IMEI")->sum("valor")*$Actor->porcentaje_equipo;
@@ -82,16 +84,19 @@ class ComisionController extends Controller
     
     public function detalle_comision_prepago(Request $request){
         
-        $datos = $request["datos"];
-        $periodo = $datos['periodo'];
-        $Actor = $datos['actor'];
+        $Actor = $request['actor'];
+        $periodo = $request['periodo'];
         if($Actor == null){
             $Actor = Auth::user()->actor;
+        }else{
+            $Actor = Actor::where("nombre", $Actor)->first();
         }
-        $data["simcards"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
-            $query->where('categoria', 'Prepago')->where("Actor_cedula","=", $Actor->cedula);
-        })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
-        $data["porcentaje"] = $Actor->porcentaje_prepago;
+        if($Actor != null){
+            $data["simcards"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
+                $query->where('categoria', 'Prepago')->where("Actor_cedula","=", $Actor->cedula);
+            })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
+            $data["porcentaje"] = $Actor->porcentaje_prepago;
+        }
         return $data;
     }
     

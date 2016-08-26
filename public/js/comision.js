@@ -30,16 +30,13 @@ function buscar_comision(type){
 
 function detalle_comision_prepago(type){
     if($("#periodo_lbl").text() != ""){
-        var datos = [];
+        var actor = null;
+        var periodo;
         if(type == "admin"){
-            datos['actor'] = $('[data-id="actor_comision"]').text();    
+            actor = $('[data-id="actor_comision"]').text();    
         }
-        datos['periodo'] = $('[data-id="periodo_comision"]').text();
-        $.ajax({
-            url:'/detalle_comision_prepago',
-            data:{datos:datos},
-            type:'GET',
-            success: function(data){  
+        periodo = $('[data-id="periodo_comision"]').text();
+        $.get('/detalle_comision_prepago',{actor:actor,periodo:periodo}, function(data){  
                 if(data != null){
                     $("#detalle_comisiones_empleado").html("");
                     $("#detalle_comisiones_empleado").append("<h3>Comisiones Prepago</h3>");
@@ -54,7 +51,7 @@ function detalle_comision_prepago(type){
                     }
                 }
             }
-        });
+        );
     }
 }
 
@@ -72,7 +69,7 @@ function detalle_comision_libre(type){
             success: function(data){  
                 if(data != null){
                     $("#detalle_comisiones_empleado").html("");
-                    $("#detalle_comisiones_empleado").append("<h3>Comisiones Prepago</h3>");
+                    $("#detalle_comisiones_empleado").append("<h3>Comisiones Libre</h3>");
                     $("#detalle_comisiones_empleado").append("<div><div>Fecha</div><div>ICC</div><div>Valor</div></div>");
                     for(var i = 0; i < data["simcards"].length; i++){
                         var row = "<div>";
@@ -102,7 +99,7 @@ function detalle_comision_postpago(type){
             success: function(data){  
                 if(data != null){
                     $("#detalle_comisiones_empleado").html("");
-                    $("#detalle_comisiones_empleado").append("<h3>Comisiones Prepago</h3>");
+                    $("#detalle_comisiones_empleado").append("<h3>Comisiones Postpago</h3>");
                     $("#detalle_comisiones_empleado").append("<div><div>Fecha</div><div>ICC</div><div>Valor</div></div>");
                     for(var i = 0; i < data["simcards"].length; i++){
                         var row = "<div>";

@@ -66,7 +66,7 @@
               @if($Actor->jefe != null)
                 <button onClick="detalle_comision_libre('employee')" id="total_simcards_libre"></button>
               @else
-                <button onClick="detalle_comision_libre('admin)" id="total_simcards_libre"></button>
+                <button onClick="detalle_comision_libre('admin')" id="total_simcards_libre"></button>
               @endif
             </div>
             <div style="background:#C1DAD6">
