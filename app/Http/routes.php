@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/simcard', ['as' => 'simcard', 'uses' => 'SimcardController@index']);
     Route::get('/cliente', 'ClienteController@index');
     Route::get('/equipo', ['as' => 'equipo', 'uses' => 'EquipoController@index']);
+    Route::get('/fija', ['as' => 'fija', 'uses' => 'FijaController@index']);
     Route::get('/personal', 'ActorController@index');
     Route::get('/control_vendedores', 'ActorController@control_vendedores');    
     Route::get('/cartera', 'CarteraController@index');
@@ -81,8 +82,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/actualizar_equipo_especifico', 'EquipoController@actualizar_equipo_especifico');
     Route::get('/eliminar_equipo_especifico', 'EquipoController@eliminar_equipo_especifico');
     Route::get('/eliminar_equipo_general', 'EquipoController@eliminar_equipo_general');
-    Route::post('/subir_archivo_descripcion_equipos', ['as' => 'subirArchivoDescripcionEquipo', 'uses' => 'EquipoController@subir_archivo_descripcion']);
     Route::post('/subir_archivo_equipos', ['as' => 'subirArchivoEquipo', 'uses' => 'EquipoController@subir_archivo_equipo']);
+    Route::post('/subir_archivo_descripcion_equipos', ['as' => 'subirArchivoDescripcionEquipo', 'uses' => 'EquipoController@subir_archivo_descripcion']);
+    
     Route::get('/asignar_responsable_equipo', 'EquipoController@asignar_responsable_equipo');
     
     // ACCIONES EMPLEADOS
@@ -117,5 +119,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/detalle_comision_prepago', 'ComisionController@detalle_comision_prepago');
     Route::get('/detalle_comision_libre', 'ComisionController@detalle_comision_libre');
     Route::get('/detalle_comision_postpago', 'ComisionController@detalle_comision_postpago');
-    Route::post('/subir_archivo_equipos', ['as' => 'subirComisiones', 'uses' => 'ComisionController@subir_archivo']);
+    Route::post('/subir_archivo_comisiones', ['as' => 'subirComisiones', 'uses' => 'ComisionController@subir_archivo']);
 });

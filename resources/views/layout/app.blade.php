@@ -70,7 +70,7 @@
                     <ul class="nav child_menu">
                       <li id="link_simcards"><a href="/simcard">Simcards</a></li>
                       <li id="link_equipos"><a href="/equipo">Equipos</a></li>
-                      <li><a href="index3.html">Servicios</a></li>
+                      <li id="link_fija"><a href="/fija">Fija</a></li>
                       <li id="link_reportes_inventario"><a href="/reportes_inventario">Reportes</a></li>
                     </ul>
                   </li>
@@ -102,7 +102,7 @@
                       <ul class="nav child_menu">
                         <li id="link_simcards"><a href="/simcard">Simcards</a></li>
                         <li id="link_equipos"><a href="/equipo">Equipos</a></li>
-                        <li><a href="index3.html">Servicios</a></li>
+                        <li id="link_fija"><a href="/fija">Fija</a></li>
                       </ul>
                     </li>
                     <li><a><i class="fa fa-users"></i> Gestión <span class="fa fa-chevron-down"></span></a>
