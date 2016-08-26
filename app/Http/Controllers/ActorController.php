@@ -127,6 +127,7 @@ class ActorController extends Controller
         }
         $actor->telefono = $datos_actor["Actor_telefono"];
         $actor->correo = $datos_actor["Actor_correo"];
+        $actor->tipo_contrato = $datos_actor["Actor_contrato"];
         $actor->sueldo = $datos_actor["Actor_sueldo"];
         $actor->porcentaje_prepago = $datos_actor["Actor_porcentaje_prepago"];
         $actor->porcentaje_libre = $datos_actor["Actor_porcentaje_libre"];
@@ -171,6 +172,11 @@ class ActorController extends Controller
         $actor->porcentaje_equipo = $datos_actor["Actor_porcentaje_equipo"];
         $actor->porcentaje_servicio = $datos_actor["Actor_porcentaje_servicio"];
         if($actor->save()){
+            $usuario = $actor->user;
+            if($usuario != null && $datos_actor["Actor_contraseña"] != "actual"){
+                $usuario->password = bcrypt($datos_actor["Actor_contraseña"]);
+                $usuario->save();
+            }
             if($datos_actor["Actor_cedula_copia"] != $datos_actor["Actor_cedula"]){
                 $actor_aux = Actor::find($datos_actor["Actor_cedula_copia"]);
                 $user = $actor_aux->user;
@@ -278,3 +284,4 @@ class ActorController extends Controller
         return View('general.notificacion',$data);    
     }
 }
+

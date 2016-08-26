@@ -63,6 +63,8 @@ function buscar_empleado(cedula){
                $("#Actor_nombre").val(data.nombre);
                $("#Actor_telefono").val(data.telefono);
                $("#Actor_correo").val(data.correo);
+               $("#Actor_contraseña").val("actual");
+               $("#Actor_contrato").val(data.tipo_contrato);
                $("#Actor_sueldo").val(data.sueldo);
                $("#Actor_porcentaje_prepago").val(data.porcentaje_prepago);
                $("#Actor_porcentaje_postpago").val(data.porcentaje_postpago);
@@ -83,7 +85,9 @@ function buscar_empleado(cedula){
                   $("#Actor_cedula").prop('disabled', true);
                   $("#region").prop('disabled', true);
                   $("#ciudad").prop('disabled', true);
+                  $("#Actor_contrato").prop('disabled', true);
                }else{
+                  $("#Actor_contrato").prop('disabled', false);
                   $("#Actor_porcentaje_prepago").prop('disabled', false);
                   $("#Actor_porcentaje_postpago").prop('disabled', false);
                   $("#Actor_porcentaje_libre").prop('disabled', false);
@@ -95,6 +99,11 @@ function buscar_empleado(cedula){
                   $("#Actor_cedula").prop('disabled', false);
                   $("#region").prop('disabled', false);
                   $("#ciudad").prop('disabled', false);
+               }
+               if($("#user_cedula").text() == data.cedula){
+                  $("#Actor_contraseña").prop('disabled', false);
+               }else{
+                  $("#Actor_contraseña").prop('disabled', true);
                }
             }else{
                $('#buscar_empleado .form :input').val("");

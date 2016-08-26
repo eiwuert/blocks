@@ -60,6 +60,12 @@
                   <div class="text_container"><span>Correo</span></div><input type="text" placeholder="Correo" id ="Actor_correo">
               </div>
               <div class="container">
+                  <div class="text_container"><span>Contraseña</span></div><input type="password" placeholder="Contraseña" id ="Actor_contraseña">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>Contrato</span></div><input type="text" placeholder="Contrato" id ="Actor_contrato">
+              </div>
+              <div class="container">
                   <div class="text_container"><span>Sueldo</span></div><input type="text" placeholder="Sueldo" id ="Actor_sueldo">
               </div>
           @if($Actor->jefe_cedula == null)              
