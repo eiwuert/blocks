@@ -57,16 +57,13 @@ function detalle_comision_prepago(type){
 
 function detalle_comision_libre(type){
     if($("#periodo_lbl").text() != ""){
-        var datos = [];
+        var actor = null;
+        var periodo;
         if(type == "admin"){
-            datos['actor'] = $('[data-id="actor_comision"]').text();    
+            actor = $('[data-id="actor_comision"]').text();    
         }
-        datos['periodo'] = $('[data-id="periodo_comision"]').text();
-        $.ajax({
-            url:'/detalle_comision_libre',
-            data:{datos:datos},
-            type:'GET',
-            success: function(data){  
+        periodo = $('[data-id="periodo_comision"]').text();
+        $.get('/detalle_comision_libre',{actor:actor,periodo:periodo}, function(data){  
                 if(data != null){
                     $("#detalle_comisiones_empleado").html("");
                     $("#detalle_comisiones_empleado").append("<h3>Comisiones Libre</h3>");
@@ -81,22 +78,19 @@ function detalle_comision_libre(type){
                     }
                 }
             }
-        });
+        );
     }
 }
 
 function detalle_comision_postpago(type){
     if($("#periodo_lbl").text() != ""){
-        var datos = [];
+        var actor = null;
+        var periodo;
         if(type == "admin"){
-            datos['actor'] = $('[data-id="actor_comision"]').text();    
+            actor = $('[data-id="actor_comision"]').text();    
         }
-        datos['periodo'] = $('[data-id="periodo_comision"]').text();
-        $.ajax({
-            url:'/detalle_comision_postpago',
-            data:{datos:datos},
-            type:'GET',
-            success: function(data){  
+        periodo = $('[data-id="periodo_comision"]').text();
+        $.get('/detalle_comision_postpago',{actor:actor,periodo:periodo}, function(data){  
                 if(data != null){
                     $("#detalle_comisiones_empleado").html("");
                     $("#detalle_comisiones_empleado").append("<h3>Comisiones Postpago</h3>");
@@ -111,7 +105,7 @@ function detalle_comision_postpago(type){
                     }
                 }
             }
-        });
+        );
     }
 }
 

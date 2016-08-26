@@ -101,30 +101,36 @@ class ComisionController extends Controller
     }
     
     public function detalle_comision_libre(Request $request){
-        $datos = $request["datos"];
-        $periodo = $datos['periodo'];
-        $Actor = $datos['actor'];
+        $Actor = $request['actor'];
+        $periodo = $request['periodo'];
         if($Actor == null){
             $Actor = Auth::user()->actor;
+        }else{
+            $Actor = Actor::where("nombre", $Actor)->first();
         }
-        $data["simcards"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
-            $query->where('categoria', 'Libre')->where("Actor_cedula","=", $Actor->cedula);
-        })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
-        $data["porcentaje"] = $Actor->porcentaje_libre;
+        if($Actor != null){
+            $data["simcards"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
+                $query->where('categoria', 'Libre')->where("Actor_cedula","=", $Actor->cedula);
+            })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
+            $data["porcentaje"] = $Actor->porcentaje_libre;
+        }
         return $data;
     }
     
     public function detalle_comision_postpago(Request $request){
-        $datos = $request["datos"];
-        $periodo = $datos['periodo'];
-        $Actor = $datos['actor'];
+        $Actor = $request['actor'];
+        $periodo = $request['periodo'];
         if($Actor == null){
             $Actor = Auth::user()->actor;
+        }else{
+            $Actor = Actor::where("nombre", $Actor)->first();
         }
-        $data["simcards"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
-            $query->where('categoria', 'Postpago')->where("Actor_cedula","=", $Actor->cedula);
-        })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
-        $data["porcentaje"] = $Actor->porcentaje_postpago;
+        if($Actor != null){
+            $data["simcards"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
+                $query->where('categoria', 'Postpago')->where("Actor_cedula","=", $Actor->cedula);
+            })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->get();
+            $data["porcentaje"] = $Actor->porcentaje_postpago;
+        }
         return $data;
     }
     
