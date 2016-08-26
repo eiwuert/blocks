@@ -6,17 +6,14 @@ $( document ).ready(function() {
 });
 
 function buscar_comision(type){
-    var datos = [];
+    var actor = null;
+    var periodo;
     if(type == "admin"){
-        datos['actor'] = $('[data-id="actor_comision"]').text();    
+        actor = $('[data-id="actor_comision"]').text();    
     }
-    datos['periodo'] = $('[data-id="periodo_comision"]').text();
-    $.ajax({
-        url:'/buscar_comision',
-        data:datos,
-        type:'GET',
-        success: function(data){  
-            $("#periodo_lbl").text(datos['periodo']);
+    periodo = $('[data-id="periodo_comision"]').text();
+    $.get('/buscar_comision', {actor:actor, periodo:periodo}, function(data){
+            $("#periodo_lbl").text(periodo);
             $("#total_simcards_prepago").text("$" + addCommas(Math.floor(data["simcards_prepago"])));
             $("#total_simcards_libre").text("$" + addCommas(Math.floor(data["simcards_libre"])));
             $("#total_simcards_postpago").text("$" + addCommas(Math.floor(data["simcards_postpago"])));
@@ -28,7 +25,7 @@ function buscar_comision(type){
             $("#reteica").text("$" + addCommas(Math.floor(subtotal*0.01)));
             $("#total").text("$" + addCommas(Math.floor(subtotal*0.88)));
         }
-    });
+    );
 }
 
 function detalle_comision_prepago(type){

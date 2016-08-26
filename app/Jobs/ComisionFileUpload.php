@@ -55,7 +55,8 @@ class ComisionFileUpload extends Job implements SelfHandling
                 $comision->fecha = $fecha;
                 $simcard = Simcard::where("numero_linea",$row->numero_telefono)->first();
                 if($simcard != null){
-                    $comision->Simcard_ICC = $simcard->icc;        
+                    var_dump($simcard);
+                    $comision->Simcard_ICC = $simcard->ICC;        
                     $cliente = Cliente::find($row->cliente_identificacion);
                     if($cliente == null){
                         $cliente = new Cliente();

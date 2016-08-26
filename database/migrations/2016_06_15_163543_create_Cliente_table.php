@@ -16,7 +16,7 @@ class CreateClienteTable extends Migration
             $table->string('identificacion')->unique();
             $table->enum('tipo',["NATURAL","EMPRESA"]);
             $table->string('nombre');
-            $table->string('telefono');
+            $table->string('telefono')->nullable();
             $table->string('correo')->nullable();
             $table->string('direccion')->nullable();
             $table->integer("Ubicacion_ID")->unsigned();

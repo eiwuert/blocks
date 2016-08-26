@@ -40,25 +40,44 @@ class ComisionController extends Controller
         return View('general.comision',$data);
     }
 
-//TODO REVISAR QUE SEA DEL ACTOR
     public function buscar_comision(Request $request){
-        $datos = $request["data"];
-        $periodo = $datos['periodo'];
-        $Actor = $datos['actor'];
+        $periodo = $request['periodo'];
+        $Actor = $request['actor'];
         if($Actor == null){
             $Actor = Auth::user()->actor;
+        }else{
+            $Actor = Actor::where("nombre", $Actor)->first();
         }
-        $data["simcards_prepago"] = Comision::whereHas('simcard.paquete', function ($query) use ($Actor)  {
-            $query->where('categoria', 'Prepago')->where("Actor_cedula","=", $Actor->cedula);
-        })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_prepago;
-        $data["simcards_libre"] = Comision::whereHas('simcard.paquete',function ($query)  use ($Actor){
-            $query->where('categoria', 'Libre')->where("Actor_cedula","=", $Actor->cedula);
-        })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_libre;
-        $data["simcards_postpago"] = Comision::whereHas('simcard.paquete', function ($query)  use ($Actor){
-            $query->where('categoria', 'Postpago')->where("Actor_cedula","=", $Actor->cedula);
-        })->where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_postpago;
-        $data["equipos"] = Comision::where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Equipo_IMEI")->sum("valor")*$Actor->porcentaje_equipo;
-        $data["servicios"] = Comision::where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Servicio_peticion")->sum("valor")*$Actor->porcentaje_servicio;
+        if($Actor != null){
+            return Comision::all();
+            $data["simcards_prepago"] = Comision::with(['simcard' => function ($query){
+                                    $query->where('categoria', 'Prepago');
+                                }])
+                                ->with(['simcard.paquete' => function ($query) use ($Actor)  {
+                                    $query->where("Actor_cedula","=", $Actor->cedula);
+                                }])
+                                ->where(DB::raw('extract(year_month FROM fecha)'),$periodo)
+                                ->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_prepago;
+                                
+            $data["simcards_libre"] = Comision::with(['simcard' => function ($query){
+                                    $query->where('categoria', 'Libre');
+                                }])
+                                ->with(['simcard.paquete' => function ($query) use ($Actor)  {
+                                    $query->where("Actor_cedula","=", $Actor->cedula);
+                                }])
+                                ->where(DB::raw('extract(year_month FROM fecha)'),$periodo)
+                                ->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_libre;
+            $data["simcards_postpago"] = Comision::with(['simcard' => function ($query){
+                                    $query->where('categoria', 'Postpago');
+                                }])
+                                ->with(['simcard.paquete' => function ($query) use ($Actor)  {
+                                    $query->where("Actor_cedula","=", $Actor->cedula);
+                                }])
+                                ->where(DB::raw('extract(year_month FROM fecha)'),$periodo)
+                                ->whereNotNull("Simcard_ICC")->sum("valor")*$Actor->porcentaje_postpago;
+            $data["equipos"] = Comision::where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Equipo_IMEI")->sum("valor")*$Actor->porcentaje_equipo;
+            $data["servicios"] = Comision::where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Servicio_peticion")->sum("valor")*$Actor->porcentaje_servicio;
+        }
         return $data;
     }
     
