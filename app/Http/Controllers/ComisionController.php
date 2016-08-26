@@ -49,7 +49,6 @@ class ComisionController extends Controller
             $Actor = Actor::where("nombre", $Actor)->first();
         }
         if($Actor != null){
-            return Comision::all();
             $data["simcards_prepago"] = Comision::with(['simcard' => function ($query){
                                     $query->where('categoria', 'Prepago');
                                 }])
