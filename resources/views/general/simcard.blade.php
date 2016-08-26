@@ -36,7 +36,8 @@
           </div>
           <div class="contenedor_pista">
               <input type="number" placeholder="ICC / número linea" id="Simcard_pista">
-              <button style="width:20%;margin:0;padding:0;" class="btn azul" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
+              <button style="width:18%;margin:0;margin-right:5px;padding:0;" class="btn azul" onClick = "buscar_simcard()" type="number" id="Simcard_buscar">Buscar</button>
+              <button style="width:18%;margin:0;padding:0;" class="btn rojo" onClick = "desempaquetar_simcard()" type="number" id="Simcard_desempaquetar">Desempaquetar</button>
           </div>
           <div class="form">
               <div class="container">

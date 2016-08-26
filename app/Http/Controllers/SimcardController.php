@@ -241,6 +241,18 @@ class SimcardController extends Controller
         }
     }
     
+    public function desempaquetar_simcard(Request $request){
+        $icc = $request['icc'];
+        $simcard = Simcard::find($icc);
+        if($simcard != ""){
+            $simcard->Paquete_ID = null;
+            $simcard->save();
+            return "EXITOSO";
+        }else{
+            return "FALLIDO";
+        }
+    }
+    
     public function crear_paquete(Request $request){
         $paquete = new Paquete();
         $datos_simcard = $request['dato'];

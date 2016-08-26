@@ -13,7 +13,33 @@ function abrir_modal_responsables(){
     $("#contenido_modal").text("");
     remodal.open();
 }
-
+function desempaquetar_simcard(){
+    var icc = $('#Simcard_ICC').val();
+    if(icc == ""){
+        limpiar_modal();
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe buscar primero la simcard");
+        remodal.open();
+    }else{
+        $.get('/desempaquetar_simcard', {icc:icc}, function(data){
+            if(data == "EXITOSO"){
+                limpiar_modal();
+                modal.addClass("modal_exito");
+                $("#titulo_modal").text("EXITO!!");
+                $("#contenido_modal").text("Simcard desempaquetada");
+                remodal.open(); 
+                buscar_simcard(icc);
+            }else{
+                limpiar_modal();
+                modal.addClass("modal_error");
+                $("#titulo_modal").text("ERROR!!");
+                $("#contenido_modal").text("Error desempaquetando");
+                remodal.open(); 
+            }
+        })
+    }
+}
 function buscar_simcard(ICC){
     if(ICC == null){
         var pista = $("#Simcard_pista").val();

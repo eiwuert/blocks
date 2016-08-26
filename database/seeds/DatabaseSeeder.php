@@ -14,9 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
         $this->call(ActorSeeder::class);
-        //$this->call(EquipoTableSeeder::class);
-        //$this->call(SimcardSeeder::class);
-        //$this->call(ComisionSeeder::class);
+        $this->call(UbicacionSeeder::class);
         Model::reguard();
     }
 }
