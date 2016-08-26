@@ -28,13 +28,23 @@ class ReporteController extends Controller
             $actor->cantidad_prepago = Simcard::whereHas('paquete',function ($query) use ($actor){
                                     $query->where("Actor_cedula","=", $actor->cedula);
                                 })->whereNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
+            $actor->cantidad_prepago_vendidas = Simcard::whereHas('paquete',function ($query) use ($actor){
+                                    $query->where("Actor_cedula","=", $actor->cedula);
+                                })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Prepago')->count();
             $actor->cantidad_libre = Simcard::whereHas('paquete',function ($query) use ($actor){
                                     $query->where("Actor_cedula","=", $actor->cedula);
                                 })->whereNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();
+            $actor->cantidad_libre_vendidas = Simcard::whereHas('paquete',function ($query) use ($actor){
+                                    $query->where("Actor_cedula","=", $actor->cedula);
+                                })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Libre')->count();                                
             $actor->cantidad_postpago = Simcard::whereHas('paquete',function ($query) use ($actor){
                                     $query->where("Actor_cedula","=", $actor->cedula);
                                 })->whereNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();
+            $actor->cantidad_postpago_vendidas = Simcard::whereHas('paquete',function ($query) use ($actor){
+                                    $query->where("Actor_cedula","=", $actor->cedula);
+                                })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();                                
             $actor->cantidad_equipo =  Equipo::where("Actor_cedula","=",$actor->cedula)->whereNull("Cliente_identificacion")->count();
+            $actor->cantidad_equipo_vendidos =  Equipo::where("Actor_cedula","=",$actor->cedula)->whereNotNull("Cliente_identificacion")->count();
         }
         $data["actores"] = $actores;
         return View('admin.reportes_inventario', $data);
