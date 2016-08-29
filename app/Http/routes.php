@@ -96,6 +96,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/buscar_ubicaciones', 'ActorController@buscar_ubicaciones');
     
     // ACCIONES SERVICIOS
+    Route::get('/buscar_fija', 'FijaController@buscar_fija');
+    Route::post('/subir_archivo_fija', ['as' => 'subirArchivoFija', 'uses' => 'FijaController@subir_archivo']);
     
     // ACCIONES CARTERA
     Route::get('/buscar_cartera', 'CarteraController@buscar_cartera');

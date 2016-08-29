@@ -82,8 +82,8 @@
               <button id="total_equipos"></button>
             </div>
             <div style="background:#FDFD96">
-              <h3>Servicios</h3>
-              <button id="total_servicios"></button>
+              <h3>Fija</h3>
+              <button id="total_fija"></button>
             </div>
           </div>
           <h2>SUBTOTAL</h2>
@@ -116,7 +116,7 @@
         <div class="clearfix"></div>
       </div>
       
-      <div class="x_content" id="detalle_comisiones_empleado">  
+      <div class="x_content" style="max-height:600px;overflow:auto" id="detalle_comisiones_empleado">  
         
       </div>
     </div>

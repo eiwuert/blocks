@@ -14,12 +14,13 @@ class CreateFijaTable extends Migration
     {
         Schema::create('Fija', function (Blueprint $table) {
             $table->string('peticion')->unique();
-            $table->string('tipo_servicio');
-            $table->string('tipo_fija')->nullable();
-            $table->string('tipo_internet')->nullable();
-            $table->string('tipo_tv')->nullable();
+            $table->date('fecha_venta');
+            $table->string('tipo_producto');
+            $table->string('nombre_producto');
+            $table->string('Actor_cedula');
             $table->string('Cliente_identificacion');
             $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente')->onDelete('cascade');
+            $table->foreign('Actor_cedula')->references('cedula')->on('Actor');
         });
     }
 

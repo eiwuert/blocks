@@ -13,6 +13,7 @@ use Queue;
 use App\Asignacion_Permiso;
 use App\Notificacion;
 use App\Http\Controllers\Controller;
+use App\Fija;
 
 class FijaController extends Controller
 {
@@ -43,4 +44,22 @@ class FijaController extends Controller
         return View('general.fija', $data);
     }
 
+    public function buscar_fija(Request $request)
+    {
+        $pista = $request["dato"];
+        $Actor = Auth::user()->actor;
+        $fija = Fija::Where('peticion',"like", "%".$pista."%")->where("Actor_cedula",$Actor->cedula)->first();
+        return $fija;
+    }
+    
+    public function subir_archivo(Request $request){
+        if ($request->hasFile('archivo_fija'))
+        {
+            $Actor = Auth::user()->actor;
+            $path = $request->file('archivo_fija');
+            $rows = Excel::selectSheetsByIndex(0)->load($path, function($reader) {})->get();
+            Queue::push(new FijaFileUpload($rows,$Actor->cedula));
+            return \Redirect::route('fija')->with('subiendo_archivo' ,true);
+        }
+    }
 }
