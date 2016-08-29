@@ -3,7 +3,11 @@
 @section('Custom_css')
 <!-- iCheck -->
 <link href="/css/green.css" rel="stylesheet">
-
+<style>
+  td,th{
+    text-align:center;
+  }
+</style>
 <!-- jVectorMap -->
 <link href="/css/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 @endsection
@@ -41,7 +45,7 @@
                 <td><span class="blue">{{$actor->cantidad_libre}}</span> / <span class="green">{{$actor->cantidad_libre_vendidas}}</span></td>
                 <td><span class="blue">{{$actor->cantidad_postpago}}</span> / <span class="green">{{$actor->cantidad_postpago_vendidas}}</span></td>
                 <td><span class="blue">{{$actor->cantidad_equipo}}</span> / <span class="green">{{$actor->cantidad_equipo_vendidos}}</span></td>
-                <td><span class="blue">{{$actor->cantidad_fija}}</span> / <span class="green">{{$actor->cantidad_fija_vendidos}}</span></td>
+                <td><span class="green">{{$actor->cantidad_fija_vendidas}}</span></td>
                 </tr>
               @endforeach
             </tbody>

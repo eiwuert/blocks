@@ -39,12 +39,12 @@ class EquipoController extends Controller
         $responsables = Actor::all();
         $data["responsables"] = $responsables;
         // OBTENER PERMISO
-        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
-        if($permiso != null || Auth::user()->actor->jefe_cedula == null){
-            $data["permiso_inventarios"] = true;
-        }else{
-            $data["permiso_inventarios"] = false;
+        $permisos = $Actor->user->permisos;
+        $lista_permisos = [];
+        foreach ($permisos as $permiso) {
+            array_push($lista_permisos,$permiso->permiso);
         }
+        $Actor->lista_permisos = $lista_permisos;
         return View('general.equipo', $data);
     }
     

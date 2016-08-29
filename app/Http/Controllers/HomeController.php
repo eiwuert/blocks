@@ -10,6 +10,7 @@ use DB;
 use App\Simcard;
 use App\Equipo;
 use App\Comision;
+use App\Fija;
 use App\Notificacion;
 use App\Registro_Cartera;
 use Auth;
@@ -106,6 +107,11 @@ class HomeController extends Controller
                 $inventario["Inventario"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNull("Cliente_identificacion")->count();
                 if($inventario["Inventario"] > $max_inventarios) $max_inventarios = $inventario["Inventario"]; 
                 $inventario["Vendidas"] = Equipo::where("Actor_cedula","=",Auth::user()->actor->cedula)->whereNotNull("Cliente_identificacion")->count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
+            array_push($data_inventarios, $inventario); 
+                // FIJA
+                $inventario["y"] = "Fija";
+                $inventario["Vendidas"] = Fija::where("Actor_cedula","=",Auth::user()->actor->cedula)->count();
                 if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"]; 
             array_push($data_inventarios, $inventario); 
             // OBTENER COMISIONES POR MES
@@ -235,6 +241,11 @@ class HomeController extends Controller
                 if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"];  
                 $inventario["Asignadas"] = Equipo::whereNotNull("Actor_cedula")->whereNull("Cliente_identificacion")->count();
                 if($inventario["Asignadas"] > $max_inventarios) $max_inventarios = $inventario["Asignadas"];
+            array_push($data_inventarios, $inventario); 
+                // FIJA
+                $inventario["y"] = "Fija";
+                $inventario["Vendidas"] = Fija::count();
+                if($inventario["Vendidas"] > $max_inventarios) $max_inventarios = $inventario["Vendidas"];  
             array_push($data_inventarios, $inventario); 
             // OBTENER COMISIONES POR MES
             

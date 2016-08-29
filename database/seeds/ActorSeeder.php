@@ -19,5 +19,16 @@ class ActorSeeder extends Seeder
         factory(App\Actor::class, 1)->create([
             'cedula' => '1015439593',
         ]);
+        factory(App\Actor::class, 1)->create([
+            'cedula' => '1010217215',
+        ]);
+        factory(App\User::class, 1)->create([
+            'Actor_cedula' => '1015439593',
+            'email' => 'stiven140@hotmail.com'
+        ]);
+        factory(App\User::class, 1)->create([
+            'Actor_cedula' => '1010217215',
+            'email' => 'empleado@hotmail.com'
+        ]);
     }
 }

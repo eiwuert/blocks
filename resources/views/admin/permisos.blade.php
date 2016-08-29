@@ -26,6 +26,7 @@
               <th>Usuario</th>
               <th>Asignaciones</th>
               <th>Archivos</th>
+              <th>Paquetes</th>
             </tr>
           </thead>
 
@@ -44,6 +45,12 @@
               <td><input type="checkbox" name="Archivos" value="ARCHIVOS" checked></td>
               @else
               <td><input type="checkbox" name="Archivos" value="ARCHIVOS"></td>
+              @endif
+              
+              @if(in_array("PAQUETES", $actor->permisos))
+              <td><input type="checkbox" name="Archivos" value="PAQUETES" checked></td>
+              @else
+              <td><input type="checkbox" name="Archivos" value="PAQUETES"></td>
               @endif
               </tr>
             @endforeach

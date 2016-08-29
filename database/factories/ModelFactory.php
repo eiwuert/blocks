@@ -81,3 +81,11 @@ $factory->define(App\Cliente::class, function ($faker) {
         'ubicacion_ID' => 1,
     ];
 });
+
+$factory->define(App\User::class, function ($faker) {
+    return [
+        'Actor_cedula' => $faker->randomNumber($nbDigits = 9),
+        'email' => $faker->email,
+        'password' => bcrypt("password"),
+    ];
+});

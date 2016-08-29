@@ -69,8 +69,8 @@ class ComisionFileUpload extends Job implements SelfHandling
                         $ubicacion = Ubicacion::where("ciudad",$row->cliente_ciudad)->first();
                         if($ubicacion == null){
                             $ubicacion = new Ubicacion();
-                            $ubicacion->region = $row->region;
-                            $ubicacion->ciudad = $row->ciudad;
+                            $ubicacion->region = $row->cliente_region;
+                            $ubicacion->ciudad = $row->cliente_ciudad;
                             $ubicacion->save();
                         }
                         $ubicacion = Ubicacion::where("ciudad",$row->cliente_ciudad)->first();

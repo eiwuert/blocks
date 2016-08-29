@@ -19,7 +19,9 @@
       <div class="x_title">
         <h2>Administración fija</h2>
         <ul class="nav navbar-right panel_toolbox">
+          @if(in_array("ARCHIVOS",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
           <li><a onClick="modal_cargar_fija()"><i class="fa fa-cloud-upload"></i></a></li>
+          @endif
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
           <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>

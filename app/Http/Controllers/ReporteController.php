@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\Equipo;
 use DateTime;
+use App\Fija;
 use App\Actor;
 use App\Notificacion;
 use App\Simcard;
@@ -45,6 +46,7 @@ class ReporteController extends Controller
                                 })->whereNotNull("Cliente_identificacion")->where("categoria",'=','Postpago')->count();                                
             $actor->cantidad_equipo =  Equipo::where("Actor_cedula","=",$actor->cedula)->whereNull("Cliente_identificacion")->count();
             $actor->cantidad_equipo_vendidos =  Equipo::where("Actor_cedula","=",$actor->cedula)->whereNotNull("Cliente_identificacion")->count();
+            $actor->cantidad_fija_vendidas =  Fija::where("Actor_cedula","=",$actor->cedula)->count();
         }
         $data["actores"] = $actores;
         return View('admin.reportes_inventario', $data);

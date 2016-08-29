@@ -22,7 +22,9 @@
       <div class="x_title">
         <h2>Descripción General Equipo</h2>
         <ul class="nav navbar-right panel_toolbox">
+          @if(in_array("ARCHIVOS",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
           <li><a onClick="modal_cargar_descripcion_equipos()"><i class="fa fa-cloud-upload"></i></a></li>
+          @endif
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
           <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
@@ -82,7 +84,9 @@
       <div class="x_title">
         <h2>Descripción Específica Equipo</h2>
         <ul class="nav navbar-right panel_toolbox">
+          @if(in_array("ARCHIVOS",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
           <li><a onClick="modal_cargar_equipos()"><i class="fa fa-cloud-upload"></i></a></li>
+          @endif
           <li><a class="collapse-link"><i id="equipo_chevron" class="fa fa-chevron-up"></i></a></li>
           <li><a class="close-link"><i class="fa fa-close"></i></a></li>
         </ul>
@@ -117,7 +121,7 @@
                   <div class="text_container"><span>Valor Pagado</span></div><input disabled="true" type="text" placeholder="Valor Pagado" id ="Equipo_descripcion_precio">
               </div>
             </div> 
-          @if($permiso_inventarios)
+          @if(in_array("INVETARIOS",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
           <div class="contenedor_acciones" id="acciones_equipo_especifico" style="display:none">
               <button class="btn verde" onClick="asignar_equipo()">Asignar</button>
           </div>

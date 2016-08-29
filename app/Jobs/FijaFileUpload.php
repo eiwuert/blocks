@@ -61,6 +61,26 @@ class FijaFileUpload extends Job implements SelfHandling
                         $fija->peticion = $row->peticion;
                     }
                     $fija->Actor_cedula = $row->responsable_cedula;
+                    $cliente = Cliente::find($row->cliente_identificacion);
+                    if($cliente == null){
+                        $cliente = new Cliente();
+                        $cliente->identificacion = $row->cliente_identificacion;
+                        $cliente->tipo = $row->cliente_tipo;
+                        $cliente->nombre = $row->cliente_nombre;
+                        $cliente->telefono = $row->cliente_telefono;
+                        $cliente->correo = $row->cliente_correo;
+                        $cliente->direccion = $row->cliente_direccion;
+                        $ubicacion = Ubicacion::where("ciudad",$row->cliente_ciudad)->first();
+                        if($ubicacion == null){
+                            $ubicacion = new Ubicacion();
+                            $ubicacion->region = $row->cliente_region;
+                            $ubicacion->ciudad = $row->cliente_ciudad;
+                            $ubicacion->save();
+                        }
+                        $ubicacion = Ubicacion::where("ciudad",$row->cliente_ciudad)->first();
+                        $cliente->ubicacion_ID = $ubicacion->ID;
+                        $cliente->save();
+                    }
                     $fija->cliente_identificacion = $row->cliente_identificacion;
                     $fija->fecha_venta = $fecha_venta;
                     $fija->tipo_producto = $row->tipo_producto;
