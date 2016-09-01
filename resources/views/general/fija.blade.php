@@ -41,16 +41,22 @@
                  <div class="text_container"><span>Petición:</span></div><input disabled="true" type="text" placeholder="Peticion" id ="Fija_peticion">
               </div>
               <div class="container">
+                 <div class="text_container"><span>Fecha Venta:</span></div><input disabled="true" type="text" placeholder="Fecha Venta" id ="Fija_fecha_venta">
+              </div>
+              <div class="container">
                  <div class="text_container"><span>Responsable</span></div><a id ="Fija_responsable">Responsable</a>
               </div>
               <div class="container">
                  <div class="text_container"><span>Cliente</span></div><a id ="Fija_cliente">Cliente</a>
               </div>
               <div class="container">
-                 <div class="text_container"><span>Tipo:</span></div><input disabled="true" type="text" placeholder="Tipo" id ="Fija_tipo">
+                 <div class="text_container"><span>Linea Base:</span></div><input disabled="true" type="text" placeholder="Linea base" id ="Fija_linea_base">
               </div>
               <div class="container">
-                 <div class="text_container"><span>Producto:</span></div><input disabled="true" type="text" placeholder="Producto" id ="Fija_producto">
+                 <div class="text_container"><span>Internet:</span></div><input disabled="true" type="text" placeholder="Internet" id ="Fija_internet">
+              </div>
+              <div class="container">
+                 <div class="text_container"><span>TV:</span></div><input disabled="true" type="text" placeholder="TV" id ="Fija_tv">
               </div>
           <div class="contenedor_acciones" style="display:none">
               <button class="btn azul" onClick="actualizar_descripcion_equipo()">Actualizar</button>

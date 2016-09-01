@@ -9,7 +9,7 @@ class Fija extends Model
     protected $table = 'Fija';
     protected $primaryKey = 'peticion';
     public $timestamps = false;
-    protected $fillable = ['peticion','tipo_producto', 'nombre_producto','Actor_cedula', 'Cliente_identificacion','fecha_venta'];
+    protected $fillable = ['peticion','Actor_cedula','linea_base','internet','tv' 'Cliente_identificacion','fecha_venta'];
 
     
     public function cliente(){

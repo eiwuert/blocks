@@ -83,8 +83,9 @@ class FijaFileUpload extends Job implements SelfHandling
                     }
                     $fija->cliente_identificacion = $row->cliente_identificacion;
                     $fija->fecha_venta = $fecha_venta;
-                    $fija->tipo_producto = $row->tipo_producto;
-                    $fija->nombre_producto = $row->nombre_producto;
+                    $fija->linea_base = $row->linea_base;
+                    $fija->internet = $row->internet;
+                    $fija->tv = $row->tv;
                     $fija->save();
                     $filas_buenas++;
                 }

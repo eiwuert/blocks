@@ -15,8 +15,9 @@ class CreateFijaTable extends Migration
         Schema::create('Fija', function (Blueprint $table) {
             $table->string('peticion')->unique();
             $table->date('fecha_venta');
-            $table->string('tipo_producto');
-            $table->string('nombre_producto');
+            $table->string('linea_base')->nullable();
+            $table->string('internet')->nullable();
+            $table->string('tv')->nullable();
             $table->string('Actor_cedula');
             $table->string('Cliente_identificacion');
             $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente')->onDelete('cascade');

@@ -26,8 +26,10 @@ function buscar_fija(peticion){
                 $('#Fija_responsable').attr("href","/personal?cedula=" + data.Actor_cedula);
                 $('#Fija_cliente').text(data.Cliente_identificacion);
                 $('#Fija_cliente').attr("href","/cliente?cliente=" + data.cliente_identificacion);
-                $('#Fija_tipo_producto').val(data.tipo_producto);
-                $('#Fija_nombre_producto').val(data.nombre_producto);
+                $('#Fija_fecha_venta').val(data.fecha_venta);
+                $('#Fija_linea_base').val(data.linea_base);
+                $('#Fija_internet').val(data.internet);
+                $('#Fija_tv').val(data.tv);
                 $("#contenedor_acciones").show();
             }else{
                 $('#buscar_fija .form :input').val("");

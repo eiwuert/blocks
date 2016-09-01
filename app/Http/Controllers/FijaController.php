@@ -48,7 +48,12 @@ class FijaController extends Controller
     {
         $pista = $request["dato"];
         $Actor = Auth::user()->actor;
-        $fija = Fija::Where('peticion',"like", "%".$pista."%")->where("Actor_cedula",$Actor->cedula)->first();
+        $permiso = Asignacion_Permiso::where("User_email",Auth::user()->email)->where("permiso", "INVENTARIOS")->first();
+        if($permiso != null || Auth::user()->actor->jefe_cedula == null){
+            $fija = Fija::Where('peticion',"like", "%".$pista."%")->first();
+        }else{
+            $fija = Fija::Where('peticion',"like", "%".$pista."%")->where("Actor_cedula",$Actor->cedula)->first();    
+        }
         return $fija;
     }
     
