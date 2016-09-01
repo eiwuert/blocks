@@ -33,6 +33,7 @@ class ActorController extends Controller
             $region->ciudades = Ubicacion::select('ciudad')->where('region',$region->region)->get();
         }
         $data["regiones"] = $regiones;
+        
         // OBTENER LOS POSIBLES EMPLEADOS
         $actores_sin_revisar = [$Actor];
         $actores = array();
@@ -44,7 +45,7 @@ class ActorController extends Controller
                 $empleados = Actor::where("jefe_cedula", '=', $cedula)->get()->toArray();
                 foreach ($empleados as $empleado) {
                     array_push($actores_sin_revisar, $empleado);
-                }
+                } 
             }
         }
         $data['actores'] = $actores;
@@ -85,6 +86,7 @@ class ActorController extends Controller
         $pista = $request["dato"];
         $actor = Actor::where('cedula','like','%' . $pista . '%')->orWhere('nombre', 'like' , '%' . $pista . '%')->first();
         if($actor != null){
+            // HALLAR JEFE
             if($actor->cedula != Auth::user()->actor->cedula){
                 // REVISAR AUTORIZACION
                 $usuario = Auth::user()->actor;
@@ -156,6 +158,9 @@ class ActorController extends Controller
         }
         $actor->nombre = $datos_actor["Actor_nombre"];
         if($datos_actor["Actor_jefe_cedula"]!= null)
+            if($actor->cedula == $datos_actor["Actor_jefe_cedula"]){
+                return "El jefe no puede ser la misma persona";
+            }
             $actor->jefe_cedula = $datos_actor["Actor_jefe_cedula"];
         $ubicacion = Ubicacion::where("region",$datos_actor["Actor_region"])->where("ciudad",$datos_actor["Actor_ciudad"])->first();
         if($ubicacion != null){
