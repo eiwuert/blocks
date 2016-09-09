@@ -43,10 +43,10 @@ class SimcardFileUpload extends Job implements SelfHandling
         $this->rows->each(function($row)  use ($notificacion_ID){
             global $request,$counter_filas,$filas_buenas,$filas_malas,$errores,$msg;
             try{
-                if($row->numero_linea == null){
+                if($row->tipo == "Prepago" && $row->numero_linea == null){
                     $error = new Error();
                     $error->Notificacion_ID = $notificacion_ID;
-                    $error->descripcion = "Archivo no valido";  
+                    $error->descripcion = $row->ICC . " No contiene número asignado.";  
                     $error->save();
                     $filas_malas++; 
                     return false;

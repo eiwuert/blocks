@@ -112,7 +112,7 @@ function buscar_simcard(ICC){
                     $("#responsables_simcards").hide();
                     $("#acciones_buscar_paquete").hide();    
                 }
-                if(data.plan != "SIN PLAN"){
+                if(data.plan != "SIN PLAN" && data.plan != "Prepago"){
                     buscar_plan(data.plan, data.color);
                 }else{
                     $("#buscar_plan").hide();

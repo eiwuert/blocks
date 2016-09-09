@@ -177,7 +177,7 @@
       </div>
     </div>
   </div>
-  <!-- Seccion administrar paquetes -->
+  <!-- Seccion administrar plan -->
 </div>
 <!-- /page content -->
 @endsection

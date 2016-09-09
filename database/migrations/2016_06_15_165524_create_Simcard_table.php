@@ -14,7 +14,7 @@ class CreateSimcardTable extends Migration
     {
         Schema::create('Simcard', function (Blueprint $table) {
             $table->string('ICC')->unique();
-            $table->string('numero_linea');
+            $table->string('numero_linea')->nullable();
             $table->string('categoria');
             $table->string("Cliente_identificacion")->nullable();
             $table->date('fecha_adjudicacion')->nullable();

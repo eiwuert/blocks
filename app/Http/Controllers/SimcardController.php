@@ -140,11 +140,15 @@ class SimcardController extends Controller
             $simcard["color"] = Simcard::color_estado($simcard);
             
             //OBTENER PLAN DE LA SIMCARD
-            $Asignacion_Plan = Asignacion_Plan::where("Simcard_ICC", '=',$simcard->ICC)->first();
-            if($Asignacion_Plan != ""){
-                $simcard["plan"] = $Asignacion_Plan->Plan_codigo;
+            if($simcard->categoria == "Prepago"){
+                $simcard["plan"] = "Prepago";
             }else{
-                $simcard["plan"] = "SIN PLAN";
+                $Asignacion_Plan = Asignacion_Plan::where("Simcard_ICC", '=',$simcard->ICC)->first();
+                if($Asignacion_Plan != ""){
+                    $simcard["plan"] = $Asignacion_Plan->Plan_codigo;
+                }else{
+                    $simcard["plan"] = "SIN PLAN";
+                }
             }
         }
         return $simcard;
