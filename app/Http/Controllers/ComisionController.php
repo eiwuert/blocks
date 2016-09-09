@@ -79,37 +79,41 @@ class ComisionController extends Controller
             ->where("Paquete.Actor_cedula","=",$Actor->cedula)
             ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
             ->where("Simcard.primer_pago","=",true)
-            ->sum("Plan.valor");
+            ->sum("Plan.valor")*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
             
-            $periodo_aux = date('Ym', strtotime("-2 months", strtotime($aux)));
-            $data["simcards_postpago"] += \DB::table('Simcard')
-            ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
-            ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
-            ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
-            ->where("Paquete.Actor_cedula","=",$Actor->cedula)
-            ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
-            ->where("Simcard.segundo_pago","=",true)
-            ->sum("Plan.valor");
-            
-            $periodo_aux = date('Ym', strtotime("-3 months", strtotime($aux)));
-            $data["simcards_postpago"] += \DB::table('Simcard')
-            ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
-            ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
-            ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
-            ->where("Paquete.Actor_cedula","=",$Actor->cedula)
-            ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
-            ->where("Simcard.tercer_pago","=",true)
-            ->sum("Plan.valor");
-            
-            $periodo_aux = date('Ym', strtotime("-6 months", strtotime($aux)));
-            $data["simcards_postpago"] += \DB::table('Simcard')
-            ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
-            ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
-            ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
-            ->where("Paquete.Actor_cedula","=",$Actor->cedula)
-            ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
-            ->where("Simcard.cuarto_pago","=",true)
-            ->sum("Plan.valor");
+            if($Actor->cantidad_cuotas > 1){
+                $periodo_aux = date('Ym', strtotime("-2 months", strtotime($aux)));
+                $data["simcards_postpago"] += \DB::table('Simcard')
+                ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+                ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+                ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+                ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+                ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+                ->where("Simcard.segundo_pago","=",true)
+                ->sum("Plan.valor")*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                if($Actor->cantidad_cuotas > 2){
+                    $periodo_aux = date('Ym', strtotime("-3 months", strtotime($aux)));
+                    $data["simcards_postpago"] += \DB::table('Simcard')
+                    ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+                    ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+                    ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+                    ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+                    ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+                    ->where("Simcard.tercer_pago","=",true)
+                    ->sum("Plan.valor")*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                    if($Actor->cantidad_cuotas > 3){
+                        $periodo_aux = date('Ym', strtotime("-6 months", strtotime($aux)));
+                        $data["simcards_postpago"] += \DB::table('Simcard')
+                        ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+                        ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+                        ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+                        ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+                        ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+                        ->where("Simcard.cuarto_pago","=",true)
+                        ->sum("Plan.valor")*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                    }
+                }
+            }
             
             $data["servicios"] = Comision::where(DB::raw('extract(year_month FROM fecha)'),$periodo)->whereNotNull("Servicio_peticion")->sum("valor")*$Actor->porcentaje_servicio;
         }
@@ -161,46 +165,50 @@ class ComisionController extends Controller
         }
         if($Actor != null){
             $aux = substr($periodo,0,4) . "-" . substr($periodo,4,2). "-1";
-            $data["simcards_postpago_primera"] = Comision::whereHas('simcard' , function ($query) use ($aux){
-                                    $query->where('categoria', 'Postpago')
-                                    ->where(DB::raw('extract(year_month FROM fecha_venta)'),  
-                                    date('Ym', strtotime("-1 months", strtotime($aux))));
-                                })
-                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
-                                    $query->where("Actor_cedula","=", $Actor->cedula);
-                                })
-                                ->where(DB::raw('extract(year_month FROM fecha)'), $periodo)
-                                ->whereNotNull("Simcard_ICC")->sum("valor")*0.5*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
-            $data["simcards_postpago_segunda"] = Comision::whereHas('simcard' , function ($query) use ($aux){
-                                    $query->where('categoria', 'Postpago')
-                                    ->where(DB::raw('extract(year_month FROM fecha_venta)'),  
-                                    date('Ym', strtotime("-2 months", strtotime($aux))));
-                                })
-                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
-                                    $query->where("Actor_cedula","=", $Actor->cedula);
-                                })
-                                ->where(DB::raw('extract(year_month FROM fecha)'), $periodo)
-                                ->whereNotNull("Simcard_ICC")->get();
-            $data["simcards_postpago_tercera"] = Comision::whereHas('simcard' , function ($query) use ($aux){
-                                    $query->where('categoria', 'Postpago')
-                                    ->where(DB::raw('extract(year_month FROM fecha_venta)'),  
-                                    date('Ym', strtotime("-3 months", strtotime($aux))));
-                                })
-                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
-                                    $query->where("Actor_cedula","=", $Actor->cedula);
-                                })
-                                ->where(DB::raw('extract(year_month FROM fecha)'), $periodo)
-                                ->whereNotNull("Simcard_ICC")->get();
-            $data["simcards_postpago_sexta"] = Comision::whereHas('simcard' , function ($query) use ($aux){
-                                    $query->where('categoria', 'Postpago')
-                                    ->where(DB::raw('extract(year_month FROM fecha_venta)'),  
-                                    date('Ym', strtotime("-6 months", strtotime($aux))));
-                                })
-                                ->whereHas('simcard.paquete' , function ($query) use ($Actor)  {
-                                    $query->where("Actor_cedula","=", $Actor->cedula);
-                                })
-                                ->where(DB::raw('extract(year_month FROM fecha)'), $periodo)
-                                ->whereNotNull("Simcard_ICC")->get();
+            // Calcular postpagos
+            $aux = substr($periodo,0,4) . "-" . substr($periodo,4,2) . "-1";
+            $periodo_aux = date('Ym', strtotime("-1 months", strtotime($aux)));
+            $data["simcards_postpago_primera"] = \DB::table('Simcard')
+            ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+            ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+            ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+            ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+            ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+            ->where("Simcard.primer_pago","=",true)
+            ->get();
+            if($Actor->cantidad_cuotas > 1){
+                $periodo_aux = date('Ym', strtotime("-2 months", strtotime($aux)));
+                $data["simcards_postpago_segunda"] = \DB::table('Simcard')
+                ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+                ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+                ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+                ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+                ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+                ->where("Simcard.segundo_pago","=",true)
+                ->get();
+                if($Actor->cantidad_cuotas > 2){
+                    $periodo_aux = date('Ym', strtotime("-3 months", strtotime($aux)));
+                    $data["simcards_postpago_tercera"] = \DB::table('Simcard')
+                    ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+                    ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+                    ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+                    ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+                    ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+                    ->where("Simcard.tercer_pago","=",true)
+                    ->get();
+                    if($Actor->cantidad_cuotas > 3){
+                        $periodo_aux = date('Ym', strtotime("-6 months", strtotime($aux)));
+                        $data["simcards_postpago_sexta"] = \DB::table('Simcard')
+                        ->join("Asignacion_Plan", "Asignacion_Plan.Simcard_ICC","=","Simcard.ICC")
+                        ->join("Plan","Plan.codigo","=","Asignacion_Plan.Plan_codigo")
+                        ->join("Paquete", "Simcard.Paquete_ID","=","Paquete.ID")
+                        ->where("Paquete.Actor_cedula","=",$Actor->cedula)
+                        ->where(DB::raw('extract(year_month FROM fecha_venta)'),"=",$periodo_aux)
+                        ->where("Simcard.cuarto_pago","=",true)
+                        ->get();
+                    }
+                }
+            }
             $data["porcentaje"] = $Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
         }
         return $data;

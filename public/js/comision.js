@@ -93,10 +93,9 @@ function detalle_comision_postpago(type){
             if(data != null){
                 $("#detalle_comisiones_empleado").html("");
                 $("#detalle_comisiones_empleado").append("<h3>Comisiones Postpago</h3>");
-                $("#detalle_comisiones_empleado").append("<div><div>Fecha</div><div>ICC</div><div>Valor</div></div>");
+                $("#detalle_comisiones_empleado").append("<div><div>ICC</div><div>Valor</div></div>");
                 for(var i = 0; i < data["simcards_postpago_primera"].length; i++){
                     var row = "<div>";
-                    row += "<div>" + data["simcards_postpago_primera"][i].fecha +"</div>";
                     row += '<div><a href="/simcard?simcard='+ data["simcards_postpago_primera"][i].Simcard_ICC + '">' + data["simcards_postpago_primera"][i].Simcard_ICC +"</a></div>";
                     row += "<div>$" + addCommas(Math.floor(data["simcards_postpago_primera"][i].valor*data["porcentaje"])) +"</div>";
                     row += "</div>";
@@ -104,7 +103,6 @@ function detalle_comision_postpago(type){
                 }
                 for(var i = 0; i < data["simcards_postpago_segunda"].length; i++){
                     var row = "<div>";
-                    row += "<div>" + data["simcards_postpago_segunda"][i].fecha +"</div>";
                     row += '<div><a href="/simcard?simcard='+ data["simcards_postpago_segunda"][i].Simcard_ICC + '">' + data["simcards_postpago_segunda"][i].Simcard_ICC +"</a></div>";
                     row += "<div>$" + addCommas(Math.floor(data["simcards_postpago_segunda"][i].valor*data["porcentaje"])) +"</div>";
                     row += "</div>";
@@ -112,7 +110,6 @@ function detalle_comision_postpago(type){
                 }
                 for(var i = 0; i < data["simcards_postpago_tercera"].length; i++){
                     var row = "<div>";
-                    row += "<div>" + data["simcards_postpago_tercera"][i].fecha +"</div>";
                     row += '<div><a href="/simcard?simcard='+ data["simcards_postpago_tercera"][i].Simcard_ICC + '">' + data["simcards_postpago_tercera"][i].Simcard_ICC +"</a></div>";
                     row += "<div>$" + addCommas(Math.floor(data["simcards_postpago_tercera"][i].valor*data["porcentaje"])) +"</div>";
                     row += "</div>";
@@ -120,7 +117,6 @@ function detalle_comision_postpago(type){
                 }
                 for(var i = 0; i < data["simcards_postpago_sexta"].length; i++){
                     var row = "<div>";
-                    row += "<div>" + data["simcards_postpago_sexta"][i].fecha +"</div>";
                     row += '<div><a href="/simcard?simcard='+ data["simcards_postpago_sexta"][i].Simcard_ICC + '">' + data["simcards_postpago_sexta"][i].Simcard_ICC +"</a></div>";
                     row += "<div>$" + addCommas(Math.floor(data["simcards_postpago_sexta"][i].valor*data["porcentaje"])) +"</div>";
                     row += "</div>";
