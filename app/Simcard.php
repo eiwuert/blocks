@@ -11,11 +11,16 @@ class Simcard extends Model
     protected $primaryKey = 'ICC';
     public $timestamps = false;
     
-    protected $fillable = ['ICC', 'numero_linea', 'categoria', 'contratante','fecha_vencimiento', 'fecha_adjudicacion', 'fecha_asignacion', 'fecha_activacion', 'Paquete_ID','Cliente_identificacion'];
+    protected $fillable = ['ICC', 'numero_linea', 'categoria', 'contratante','fecha_vencimiento', 'fecha_adjudicacion', 'fecha_asignacion', 'fecha_activacion', 'Paquete_ID','Venta_ID','Cliente_identificacion'];
 
     public function paquete()
     {
         return $this->belongsTo('App\Paquete','Paquete_ID','ID');
+    }
+    
+    public function venta()
+    {
+        return $this->belongsTo('App\Venta','Venta_ID','ID');
     }
     
     public function cliente()

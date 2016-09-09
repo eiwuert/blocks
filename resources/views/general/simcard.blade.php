@@ -81,6 +81,9 @@
               <div class="container">
                   <div class="text_container"><span>Vence</span></div><input disabled="true" type="text" placeholder="Vencimiento" id ="Simcard_fecha_vencimiento">
               </div>
+              <div id ="btn_legalizar" class="container verde" style="color:white;font-size:14px;cursor:pointer;display:none">
+              Legalizar  
+              </div>  
             </div> 
           <div class="contenedor_acciones" style="display:none">
               <button class="btn azul" onClick="actualizar_simcard()">Actualizar</button>
@@ -95,7 +98,7 @@
 </div>
 <div class="row">
   <!-- Seccion administrar paquetes -->
-  <div class="col-md-6 col-sm-6 col-xs-12">
+  <div id ="container_paquetes" class="col-md-6 col-sm-6 col-xs-12">
     <div class="x_panel tile">
       <div class="x_title">
         <h2>Administración paquetes</h2>
@@ -127,6 +130,28 @@
           </div>
           @ENDIF
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- Seccion administrar paquetes -->
+  
+  <!-- Seccion administrar venta -->
+  <div id ="container_ventas" class="col-md-6 col-sm-6 col-xs-12" style="display:none">
+    <div class="x_panel tile">
+      <div class="x_title">
+        <h2>Administración Venta</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i id="venta_chevron" class="fa fa-chevron-down"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      
+      <div class="x_content" id="venta_simcard">
+        <div class="formulario_busqueda">
+        </div> 
       </div>
     </div>
   </div>

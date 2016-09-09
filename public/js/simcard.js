@@ -57,6 +57,16 @@ function buscar_simcard(ICC){
             var modal = $('[data-remodal-id=modal]');
             var remodal = modal.remodal();
             if(data != ''){
+                // MOSTRAR BOTON DE LEGALIZAR
+                if(data.categoria == "Postpago"){
+                    $("#btn_legalizar").show();
+                    $("#container_paquetes").hide();
+                    $("#container_ventas").show();
+                }else{
+                    $("#btn_legalizar").hide();
+                    $("#container_paquetes").show();
+                    $("#container_ventas").hide();
+                }
                 // DATOS Y REDIRECCION A CLIENTE
                 if(data.cliente != null){
                     $("#Simcard_cliente").text(data.cliente.nombre);
@@ -74,7 +84,7 @@ function buscar_simcard(ICC){
                     $("#Simcard_equipo").attr("href", "#");
                 }
                 $("#buscar_simcard").find(".text_container").show();
-                $('#Simcard_contrante').val(data.contratante);
+                $('#Simcard_contratante').val(data.contratante);
                 $('#Simcard_ICC').val(data.ICC);
                 $('#Simcard_responsable').val(data.responsable_simcard);
                 $('#Simcard_numero_linea').val(data.numero_linea);
@@ -129,6 +139,8 @@ function buscar_simcard(ICC){
                     $("#Plan_valor").closest("div").attr('class', 'container');
                 }
             }else{
+                // ESCONDER BOTON DE LEGALIZAR
+                $("#btn_legalizar").hide();
                 //BORRAR DATOS DE SECCION SIMCARD
                 $("#Simcard_contratante").val("");
                 $("#Simcard_cliente").val("");

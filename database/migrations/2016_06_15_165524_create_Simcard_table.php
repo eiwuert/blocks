@@ -14,7 +14,7 @@ class CreateSimcardTable extends Migration
     {
         Schema::create('Simcard', function (Blueprint $table) {
             $table->string('ICC')->unique();
-            $table->string('numero_linea')->nullable();
+            $table->string('numero_linea')->unique()->nullable();
             $table->string('categoria');
             $table->enum('contratante',array("Movicom", "Colphone"));
             $table->string("Cliente_identificacion")->nullable();
@@ -24,6 +24,8 @@ class CreateSimcardTable extends Migration
             $table->date('fecha_vencimiento');
             $table->integer('Paquete_ID')->unsigned()->nullable();
             $table->foreign('Paquete_ID')->references('ID')->on('Paquete');
+            $table->integer('Venta_ID')->unsigned()->nullable();
+            $table->foreign('Venta_ID')->references('ID')->on('Venta');
             $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');
         });
     }
