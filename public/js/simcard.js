@@ -60,11 +60,10 @@ function buscar_simcard(ICC){
                 // MOSTRAR BOTON DE LEGALIZAR
                 if(data.categoria == "Postpago"){
                     $("#btn_legalizar").show();
-                    $("#container_paquetes").hide();
                     $("#container_ventas").show();
+                    buscar_venta(data.ICC);
                 }else{
                     $("#btn_legalizar").hide();
-                    $("#container_paquetes").show();
                     $("#container_ventas").hide();
                 }
                 // DATOS Y REDIRECCION A CLIENTE
@@ -192,6 +191,13 @@ function buscar_simcard(ICC){
     }
 }
 
+function buscar_venta(ICC){
+    $.get('/buscar_venta', {dato:ICC}, function(resultado){
+        if(resultado != "" ){
+            
+        }
+    }); 
+}
 function actualizar_simcard(){
     
     var inputs = $('#buscar_simcard .form :input');
@@ -346,7 +352,11 @@ function buscar_paquete(paquete){
                 var simcards = "";
                 data["simcards"].forEach(function( simcard ) {
                     $("#numero_paquete").text(simcard["Paquete_ID"]);
-                    simcards += '<button style="color:white" class="btn ' + simcard["color"] + '" onClick=buscar_simcard("' + simcard["ICC"] + '")>' + simcard["numero_linea"] + '</button>';
+                    if(simcards["numero_linea"] != null){
+                        simcards += '<button style="color:white" class="btn ' + simcard["color"] + '" onClick=buscar_simcard("' + simcard["ICC"] + '")>' + simcard["numero_linea"] + '</button>';
+                    }else{
+                        simcards += '<button style="color:white" class="btn ' + simcard["color"] + '" onClick=buscar_simcard("' + simcard["ICC"] + '")>' + simcard["ICC"] + '</button>';
+                    }
                 });
                 contenedor.html(simcards);
                 $("#titulo_paquete").fadeIn();
@@ -639,6 +649,41 @@ function eliminar_plan(){
                 });
             }
         });
+    }
+}
+
+function legalizar(){
+    if($("#Simcard_numero_linea").val() == ""){
+        modal.addClass("modal_error");
+        $("#titulo_modal").text("ERROR!!");
+        $("#contenido_modal").text("Debe especificar el numero asignado a la simcard");    
+    }else{
+        if($("#Plan_codigo").val() == ""){
+            modal.addClass("modal_error");
+            $("#titulo_modal").text("ERROR!!");
+            $("#contenido_modal").text("Debe buscar el plan asociado a la simcard");    
+        }else{
+            var data = {};
+            data["Simcard_ICC"] = Simcard_ICC.val();
+            data["Plan_ID"] = $("#Plan_codigo").val();
+            data["Simcard_numero_linea"] = $("#Simcard_numero_linea").val();
+            $.get('/legalizar_venta', {dato:data}, function(resultado){
+                limpiar_modal();
+                if(resultado == "EXITOSO"){
+                    //INFORMAR AL USUARIO
+                    modal.addClass("modal_exito");
+                    $("#titulo_modal").text("EXITO!!");
+                    $("#contenido_modal").text("Venta legalizada satisfactoriamente");
+                    // buscar_simcard(Simcard_ICC.val());
+                }else{
+                    //INFORMAR AL USUARIO
+                    modal.addClass("modal_error");
+                    $("#titulo_modal").text("ERROR!!");
+                    $("#contenido_modal").text(resultado);
+                }
+                remodal.open();
+            });
+        }    
     }
 }
 

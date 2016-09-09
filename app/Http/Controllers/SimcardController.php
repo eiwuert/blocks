@@ -72,7 +72,44 @@ class SimcardController extends Controller
         
     }
 
+    public function legalizar_venta(Request $request){
+        $datos = $request['dato'];
+        $simcard = Simcard::find($datos["Simcard_ICC"]);
+        if($simcard != null){
+            $plan = Plan::find($datos["Plan_ID"]);
+            if($plan != null){
+                $asignacion = Asignacion_Plan::where("Simcard_ICC", $simcard->ICC)->first();
+                if($asignacion == null){
+                    $asignacion = new Asignacion_Plan();
+                    $asignacion->Simcard_ICC = $simcard->ICC;
+                }
+                $asignacion->Plan_codigo = $plan->codigo;
+                $asignacion->save();
+                $simcard->fecha_venta = new DateTime();
+                $simcard->numero_linea = $datos["Simcard_numero_linea"];
+                $simcard->save();
+                return "EXITOSO";
+            }else{
+                return "Plan no encontrado";
+            }
+        }else{
+            return "Simcard no encontrada";
+        }
+    }
     
+    public function buscar_venta(Request $request){
+        $ICC = $request['dato'];
+        $simcard = Simcard::find($ICC);
+        $data = [];
+        if($simcard != null){
+            $asignacion = Asignacion_Plan::where("Simcard_ICC", $ICC)->first();
+            if($asignacion != null){
+                $data->valor = $asignacion->plan->valor;
+                $data->fecha_legalizacion = $simcard->fecha_legalizacion;
+            }
+        }
+        return $data;
+    }
     public function asignar_responsable_paquete(Request $request){
         $datos_simcard = $request['dato'];
         $paquete = Paquete::find($datos_simcard["paquete"]);

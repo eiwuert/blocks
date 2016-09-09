@@ -60,6 +60,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/crear_paquete', 'SimcardController@crear_paquete');
     Route::get('/eliminar_paquete', 'SimcardController@eliminar_paquete');
     Route::post('/subir_archivo_simcards', ['as' => 'subirArchivoSimcards', 'uses' => 'SimcardController@subir_archivo']);
+    Route::get('/legalizar_venta', 'SimcardController@legalizar_venta');
+    Route::get('/buscar_venta', 'SimcardController@buscar_venta');
     
     // ACCIONES PLANES
     Route::get('/buscar_plan', 'PlanController@buscar_plan');

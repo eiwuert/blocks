@@ -81,7 +81,7 @@
               <div class="container">
                   <div class="text_container"><span>Vence</span></div><input disabled="true" type="text" placeholder="Vencimiento" id ="Simcard_fecha_vencimiento">
               </div>
-              <div id ="btn_legalizar" class="container verde" style="color:white;font-size:14px;cursor:pointer;display:none">
+              <div id ="btn_legalizar" onClick="legalizar()" class="container verde" style="color:white;font-size:14px;cursor:pointer;display:none">
               Legalizar  
               </div>  
             </div> 
@@ -97,44 +97,6 @@
   
 </div>
 <div class="row">
-  <!-- Seccion administrar paquetes -->
-  <div id ="container_paquetes" class="col-md-6 col-sm-6 col-xs-12">
-    <div class="x_panel tile">
-      <div class="x_title">
-        <h2>Administración paquetes</h2>
-        <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i id="paquete_chevron" class="fa fa-chevron-down"></i></a>
-          </li>
-          <li><a class="close-link"><i class="fa fa-close"></i></a>
-          </li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-      
-      <div class="x_content" id="buscar_paquete"  style="display:none">
-        <div class="formulario_busqueda">
-          <div>
-            <h4>Busque el contenido de un paquete, seleccione una simcard para ver su información, asigne todo el paquete a un responsable oprimiendo "Asignar", eliminelo oprimiendo "Eliminar" o cree un nuevo paquete oprimiendo "Crear".</h4>
-          </div>
-          <div>
-            <input type="number" placeholder="ICC / número linea" id="Paquete_pista">
-            <button style="margin:0;padding:0;" class="btn azul" onClick = "buscar_paquete()" type="number" id="Simcard_buscar">Buscar</button>
-          </div>
-          <h2 id ="titulo_paquete" style="display:none">Paquete #<span id ="numero_paquete"></span></h2>
-          <div id="simcards_paquete"></div> 
-          @if(in_array("PAQUETES",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
-          <div class="contenedor_acciones" id="acciones_buscar_paquete" style="display:none">
-              <button class="btn verde" onClick = "empaquetar_simcard()" type="number">Empaquetar</button>
-              <button class="btn azul" id="boton_seleccionar_responsable_simcard" onClick="seleccionar_responsable_paquete()">Asignar</button>
-              <button class="btn rojo" onClick="eliminar_paquete()">Eliminar</button>
-          </div>
-          @ENDIF
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Seccion administrar paquetes -->
-  
   <!-- Seccion administrar venta -->
   <div id ="container_ventas" class="col-md-6 col-sm-6 col-xs-12" style="display:none">
     <div class="x_panel tile">
@@ -151,11 +113,28 @@
       
       <div class="x_content" id="venta_simcard">
         <div class="formulario_busqueda">
-        </div> 
-      </div>
+          <div class="form">
+              <div class="container">
+                <div class="text_container"><span>Fecha</span></div><input disabled="true" id="Simcard_contratante" placeholder="Empresa">
+              </div>
+              <div class="container">
+                <div class="text_container"><span>1ra Cuota</span></div><input disabled="true" id="Simcard_responsable" placeholder="1ra Cuota">
+              </div>
+              <div class="container">
+                <div class="text_container"><span>2da Cuota</span></div><input disabled="true" id="Simcard_responsable" placeholder="2da Cuota">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>3ra Cuota</span></div><input disabled="true" id="Simcard_responsable" placeholder="3ra Cuota">
+              </div>
+              <div class="container">
+                  <div class="text_container"><span>6ta Cuota</span></div><input disabled="true" type="text" id ="Simcard_numero_linea"  placeholder="6ta Cuota">
+              </div>
+            </div>  
+          </div>
+        </div>
     </div>
   </div>
-  <!-- Seccion administrar paquetes -->
+  <!-- Seccion administrar Venta -->
   
   <!-- Seccion administrar planes -->
   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -206,6 +185,44 @@
     </div>
   </div>
   <!-- Seccion administrar plan -->
+  
+  <!-- Seccion administrar paquetes -->
+  <div id ="container_paquetes" class="col-md-6 col-sm-6 col-xs-12">
+    <div class="x_panel tile">
+      <div class="x_title">
+        <h2>Administración paquetes</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i id="paquete_chevron" class="fa fa-chevron-down"></i></a>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      
+      <div class="x_content" id="buscar_paquete"  style="display:none">
+        <div class="formulario_busqueda">
+          <div>
+            <h4>Busque el contenido de un paquete, seleccione una simcard para ver su información, asigne todo el paquete a un responsable oprimiendo "Asignar", eliminelo oprimiendo "Eliminar" o cree un nuevo paquete oprimiendo "Crear".</h4>
+          </div>
+          <div>
+            <input type="number" placeholder="ICC / número linea" id="Paquete_pista">
+            <button style="margin:0;padding:0;" class="btn azul" onClick = "buscar_paquete()" type="number" id="Simcard_buscar">Buscar</button>
+          </div>
+          <h2 id ="titulo_paquete" style="display:none">Paquete #<span id ="numero_paquete"></span></h2>
+          <div id="simcards_paquete"></div> 
+          @if(in_array("PAQUETES",$Actor->lista_permisos) || $Actor->jefe_cedula == null)
+          <div class="contenedor_acciones" id="acciones_buscar_paquete" style="display:none">
+              <button class="btn verde" onClick = "empaquetar_simcard()" type="number">Empaquetar</button>
+              <button class="btn azul" id="boton_seleccionar_responsable_simcard" onClick="seleccionar_responsable_paquete()">Asignar</button>
+              <button class="btn rojo" onClick="eliminar_paquete()">Eliminar</button>
+          </div>
+          @ENDIF
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Seccion administrar paquetes -->
 </div>
 <!-- /page content -->
 @endsection
