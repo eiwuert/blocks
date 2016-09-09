@@ -291,5 +291,13 @@ class ActorController extends Controller
         $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->where("descripcion","<>","")->get();
         return View('general.notificacion',$data);    
     }
+    
+    public function borrar_notificaciones(Request $request){
+        Error::truncate();
+        $notificaciones = Notificacion::all();
+        foreach($notificaciones as $notificacion){
+            $notificacion->delete();
+        }
+    }
 }
 

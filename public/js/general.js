@@ -59,3 +59,8 @@ function seleccionar_ciudad(){
     $("#ciudades").show();
     remodal.open();
 }
+
+function borrar_notificaciones(){
+    $.get('/borrar_notificaciones',{}, function(data){  
+    });
+}

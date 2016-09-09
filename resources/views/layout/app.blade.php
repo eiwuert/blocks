@@ -171,7 +171,9 @@
                         </a>
                       </li>
                     @endforeach
-                    <li style="display:none"></li>
+                    @if(count($notificaciones) > 0)
+                    <li><a style="text-align:center" href="#" onClick="borrar_notificaciones()">Borrar Todas</a></li>
+                    @endif
                   </ul>
                 </li>
               </ul>
