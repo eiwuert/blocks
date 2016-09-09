@@ -11,7 +11,7 @@ class Simcard extends Model
     protected $primaryKey = 'ICC';
     public $timestamps = false;
     
-    protected $fillable = ['ICC', 'numero_linea', 'categoria', 'fecha_vencimiento', 'fecha_adjudicacion', 'fecha_asignacion', 'fecha_activacion', 'Paquete_ID','Cliente_identificacion'];
+    protected $fillable = ['ICC', 'numero_linea', 'categoria', 'contratante','fecha_vencimiento', 'fecha_adjudicacion', 'fecha_asignacion', 'fecha_activacion', 'Paquete_ID','Cliente_identificacion'];
 
     public function paquete()
     {
@@ -39,22 +39,30 @@ class Simcard extends Model
         $color ="";
         $hoy = new DateTime();
         $fecha_vencimiento = new DateTime($simcard->fecha_vencimiento);
-        if($simcard->fecha_activacion != null){
-            $fecha_activacion = new DateTime($simcard->fecha_activacion);    
-            $interval = $hoy->diff($fecha_activacion);
-            $meses = ($interval->format("%y")*12)+($interval->format("%m"));
-            if($meses > 6){
-                $color = "rojo";
+        if($simcard->categoria != "Postpago"){
+            if($simcard->fecha_activacion != null){
+                $fecha_activacion = new DateTime($simcard->fecha_activacion);    
+                $interval = $hoy->diff($fecha_activacion);
+                $meses = ($interval->format("%y")*12)+($interval->format("%m"));
+                if($meses > 6){
+                    $color = "rojo";
+                }else{
+                    $color = "verde";
+                }
             }else{
-                $color = "verde";
+                $interval = $hoy->diff($fecha_vencimiento);
+                $dias = $interval->format("%d");
+                if($dias < 0){
+                    $color = "rojo";
+                }else{
+                    $color = "azul";
+                }
             }
         }else{
-            $interval = $hoy->diff($fecha_vencimiento);
-            $dias = $interval->format("%d");
-            if($dias < 0){
-                $color = "rojo";
+            if($simcard->numero_linea != null){
+                $color = "verde"; 
             }else{
-                $color = "azul";
+                $color = "azul"; 
             }
         }
         return $color;

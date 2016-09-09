@@ -13,7 +13,7 @@
 
 @section('Content')
 <!-- Información general -->
-<p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada.</p>
+<p>Recuerda que una simcard <span class="red">Roja</span> esta Vencida, <span class="blue">Azul</span> esta Disponible y <span class="green">Verde</span> fue Activada o Vendida.</p>
 <!-- Información general -->
 <div class="row">
   <!-- Seccion administrar simcard -->
@@ -42,6 +42,9 @@
               <button style="width:18%;margin:0;padding:0;" class="btn rojo" onClick = "desempaquetar_simcard()" type="number" id="Simcard_desempaquetar">Desempaquetar</button>
           </div>
           <div class="form">
+              <div class="container">
+                <div class="text_container"><span>Empresa</span></div><input disabled="true" id="Simcard_contratante" placeholder="Empresa">
+              </div>
               <div class="container">
                 <div class="text_container"><span>Responsable</span></div><input disabled="true" id="Simcard_responsable" placeholder="Responsable">
               </div>
@@ -255,7 +258,7 @@
     <script>
       limpiar_modal();
       modal.addClass("modal_info");
-      $("#titulo_modal").text("CARGANDO ARCHIVO SIMCARDS");
+      $("#titulo_modal").text("CARGANDO ARCHIVO");
       $("#contenido_modal").text("Se le notificará cuando haya un resultado");
       remodal.open();
     </script>
@@ -265,7 +268,7 @@
     <script>
       limpiar_modal();
       modal.addClass("modal_info");
-      $("#titulo_modal").text("ERROR CARGANDO ARCHIVO SIMCARDS");
+      $("#titulo_modal").text("ERROR CARGANDO ARCHIVO");
       $("#contenido_modal").text("{{Session('error_archivo')}}");
       remodal.open();
     </script>

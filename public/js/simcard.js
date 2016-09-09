@@ -74,6 +74,7 @@ function buscar_simcard(ICC){
                     $("#Simcard_equipo").attr("href", "#");
                 }
                 $("#buscar_simcard").find(".text_container").show();
+                $('#Simcard_contrante').val(data.contratante);
                 $('#Simcard_ICC').val(data.ICC);
                 $('#Simcard_responsable').val(data.responsable_simcard);
                 $('#Simcard_numero_linea').val(data.numero_linea);
@@ -129,6 +130,7 @@ function buscar_simcard(ICC){
                 }
             }else{
                 //BORRAR DATOS DE SECCION SIMCARD
+                $("#Simcard_contratante").val("");
                 $("#Simcard_cliente").val("");
                 $("#Simcard_cliente").attr("href", "#");
                 $("#Simcard_equipo").val("");

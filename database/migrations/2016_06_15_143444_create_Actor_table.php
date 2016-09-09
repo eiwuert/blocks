@@ -18,7 +18,7 @@ class CreateActorTable extends Migration
             $table->string('correo');
             $table->string('telefono');
             $table->enum('tipo_canal', array("Agentes", "Movishop", "TAT"));
-            $table->enum('contratante',array("Movicom", "Cellphone"));
+            $table->enum('contratante',array("Movicom", "Colphone"));
             $table->string('tipo_contrato');
             $table->double('sueldo',12,2);
             $table->string('jefe_cedula')->nullable();
@@ -28,6 +28,7 @@ class CreateActorTable extends Migration
             $table->float("porcentaje_libre");
             $table->float("porcentaje_prepago");
             $table->float("porcentaje_postpago");
+            $table->integer("cantidad_cuotas");
             $table->foreign('Ubicacion_ID')->references('ID')->on('Ubicacion');
         });
         Schema::table('Actor', function (Blueprint $table) {

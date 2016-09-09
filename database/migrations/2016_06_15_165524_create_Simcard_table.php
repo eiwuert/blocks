@@ -16,6 +16,7 @@ class CreateSimcardTable extends Migration
             $table->string('ICC')->unique();
             $table->string('numero_linea')->nullable();
             $table->string('categoria');
+            $table->enum('contratante',array("Movicom", "Colphone"));
             $table->string("Cliente_identificacion")->nullable();
             $table->date('fecha_adjudicacion')->nullable();
             $table->date('fecha_asignacion')->nullable();
