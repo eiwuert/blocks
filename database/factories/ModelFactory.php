@@ -26,6 +26,7 @@ $factory->define(App\Actor::class, function ($faker) {
         'porcentaje_prepago' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
         'porcentaje_postpago' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
         'porcentaje_libre' => $faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1),
+        'cantidad_cuotas' => $faker->randomElement($array = array (1,2,3,4)),
         'Ubicacion_ID' => 1
     ];
 });

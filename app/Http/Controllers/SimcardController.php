@@ -17,6 +17,7 @@ use Queue;
 use Log;
 use Input;
 use App\Simcard;
+use App\Comision;
 use App\File;
 use DateTime;
 use Excel;
@@ -104,8 +105,45 @@ class SimcardController extends Controller
         if($simcard != null){
             $asignacion = Asignacion_Plan::where("Simcard_ICC", $ICC)->first();
             if($asignacion != null){
-                $data->valor = $asignacion->plan->valor;
-                $data->fecha_legalizacion = $simcard->fecha_legalizacion;
+                $Actor = Auth::user()->actor;
+                $data["valor_primera_cuota"] = $asignacion->plan->valor*0.5*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                if($Actor->cantidad_cuotas > 1){
+                    $data["valor_segunda_cuota"] = $asignacion->plan->valor*0.3*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                    if($Actor->cantidad_cuotas > 2){
+                        $data["valor_tercera_cuota"] = $asignacion->plan->valor*0.1*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                        if($Actor->cantidad_cuotas > 3){
+                            $data["valor_sexta_cuota"] = $asignacion->plan->valor*0.1*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                        }else{
+                            $data["valor_sexta_cuota"] = 0;
+                        }
+                    }else{
+                        $data["valor_tercera_cuota"] = 0;
+                        $data["valor_sexta_cuota"] = 0;
+                    }
+                }else{
+                    $data["valor_segunda_cuota"] = 0;
+                    $data["valor_tercera_cuota"] = 0;
+                    $data["valor_sexta_cuota"] = 0;
+                }
+                $data["fecha_venta"] = $simcard->fecha_venta;
+                $data["primera_fecha"] = date('Y-m-d', strtotime("+1 months", strtotime($simcard->fecha_venta)));
+                $data["segunda_fecha"] = date('Y-m-d', strtotime("+2 months", strtotime($simcard->fecha_venta)));
+                $data["tercera_fecha"] = date('Y-m-d', strtotime("+3 months", strtotime($simcard->fecha_venta)));
+                $data["sexta_fecha"] = date('Y-m-d', strtotime("+6 months", strtotime($simcard->fecha_venta)));
+                
+                // Revisar pagos
+                $data["primera_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
+                ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
+                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
+                $data["segunda_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
+                ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
+                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
+                $data["tercera_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
+                ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
+                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
+                $data["sexta_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
+                ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
+                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
             }
         }
         return $data;

@@ -71,6 +71,9 @@
           @if($Actor->jefe_cedula == null)              
               <h4>Porcentaje comisiones</h4>
               <div class="container">
+                  <div class="text_container"><span>Cuotas</span></div><input type="text" placeholder="Cuotas" id ="Actor_cantidad_cuotas">
+              </div>
+              <div class="container">
                   <div class="text_container"><span>Prepago</span></div><input type="text" placeholder="Prepago" id ="Actor_porcentaje_prepago">
               </div>
               <div class="container">

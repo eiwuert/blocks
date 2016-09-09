@@ -66,6 +66,7 @@ function buscar_empleado(cedula){
                $("#Actor_contraseña").val("actual");
                $("#Actor_contrato").val(data.tipo_contrato);
                $("#Actor_sueldo").val(data.sueldo);
+               $("#Actor_cantidad_cuotas").val(data.cantidad_cuotas);
                $("#Actor_porcentaje_prepago").val(data.porcentaje_prepago);
                $("#Actor_porcentaje_postpago").val(data.porcentaje_postpago);
                $("#Actor_porcentaje_libre").val(data.porcentaje_libre);
@@ -74,6 +75,7 @@ function buscar_empleado(cedula){
                $("#buscar_empleado").find(".text_container").show();
                //REVISAR SI SOY YO MISMO
                if($("#user_cedula").text() == data.cedula && data.jefe != null){
+                  $("#Actor_cantidad_cuotas").prop('disabled', true);
                   $("#Actor_porcentaje_prepago").prop('disabled', true);
                   $("#Actor_porcentaje_postpago").prop('disabled', true);
                   $("#Actor_porcentaje_libre").prop('disabled', true);
@@ -88,6 +90,7 @@ function buscar_empleado(cedula){
                   $("#Actor_contrato").prop('disabled', true);
                }else{
                   $("#Actor_contrato").prop('disabled', false);
+                  ("#Actor_cantidad_cuotas").prop('disabled', false);
                   $("#Actor_porcentaje_prepago").prop('disabled', false);
                   $("#Actor_porcentaje_postpago").prop('disabled', false);
                   $("#Actor_porcentaje_libre").prop('disabled', false);

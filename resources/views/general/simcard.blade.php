@@ -113,21 +113,24 @@
       
       <div class="x_content" id="venta_simcard">
         <div class="formulario_busqueda">
+          <div>
+            <h4>Revise el progreso de pago de sus comisiones, a medida que se registra una comision el mes correspondiente se volverá verde</h4>
+          </div>
           <div class="form">
               <div class="container">
-                <div class="text_container"><span>Fecha</span></div><input disabled="true" id="Simcard_contratante" placeholder="Empresa">
+                <div class="text_container"><span>Fecha Legalización</span></div><input disabled="true" id="Simcard_fecha_venta" placeholder="Fecha Legalización">
               </div>
               <div class="container">
-                <div class="text_container"><span>1ra Cuota</span></div><input disabled="true" id="Simcard_responsable" placeholder="1ra Cuota">
+                <div class="text_container"><span id="fecha_primera_cuota">1ra Cuota</span></div><input disabled="true" id="Simcard_primera_cuota" placeholder="1ra Cuota">
               </div>
               <div class="container">
-                <div class="text_container"><span>2da Cuota</span></div><input disabled="true" id="Simcard_responsable" placeholder="2da Cuota">
+                <div class="text_container"><span id="fecha_segunda_cuota">2da Cuota</span></div><input disabled="true" id="Simcard_segunda_cuota" placeholder="2da Cuota">
               </div>
               <div class="container">
-                  <div class="text_container"><span>3ra Cuota</span></div><input disabled="true" id="Simcard_responsable" placeholder="3ra Cuota">
+                  <div class="text_container"><span id="fecha_tercera_cuota">3ra Cuota</span></div><input disabled="true" id="Simcard_tercera_cuota" placeholder="3ra Cuota">
               </div>
               <div class="container">
-                  <div class="text_container"><span>6ta Cuota</span></div><input disabled="true" type="text" id ="Simcard_numero_linea"  placeholder="6ta Cuota">
+                  <div class="text_container"><span id="fecha_sexta_cuota">6ta Cuota</span></div><input disabled="true" type="text" id ="Simcard_sexta_cuota"  placeholder="6ta Cuota">
               </div>
             </div>  
           </div>
