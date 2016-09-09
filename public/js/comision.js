@@ -18,7 +18,7 @@ function buscar_comision(type){
             $("#total_simcards_libre").text("$" + addCommas(Math.floor(data["simcards_libre"])));
             $("#total_simcards_postpago").text("$" + addCommas(Math.floor(data["simcards_postpago"])));
             $("#total_servicios").text("$" + addCommas(Math.floor(data["servicios"])));
-            var subtotal = data["simcards_prepago"]+data["simcards_libre"]+data["simcards_postpago"]+data["equipos"]+data["servicios"];
+            var subtotal = data["simcards_prepago"]+data["simcards_libre"]+data["simcards_postpago"]+data["servicios"];
             $("#subtotal").text("$" + addCommas(Math.floor(subtotal)));
             $("#retencion").text("$" + addCommas(Math.floor(subtotal*0.11)));
             $("#reteica").text("$" + addCommas(Math.floor(subtotal*0.01)));
