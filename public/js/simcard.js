@@ -198,10 +198,27 @@ function buscar_venta(ICC,color){
         if(resultado != "" ){
             $("#venta_simcard").find(".text_container").show();
             $("#Simcard_fecha_venta").val(resultado.fecha_venta);
-            $("#Simcard_primera_cuota").val(accounting.formatMoney(resultado.valor_primera_cuota,"$",0));
-            $("#Simcard_segunda_cuota").val(accounting.formatMoney(resultado.valor_segunda_cuota,"$",0));
-            $("#Simcard_tercera_cuota").val(accounting.formatMoney(resultado.valor_tercera_cuota,"$",0));
-            $("#Simcard_sexta_cuota").val(accounting.formatMoney(resultado.valor_sexta_cuota,"$",0));
+            if(resultado.valor_primera_cuota_admin != null){
+                console.log();
+                $("#Simcard_primera_cuota").val("De: " + accounting.formatMoney(resultado.valor_primera_cuota_admin,"$",0) + " le corresponden " + accounting.formatMoney(resultado.valor_primera_cuota,"$",0));
+            }else{
+                $("#Simcard_primera_cuota").val(accounting.formatMoney(resultado.valor_primera_cuota,"$",0));
+            }
+            if(resultado.valor_segunda_cuota_admin != null){
+                $("#Simcard_segunda_cuota").val("De: " + accounting.formatMoney(resultado.valor_segunda_cuota_admin,"$",0) + " le corresponden " + accounting.formatMoney(resultado.valor_segunda_cuota,"$",0));
+            }else{
+                $("#Simcard_segunda_cuota").val(accounting.formatMoney(resultado.valor_segunda_cuota,"$",0));
+            }
+            if(resultado.valor_tercera_cuota_admin != null){
+                $("#Simcard_tercera_cuota").val("De: " + accounting.formatMoney(resultado.valor_tercera_cuota_admin,"$",0) + " le corresponden " + accounting.formatMoney(resultado.valor_tercera_cuota,"$",0));
+            }else{
+                $("#Simcard_tercera_cuota").val(accounting.formatMoney(resultado.valor_tercera_cuota,"$",0));
+            }
+            if(resultado.valor_sexta_cuota_admin != null){
+                $("#Simcard_sexta_cuota").val("De: " + accounting.formatMoney(resultado.valor_sexta_cuota_admin,"$",0) + " le corresponden " + accounting.formatMoney(resultado.valor_sexta_cuota,"$",0));
+            }else{
+                $("#Simcard_sexta_cuota").val(accounting.formatMoney(resultado.valor_sexta_cuota,"$",0));
+            }
             $("#fecha_primera_cuota").text(resultado.primera_fecha);
             $("#fecha_segunda_cuota").text(resultado.segunda_fecha);
             $("#fecha_tercera_cuota").text(resultado.tercera_fecha);
@@ -215,8 +232,10 @@ function buscar_venta(ICC,color){
                 $("#Simcard_tercera_cuota").closest("div").addClass("verde");
             if(resultado.cuarta_comision != null)
                 $("#Simcard_sexta_cuota").closest("div").addClass("verde");
+            $("#total_venta").val(accounting.formatMoney(resultado.total_venta,"$",0));
         }else{
             $("#venta_simcard").find(".text_container").hide();
+            $("#total_venta").val("");    
             $("#Simcard_fecha_venta").val("");
             $("#Simcard_primera_cuota").val("");
             $("#Simcard_segunda_cuota").val("");
@@ -693,11 +712,13 @@ function legalizar(){
         modal.addClass("modal_error");
         $("#titulo_modal").text("ERROR!!");
         $("#contenido_modal").text("Debe especificar el numero asignado a la simcard");    
+        remodal.open();
     }else{
         if($("#Plan_codigo").val() == ""){
             modal.addClass("modal_error");
             $("#titulo_modal").text("ERROR!!");
-            $("#contenido_modal").text("Debe buscar el plan asociado a la simcard");    
+            $("#contenido_modal").text("Debe buscar el plan asociado a la simcard"); 
+            remodal.open();
         }else{
             var data = {};
             data["Simcard_ICC"] = $("#Simcard_ICC").val();
@@ -710,17 +731,17 @@ function legalizar(){
                     modal.addClass("modal_exito");
                     $("#titulo_modal").text("EXITO!!");
                     $("#contenido_modal").text("Venta legalizada satisfactoriamente");
-                    // buscar_simcard(Simcard_ICC.val());
+                    buscar_simcard($("#Simcard_ICC").val());
                 }else{
                     //INFORMAR AL USUARIO
                     modal.addClass("modal_error");
                     $("#titulo_modal").text("ERROR!!");
                     $("#contenido_modal").text(resultado);
                 }
+                remodal.open();
             });
         }    
     }
-    remodal.open();
 }
 
 function modal_cargar_simcards(){

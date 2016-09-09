@@ -11,7 +11,7 @@ class Simcard extends Model
     protected $primaryKey = 'ICC';
     public $timestamps = false;
     
-    protected $fillable = ['ICC', 'numero_linea', 'categoria', 'contratante','fecha_vencimiento', 'fecha_adjudicacion', 'fecha_asignacion', 'fecha_activacion', 'Paquete_ID','Cliente_identificacion','fecha_venta'];
+    protected $fillable = ['ICC', 'numero_linea', 'categoria', 'contratante','fecha_vencimiento', 'fecha_adjudicacion', 'fecha_asignacion', 'fecha_activacion', 'Paquete_ID','Cliente_identificacion','fecha_venta', 'primer_pago','segundo_pago', 'tercer_pago','cuarto_pago'];
 
     public function paquete()
     {

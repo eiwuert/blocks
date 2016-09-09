@@ -50,13 +50,34 @@ class ComisionFileUpload extends Job implements SelfHandling
                 if($fecha != null){
                     $fecha = $fecha->format('Y-m-d');
                 }
-                $comision = new Comision();
-                $comision->valor = $row->valor;
-                $comision->fecha = $fecha;
                 $simcard = Simcard::where("numero_linea",$row->numero_telefono)->first();
                 if($simcard != null){
-                    var_dump($simcard);
-                    $comision->Simcard_ICC = $simcard->ICC;        
+                    if($simcard->categoria = "Postpago"){
+                        $fecha_comision = date('Ym', strtotime($fecha));
+                        $fecha_venta = date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta)));
+                        if($fecha_comision == $fecha_venta){
+                            $simcard->primer_pago = true;
+                        }
+                        $fecha_venta = date('Ym', strtotime("+2 months", strtotime($simcard->fecha_venta)));
+                        if($fecha_comision == $fecha_venta){
+                            $simcard->segundo_pago = true;
+                        }
+                        $fecha_venta = date('Ym', strtotime("+3 months", strtotime($simcard->fecha_venta)));
+                        if($fecha_comision == $fecha_venta){
+                            $simcard->tercer_pago = true;
+                        }
+                        $fecha_venta = date('Ym', strtotime("+6 months", strtotime($simcard->fecha_venta)));
+                        if($fecha_comision == $fecha_venta){
+                            $simcard->cuarto_pago = true;
+                        }
+                    }else{
+                        $comision = new Comision();
+                        $comision->valor = $row->valor;
+                        $comision->fecha = $fecha;
+                        $comision->Simcard_ICC = $simcard->ICC;   
+                        $comision->save();
+                    }
+                    
                     $cliente = Cliente::find($row->cliente_identificacion);
                     if($cliente == null){
                         $cliente = new Cliente();
@@ -81,8 +102,7 @@ class ComisionFileUpload extends Job implements SelfHandling
                     $simcard->save();
                     if($row->imei != null){
                         $equipo = Equipo::find($row->imei);
-                        if($equipo != null){
-                            $comision->Equipo_IMEI = $equipo->imei;        
+                        if($equipo != null){  
                             $equipo->simcard_ICC = $comision->Simcard_ICC;
                             $equipo->cliente_identificacion = $row->cliente_identificacion;
                             $equipo->save();
@@ -95,7 +115,7 @@ class ComisionFileUpload extends Job implements SelfHandling
                     $error->save();
                     $filas_malas++;
                 }
-                $comision->save();
+                
                 $filas_buenas++;
             }catch(\Exception $e){
                 $error = new Error();

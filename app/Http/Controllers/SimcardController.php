@@ -99,20 +99,21 @@ class SimcardController extends Controller
     }
     
     public function buscar_venta(Request $request){
+        $porcentajes_mes = [0.5,0.3,0.1,0.1];
         $ICC = $request['dato'];
         $simcard = Simcard::find($ICC);
         $data = [];
         if($simcard != null){
             $asignacion = Asignacion_Plan::where("Simcard_ICC", $ICC)->first();
             if($asignacion != null){
-                $Actor = Auth::user()->actor;
-                $data["valor_primera_cuota"] = $asignacion->plan->valor*0.5*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
-                if($Actor->cantidad_cuotas > 1){
-                    $data["valor_segunda_cuota"] = $asignacion->plan->valor*0.3*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
-                    if($Actor->cantidad_cuotas > 2){
-                        $data["valor_tercera_cuota"] = $asignacion->plan->valor*0.1*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
-                        if($Actor->cantidad_cuotas > 3){
-                            $data["valor_sexta_cuota"] = $asignacion->plan->valor*0.1*$Actor->porcentaje_postpago/$Actor->cantidad_cuotas;
+                $vendedor = $simcard->paquete->actor;
+                $data["valor_primera_cuota"] = $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                if($vendedor->cantidad_cuotas > 1){
+                    $data["valor_segunda_cuota"] = $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                    if($vendedor->cantidad_cuotas > 2){
+                        $data["valor_tercera_cuota"] = $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                        if($vendedor->cantidad_cuotas > 3){
+                            $data["valor_sexta_cuota"] = $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
                         }else{
                             $data["valor_sexta_cuota"] = 0;
                         }
@@ -137,13 +138,60 @@ class SimcardController extends Controller
                 date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
                 $data["segunda_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
                 ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
-                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
+                date('Ym', strtotime("+2 months", strtotime($simcard->fecha_venta))))->first();
                 $data["tercera_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
                 ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
-                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
+                date('Ym', strtotime("+3 months", strtotime($simcard->fecha_venta))))->first();
                 $data["sexta_comision"] = Comision::where("Simcard_ICC", $simcard->ICC)
                 ->where(DB::raw('EXTRACT(YEAR_MONTH FROM fecha)'),
-                date('Ym', strtotime("+1 months", strtotime($simcard->fecha_venta))))->first();
+                date('Ym', strtotime("+6 months", strtotime($simcard->fecha_venta))))->first();
+                
+                $total = 0;
+                $Actor = Auth::user()->actor;
+                if($Actor->jefe_cedula == null){
+                    $data["valor_primera_cuota_admin"] = $asignacion->plan->valor*$porcentajes_mes[0];
+                    $data["valor_segunda_cuota_admin"] = $asignacion->plan->valor*$porcentajes_mes[1];
+                    $data["valor_tercera_cuota_admin"] = $asignacion->plan->valor*$porcentajes_mes[2];
+                    $data["valor_sexta_cuota_admin"] = $asignacion->plan->valor*$porcentajes_mes[3];
+                    if($data["primera_comision"] != null){
+                        $total += ($asignacion->plan->valor*$porcentajes_mes[0]-$asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas);
+                    }
+                    if($vendedor->cantidad_cuotas > 1){
+                        if($data["segunda_comision"] != null){
+                            $total += ($asignacion->plan->valor*$porcentajes_mes[1]-$asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas);
+                        }
+                        if($vendedor->cantidad_cuotas > 2){
+                            if($data["tercera_comision"] != null){
+                                $total += ($asignacion->plan->valor*$porcentajes_mes[2]-$asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas);
+                            }
+                            if($vendedor->cantidad_cuotas > 3){
+                                if($data["sexta_comision"] != null){
+                                    $total += ($asignacion->plan->valor*$porcentajes_mes[3]-$asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas);
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    if($data["primera_comision"] != null){
+                        $total += $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                    }
+                    if($vendedor->cantidad_cuotas > 1){
+                        if($data["segunda_comision"] != null){
+                            $total += $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                        }
+                        if($vendedor->cantidad_cuotas > 2){
+                            if($data["tercera_comision"] != null){
+                                $total += $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                            }
+                            if($vendedor->cantidad_cuotas > 3){
+                                if($data["sexta_comision"] != null){
+                                    $total += $asignacion->plan->valor*$vendedor->porcentaje_postpago/$vendedor->cantidad_cuotas;
+                                }
+                            }
+                        }
+                    }
+                }
+                $data["total_venta"] = $total;
             }
         }
         return $data;

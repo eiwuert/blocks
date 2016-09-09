@@ -72,14 +72,10 @@
             <div style="background:#C1DAD6">
               <h3>Simcards Postpago</h3>
               @if($Actor->jefe != null)
-                <button onClick="detalle_comision_postpago('employee)" id="total_simcards_postpago"></button>
+                <button onClick="detalle_comision_postpago('employee')" id="total_simcards_postpago"></button>
               @else
                 <button onClick="detalle_comision_postpago('admin')" id="total_simcards_postpago"></button>
               @endif
-            </div>
-            <div style="background:#89E894">
-              <h3>Equipos</h3>
-              <button id="total_equipos"></button>
             </div>
             <div style="background:#FDFD96">
               <h3>Fija</h3>

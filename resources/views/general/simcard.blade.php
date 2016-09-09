@@ -132,6 +132,9 @@
               <div class="container">
                   <div class="text_container"><span id="fecha_sexta_cuota">6ta Cuota</span></div><input disabled="true" type="text" id ="Simcard_sexta_cuota"  placeholder="6ta Cuota">
               </div>
+              <div class="container">
+                  <div class="text_container"><span>Total</span></div><input disabled="true" type="text" id ="total_venta"  placeholder="Total venta">
+              </div>
             </div>  
           </div>
         </div>

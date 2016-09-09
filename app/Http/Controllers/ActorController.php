@@ -131,6 +131,7 @@ class ActorController extends Controller
         $actor->correo = $datos_actor["Actor_correo"];
         $actor->tipo_contrato = $datos_actor["Actor_contrato"];
         $actor->sueldo = $datos_actor["Actor_sueldo"];
+        $actor->cantidad_cuotas = $datos_actor["Actor_cantidad_cuotas"];
         $actor->porcentaje_prepago = $datos_actor["Actor_porcentaje_prepago"];
         $actor->porcentaje_libre = $datos_actor["Actor_porcentaje_libre"];
         $actor->porcentaje_postpago = $datos_actor["Actor_porcentaje_postpago"];
@@ -157,11 +158,12 @@ class ActorController extends Controller
             $actor = Actor::find($datos_actor["Actor_cedula"]);
         }
         $actor->nombre = $datos_actor["Actor_nombre"];
-        if($datos_actor["Actor_jefe_cedula"]!= null)
+        if($datos_actor["Actor_jefe_cedula"]!= null){
             if($actor->cedula == $datos_actor["Actor_jefe_cedula"]){
                 return "El jefe no puede ser la misma persona";
             }
             $actor->jefe_cedula = $datos_actor["Actor_jefe_cedula"];
+        }
         $ubicacion = Ubicacion::where("region",$datos_actor["Actor_region"])->where("ciudad",$datos_actor["Actor_ciudad"])->first();
         if($ubicacion != null){
             $actor->Ubicacion_ID = $ubicacion->ID;
@@ -171,6 +173,7 @@ class ActorController extends Controller
         $actor->telefono = $datos_actor["Actor_telefono"];
         $actor->correo = $datos_actor["Actor_correo"];
         $actor->sueldo = $datos_actor["Actor_sueldo"];
+        $actor->cantidad_cuotas = $datos_actor["Actor_cantidad_cuotas"];
         $actor->porcentaje_prepago = $datos_actor["Actor_porcentaje_prepago"];
         $actor->porcentaje_libre = $datos_actor["Actor_porcentaje_libre"];
         $actor->porcentaje_postpago = $datos_actor["Actor_porcentaje_postpago"];

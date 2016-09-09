@@ -23,6 +23,10 @@ class CreateSimcardTable extends Migration
             $table->date('fecha_activacion')->nullable();
             $table->date('fecha_vencimiento');
             $table->date('fecha_venta')->nullable();
+            $table->boolean('primer_pago')->default(false);
+            $table->boolean('segundo_pago')->default(false);
+            $table->boolean('tercer_pago')->default(false);
+            $table->boolean('cuarto_pago')->default(false);
             $table->integer('Paquete_ID')->unsigned()->nullable();
             $table->foreign('Paquete_ID')->references('ID')->on('Paquete');
             $table->foreign('Cliente_identificacion')->references('identificacion')->on('Cliente');

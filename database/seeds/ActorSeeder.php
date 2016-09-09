@@ -21,6 +21,7 @@ class ActorSeeder extends Seeder
         ]);
         factory(App\Actor::class, 1)->create([
             'cedula' => '1010217215',
+            'jefe_cedula' => '1015439593'
         ]);
         factory(App\User::class, 1)->create([
             'Actor_cedula' => '1015439593',
