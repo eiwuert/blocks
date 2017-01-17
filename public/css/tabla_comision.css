@@ -1,0 +1,14 @@
+.data{
+    height: 40px;
+    border:solid black 1px;
+    border-radius: 6px;
+    background:none;
+}
+
+#comisiones_empleado{
+    text-align: center;    
+}
+
+#tabla_empresa{
+    display:none;
+}

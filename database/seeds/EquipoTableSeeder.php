@@ -13,7 +13,7 @@ class EquipoTableSeeder extends Seeder
      */
     public function run() 
     {
-        $rows = Excel::selectSheetsByIndex(0)->load("public/files/equipo/descripcion/descripcion_equipos.csv",false,'ISO-8859-1', function($reader) {})->get();
+        $rows = Excel::selectSheetsByIndex(0)->load("public/files/descripcion_equipos.csv",false,'ISO-8859-1', function($reader) {})->get();
         $rows->each(function($row) {
             try{
                 $equipo = Descripcion_Equipo::find($row->cod_scl);

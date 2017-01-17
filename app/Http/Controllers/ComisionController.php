@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Actor;
 use App\Comision;
+use App\TablaComision;
 use App\Simcard;
 use App\Notificacion;
 use Auth;
@@ -223,5 +224,38 @@ class ComisionController extends Controller
             Queue::push(new ComisionFileUpload($rows,$Actor->cedula));
             return \Redirect::route('comision')->with('subiendo_archivo' ,true);
         }
+    }
+    
+    // ------------------------------------
+    // Tabla comisiones 
+    // ------------------------------------
+    
+    public function tabla()
+    {
+        $data = array();
+        $Actor = Auth::user()->actor;
+        $data['Actor'] = $Actor;
+        // CARGAR NOTIFICACIONES
+        $data['notificaciones'] = Notificacion::where("Actor_cedula",$Actor->cedula)->where("descripcion","<>","")->get();
+        if($Actor->jefe != null){
+           
+        }else{
+             $data['actores'] = Actor::all();
+        }
+        $data["BA_Natural"] = TablaComision::orderBy("orden")->where("tipoPersona", "Natural")->where("tipo", "BA")->get();
+        $data["LB_Natural"] = TablaComision::orderBy("orden")->where("tipoPersona", "Natural")->where("tipo", "LB")->where("descripcion", "General")->first();
+        $data["TV_Natural"] = TablaComision::orderBy("orden")->where("tipoPersona", "Natural")->where("tipo", "TV")->where("descripcion", "General")->first();
+        $data["TV_Otros_Natural"] = TablaComision::orderBy("orden")->where("tipoPersona", "Natural")->where("tipo", "TV")->where("descripcion", "<>","General")->get();
+        $data["LB_Otros_Natural"] = TablaComision::orderBy("orden")->where("tipoPersona", "Natural")->where("tipo", "LB")->where("descripcion", "<>","General")->get();
+        
+        $data["BA_Empresa"] = TablaComision::orderBy("orden")->where("tipoPersona", "Empresa")->where("tipo", "BA")->get();
+        $data["LB_Empresa"] = TablaComision::orderBy("orden")->where("tipoPersona", "Empresa")->where("tipo", "LB")->where("descripcion", "General")->first();
+        $data["TV_Empresa"] = TablaComision::orderBy("orden")->where("tipoPersona", "Empresa")->where("tipo", "TV")->where("descripcion", "General")->first();
+        $data["TV_Otros_Empresa"] = TablaComision::orderBy("orden")->where("tipoPersona", "Empresa")->where("tipo", "TV")->where("descripcion", "<>","General")->get();
+        $data["LB_Otros_Empresa"] = TablaComision::orderBy("orden")->where("tipoPersona", "Empresa")->where("tipo", "LB")->where("descripcion", "<>","General")->get();
+        
+        $data["MP_Natural"] = TablaComision::orderBy("orden")->where("tipoPersona", "Natural")->where("tipo", "MP")->get();
+        
+        return View('general.tablaComisiones',$data);
     }
 }

@@ -84,6 +84,7 @@
                   </li>
                   <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li id="link_tabla_comision"><a href="/tabla_comision">Tabla Comisiones</a></li>
                       <li id="link_comision"><a href="/comision">Comisiones</a></li>
                       <li id="link_cartera"><a href="/cartera">Cartera</a></li>
                     </ul>
@@ -113,6 +114,7 @@
                     </li>
                     <li><a><i class="fa fa-bank"></i> Finanzas <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
+                        <li id="link_tabla_comision"><a href="/tabla_comision">Tabla Comisiones</a></li>
                         <li id="link_comision"><a href="/comision">Comisiones</a></li>
                         <li id="link_cartera"><a href="/cartera">Cartera</a></li>
                       </ul>
